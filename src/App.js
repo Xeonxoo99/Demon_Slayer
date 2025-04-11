@@ -1,24 +1,67 @@
-import logo from './logo.svg';
 import './App.css';
+import Video from './components/Video';
+import Intro1 from './components/Intro1';
+import bmg from './images/bgm/OST.mp3';
+import { useState, useEffect, useRef } from 'react';
 
 function App() {
+  const [loading, setLoading] = useState(true);
+  const [isMuted, setIsMuted] = useState(true); // 처음엔 muted로 시작해야 자동 재생 가능
+  const [isPaused, setIsPaused] = useState(false);
+  const audioRef = useRef(null);
+
+  // 7초 후 로딩 끝
+  useEffect(() => {
+    const loadTimer = setTimeout(() => {
+      setLoading(false);
+    }, 7000);
+
+    return () => clearTimeout(loadTimer);
+  }, []);
+
+  // loading이 false가 되면 오디오 재생 시도
+  useEffect(() => {
+    if (!loading && audioRef.current) {
+      audioRef.current.muted = isMuted; // muted 설정 유지
+      audioRef.current.play().catch((e) => {
+        console.log('Audio play error:', e);
+      });
+    }
+  }, [loading]);
+
+  const toggleMute = () => {
+    if (audioRef.current) {
+      audioRef.current.muted = !audioRef.current.muted;
+      setIsMuted(audioRef.current.muted);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {/* BGM */}
+      <audio
+        ref={audioRef}
+        src={bmg}
+        loop
+        autoPlay
+        muted={isMuted} // 자동 재생 위해 muted=true로 시작
+      />
+
+      {/* 버튼 */}
+      {!loading && (
+        <div className='fixed bottom-[10%] right-[10%] z-50 flex gap-3'>
+          <button
+            onClick={toggleMute}
+            className='py-3 px-4 bg-black text-white rounded-xl'
+          >
+            {isMuted ? '🔇 Mute' : '🔊 Unmute'}
+          </button>
+        </div>
+      )}
+
+      {/* 컴포넌트 렌더링 */}
+      {loading ? <Video /> : <Intro1 />}
+    </>
   );
 }
 
