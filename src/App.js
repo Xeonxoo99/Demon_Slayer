@@ -7,7 +7,6 @@ import { useState, useEffect, useRef } from 'react';
 function App() {
   const [loading, setLoading] = useState(true);
   const [isMuted, setIsMuted] = useState(true); // 처음엔 muted로 시작해야 자동 재생 가능
-  const [isPaused, setIsPaused] = useState(false);
   const audioRef = useRef(null);
 
   // 7초 후 로딩 끝
@@ -49,7 +48,7 @@ function App() {
 
       {/* 버튼 */}
       {!loading && (
-        <div className='fixed bottom-[10%] right-[10%] z-50 flex gap-3'>
+        <div className='fixed bottom-[10%] right-[5%] z-[200] flex gap-3'>
           <button
             onClick={toggleMute}
             className='py-3 px-4 bg-black text-white rounded-xl'
