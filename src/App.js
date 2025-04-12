@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from 'react';
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const [isMuted, setIsMuted] = useState(true); // 처음엔 muted로 시작해야 자동 재생 가능
+  const [isMuted, setIsMuted] = useState(false); // 처음엔 muted로 시작해야 자동 재생 가능
   const audioRef = useRef(null);
 
   // 7초 후 로딩 끝
@@ -43,7 +43,7 @@ function App() {
         src={bmg}
         loop
         autoPlay
-        muted={isMuted} // 자동 재생 위해 muted=true로 시작
+        muted={isMuted}
       />
 
       {/* 버튼 */}
