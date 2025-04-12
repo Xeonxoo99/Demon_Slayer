@@ -162,7 +162,6 @@ function Intro1() {
         transition={{ duration: 1.5, ease: 'easeInOut', delay: 1 }}
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-auto max-w-full h-auto object-contain z-[9999]"
         transformTemplate={({ scale }) => `translate(-50%, -50%) scale(${scale})`}
-        style={{ scale, opacity }}
       />
       {/* 안개효과 */}
 
@@ -175,7 +174,6 @@ function Intro1() {
         transition={{ duration: 1.5, ease: 'easeInOut', delay: 0 }}
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-auto max-w-full h-auto object-contain z-[9999] opacity-10"
         transformTemplate={({ scale }) => `translate(-50%, -50%) scale(${scale})`}
-        style={{ scale, opacity }}
       />
 
 
