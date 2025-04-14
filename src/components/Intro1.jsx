@@ -1,105 +1,97 @@
-// 캐릭터 확대 , 마지막 텍스트 넣기
 import React, { useState, useRef, useEffect } from 'react';
-import { gsap } from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useScroll, useTransform, motion } from 'framer-motion';
 
-import text from '../images/intro1/el/메인한자 사각형.png'
-import effect from '../images/intro1/el/효과.png'
-import fog from '../images/intro1/el/안개.png'
-
-import tanjiro from '../images/intro1/el/탄지로.png'
-import Giyuu from '../images/intro1/el/기유.png'
-import Shinobu from '../images/intro1/el/시노부.png'
-import Sanemi from '../images/intro1/el/사네미.png'
-import Muichiro from '../images/intro1/el/무이치로.png'
-import Obanai from '../images/intro1/el/이구로.png'
-import Mitsuri from '../images/intro1/el/미츠리.png'
-import Gyomei from '../images/intro1/el/교메이.png'
-
-gsap.registerPlugin(ScrollTrigger);
+import text from '../images/intro1/el/메인한자 사각형.png';
+import effect from '../images/intro1/el/효과.png';
+import fog from '../images/intro1/el/안개.png';
+import tanjiro from '../images/intro1/el/탄지로.png';
+import Giyuu from '../images/intro1/el/기유.png';
+import Shinobu from '../images/intro1/el/시노부.png';
+import Sanemi from '../images/intro1/el/사네미.png';
+import Muichiro from '../images/intro1/el/무이치로.png';
+import Obanai from '../images/intro1/el/이구로.png';
+import Mitsuri from '../images/intro1/el/미츠리.png';
+import Gyomei from '../images/intro1/el/교메이.png';
 
 const characters = [
-  { src: tanjiro, alt: 'tanjiro', style: 'top-[45%] left-[65%]' },
-  { src: Giyuu, alt: 'giyuu', style: 'top-[70%] left-[18%]' },
-  { src: Shinobu, alt: 'shinobu', style: 'top-[10%] left-[33%]' },
-  { src: Sanemi, alt: 'sanemi', style: 'top-[8%] left-[60%]' },
-  { src: Muichiro, alt: 'muichiro', style: 'top-[50%] left-[15%]' },
-  { src: Obanai, alt: 'obanai', style: 'top-[35%] left-[75%]' },
-  { src: Mitsuri, alt: 'mitsuri', style: 'top-[15%] left-[70%]' },
+  { src: tanjiro, alt: 'tanjiro', style: 'bottom-[-5%] right-[12%]' },
+  { src: Giyuu, alt: 'giyuu', style: 'bottom-[-3%] left-[17%]' },
+  { src: Obanai, alt: 'obanai', style: 'bottom-[40%] right-[18%]' },
+  { src: Muichiro, alt: 'muichiro', style: 'bottom-[30%] left-[16%]' },
+  { src: Mitsuri, alt: 'mitsuri', style: 'top-[15%] right-[21%]' },
   { src: Gyomei, alt: 'gyomei', style: 'top-[18%] left-[12%]' },
+  { src: Sanemi, alt: 'sanemi', style: 'top-[8%] right-[35%]' },
+  { src: Shinobu, alt: 'shinobu', style: 'top-[8%] left-[33%]' },
 ];
 
 function Intro1() {
-  // bg
   const containerRef = useRef(null);
-  const imageRef = useRef(null);
-  const images = Array.from({ length: 61 }, (_, i) =>
-    `/intro1/${i.toString().padStart(4, '0')}.webp`
-  );
+  const [currentImage, setCurrentImage] = useState(0);
+  const images = Array.from({ length: 61 }, (_, i) => `/intro1/${i.toString().padStart(4, '0')}.webp`);
+  const totalFrames = images.length;
 
-  // el
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  });
+
+  const currentImageIndex = useTransform(scrollYProgress, [0, 1], [0, totalFrames - 1]);
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.95, 1], [1, 1, 0.8]);
+  const charScale = useTransform(scrollYProgress, [0, 0.8, 1], [1, 1.5, 2]);
+  const charOpacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 0.5, 0]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 0.5, 0]);
+  const lbtextOpacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 0.5, 0]);
+  const effectOpacity = useTransform(scrollYProgress, [0, 0.8, 1], [0.1, 0, 0]);
+
+  const [showFinalText, setShowFinalText] = useState(false);
+
+  // 이미지 프리로딩
+  useEffect(() => {
+    const preloadImages = [text, fog, effect, ...characters.map(c => c.src)];
+    preloadImages.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
+  // 스크롤 제어
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    const timer = setTimeout(() => {
+      document.body.style.overflow = 'auto';
+    }, 4500); // 애니메이션 완료 후 활성화
+    return () => {
+      clearTimeout(timer);
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on('change', (latest) => {
+      if (latest >= 1) {
+        setShowFinalText(true);
+      } else {
+        setShowFinalText(false);
+      }
+    });
+    return () => unsubscribe();
+  }, [scrollYProgress]);
+
+  useEffect(() => {
+    const unsubscribe = currentImageIndex.on('change', (latest) => {
+      const newImageNumber = Math.floor(latest);
+      if (newImageNumber !== currentImage) {
+        setCurrentImage(newImageNumber);
+      }
+    });
+    return () => unsubscribe();
+  }, [currentImageIndex, currentImage]);
+
   const charRefs = useRef([]);
   const effectRef = useRef(null);
   const [imageSizes, setImageSizes] = useState(
     characters.map(() => ({ width: 0, height: 0 }))
   );
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.8]);
-  const opacity = useTransform(scrollYProgress, [0, 0.7, 1], [1, 0.5, 0]);
-
-  // 마우스 좌표 (x, y)
-  let x = 0.5; // 0 ~ 1 사이의 비율
-  let y = 0.5;
-
-  const handleMouseMove = (e) => {
-    const { clientX, clientY } = e;
-    const charSpeed = 0.010; // 이동 범위 절반으로 줄이기
-
-    x = e.clientX / window.innerWidth;
-    y = e.clientY / window.innerHeight;
-
-
-    // charRefs.current 배열을 순회하며 각 캐릭터의 위치를 업데이트
-    charRefs.current.forEach((charRef) => {
-      if (charRef) {
-        const speedX = (clientX - window.innerWidth / 2) * charSpeed;
-        const speedY = (clientY - window.innerHeight / 2) * charSpeed;
-        charRef.style.transform = `translate(${-speedX}px, ${-speedY}px)`;
-      }
-    });
-  };
-
-  // x, y 보간 속도 수정 (천천히 움직이게 하기)
-  const mxList = characters.map(() => 0);
-  const myList = characters.map(() => 0);
-
-  const loop = () => {
-    const speed = 0.09;
-
-    charRefs.current.forEach((charRef, i) => {
-      if (charRef) {
-        const factor = 20 + i * 2;
-
-        // 기준을 -0.5 ~ 0.5로 옮기기 (중앙 기준)
-        const tx = (x - 0.5) * window.innerWidth;
-        const ty = (y - 0.5) * window.innerHeight;
-
-        mxList[i] += (tx - mxList[i]) * speed;
-        myList[i] += (ty - myList[i]) * speed;
-
-        charRef.style.transform = `translate(${mxList[i] / factor}px, ${myList[i] / factor}px)`;
-      }
-    });
-
-    requestAnimationFrame(loop);
-  };
-
 
   const handleImageLoad = (index, event) => {
     const { naturalWidth, naturalHeight } = event.target;
@@ -110,48 +102,20 @@ function Intro1() {
     });
   };
 
-  useGSAP(() => {
-    const totalFrames = images.length;
-
-    // 배경 이미지
-    gsap.to(imageRef.current, {
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: 5,
-        onUpdate: (self) => {
-          const progress = self.progress;
-          const frameIndex = Math.min(
-            totalFrames - 1,
-            Math.floor(progress * totalFrames)
-          );
-
-          if (imageRef.current) {
-            imageRef.current.src = images[frameIndex];
-          }
-
-          gsap.to(imageRef.current, {
-            opacity: progress >= 0.95 ? 0.8 : 1,
-            duration: 0.2,
-          });
-        },
-      },
-    });
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener("mousemove", handleMouseMove);
-
-    loop(); // Start the loop for character and background movement
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
-
   return (
-    <section ref={containerRef} style={{ height: '200vh', position: 'relative' }}>
+    <section ref={containerRef} style={{ height: '300vh', position: 'relative', fontFamily: 'ChosunGs' }}>
+      {/* 안개 효과 */}
+      <motion.img
+        id="fog"
+        src={fog}
+        alt="fog"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.5, ease: 'easeInOut', delay: 0 }}
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-auto max-w-full h-auto object-contain z-[9998] opacity-10"
+        transformTemplate={({ scale }) => `translate(-50%, -50%) scale(${scale})`}
+      />
+
       {/* 한자 */}
       <motion.img
         id="text"
@@ -162,20 +126,8 @@ function Intro1() {
         transition={{ duration: 1.5, ease: 'easeInOut', delay: 1 }}
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-auto max-w-full h-auto object-contain z-[9999]"
         transformTemplate={({ scale }) => `translate(-50%, -50%) scale(${scale})`}
+        style={{ opacity: textOpacity }}
       />
-      {/* 안개효과 */}
-
-      <motion.img
-              id="fog"
-        src={fog}
-        alt="fog"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.5, ease: 'easeInOut', delay: 0 }}
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-auto max-w-full h-auto object-contain z-[9999] opacity-10"
-        transformTemplate={({ scale }) => `translate(-50%, -50%) scale(${scale})`}
-      />
-
 
       {/* 캐릭터들 */}
       {characters.map((char, idx) => (
@@ -185,9 +137,12 @@ function Intro1() {
           initial={{ opacity: 0, scale: 0.9, y: -50 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 1.5, ease: 'easeInOut', delay: 2 }}
-          className={`fixed ${char.alt === 'tanjiro' ? 'z-50' : 'z-40'
-            } pointer-events-none ${char.style} translate-x-[-50%] translate-y-[-50%]`}
+          className={`fixed ${char.alt === 'tanjiro' ? 'z-50' : 'z-40'} pointer-events-none ${char.style} translate-x-[-50%] translate-y-[-50%]`}
           ref={(el) => (charRefs.current[idx] = el)}
+          style={{
+            scale: charScale,
+            opacity: charOpacity,
+          }}
         >
           <img
             src={char.src}
@@ -202,22 +157,64 @@ function Intro1() {
         </motion.div>
       ))}
 
-      {/* 바람효과 */}
-      <div
+      {/* 바람 효과 */}
+      <motion.div
         ref={effectRef}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.1 }}
+        transition={{ duration: 1.5, ease: 'easeInOut', delay: 0.5 }}
         className="fixed w-full top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none"
-        style={{ opacity: 0.1 }}
+        style={{ opacity: effectOpacity }}
       >
-        <img
-          src={effect}
-          alt="effect"
-          className="w-full h-auto object-contain"
-        />
-      </div>
+        <img src={effect} alt="effect" className="w-full h-auto object-contain" />
+      </motion.div>
 
+      {/* 좌측하단 텍스트 */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.5, ease: 'easeInOut', delay: 2 }}
+        style={{ opacity: lbtextOpacity }}
+        className='fixed bottom-8 left-10 z-[10000] font-[16px] text-[#ffffff] flex flex-col'
+      >
+        <span>귀살대는 상처도 회복도 더딘 인간이지만,</span>
+        <span>도깨비에 맞서 싸운다. 오직 인간을 지키기 위해.</span>
+      </motion.div>
 
-      {/* 배경 이미지 */}
-      <img ref={imageRef} src={images[0]} alt="" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100vh', objectFit: 'cover', zIndex: 10 }} />
+      {/* 마지막 스크롤 시 나타나는 텍스트 */}
+      <motion.div
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[10000] text-[#ffffff] text-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: showFinalText ? 0.8 : 0 }}
+        transition={{ duration: 1, ease: 'easeInOut', delay: showFinalText ? 1 : 0 }}
+      >
+        <h1 className='text-[60px] font-semibold mb-4 tracking-[0.2em]'>악귀멸살</h1>
+        <span className='text-[24px] leading-[44px] tracking-widest'>
+          그 숫자는 대략 수백 명.
+          <br />
+          정부로부터 정식으로 인정받지 못한 조직.
+          <br />
+          그러나 예로부터 존재해왔고,
+          <br />
+          오늘도 도깨비를 사냥한다,
+        </span>
+      </motion.div>
+
+      {/* 배경 이미지 시퀀스 */}
+      <motion.img
+        src={images[currentImage]}
+        alt="background"
+        style={{
+          opacity: bgOpacity,
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100vh',
+          objectFit: 'cover',
+          zIndex: 10,
+        }}
+      />
     </section>
   );
 }

@@ -1,8 +1,12 @@
 import './App.css';
 import Video from './components/Video';
 import Intro1 from './components/Intro1';
-import bmg from './images/bgm/OST.mp3';
+import bmg from './images/pub/bgm/OST.mp3';
+import logo from './images/pub/logo/로고.png'
+import on from './images/pub/bgm/on.png'
+import off from './images/pub/bgm/off.png'
 import { useState, useEffect, useRef } from 'react';
+
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -48,14 +52,24 @@ function App() {
 
       {/* 버튼 */}
       {!loading && (
-        <div className='fixed bottom-[10%] right-[5%] z-[200] flex gap-3'>
-          <button
-            onClick={toggleMute}
-            className='py-3 px-4 bg-black text-white rounded-xl'
-          >
-            {isMuted ? '🔇 Mute' : '🔊 Unmute'}
-          </button>
-        </div>
+        <>
+          <div className='fixed top-6 left-10 z-[200]'>
+            <img src={logo} alt='logo' />
+          </div>
+          <div className='fixed bottom-[10%] right-[5%] z-[200] flex gap-3'>
+            <button
+              onClick={toggleMute}
+              className='fixed bottom-8 right-10 z-[200]'
+            >
+              {
+                isMuted ?
+                  <img src={on} alt='on' className='w-[86px] h-[106px]' />
+                  :
+                  <img src={off} alt='off' className='w-[86px] h-[106px]' />
+              }
+            </button>
+          </div>
+        </>
       )}
 
       {/* 컴포넌트 렌더링 */}
