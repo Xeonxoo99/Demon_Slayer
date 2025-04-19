@@ -3,6 +3,7 @@ import Video from './components/Video';
 import MainIntro from './components/MainIntro';
 import StorySection1 from './components/StorySection1';
 import StorySection2 from './components/StorySection2';
+import SlideTxt from './components/SlideTxt';
 
 import bmg from './images/pub/bgm/OST.mp3';
 import logo from './images/pub/logo/로고.png';
@@ -102,6 +103,7 @@ function App() {
           <MainIntro onAnimationComplete={handleAnimationComplete} />
           <StorySection1 />
           <StorySection2 />
+          <SlideTxt/>
         </>
       )}
     </>

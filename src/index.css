@@ -48,3 +48,10 @@ section {
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face {
+  font-family:"VELISTA";
+  src:url("./fonts/VELISTA.eot") format("eot"),url("./fonts/VELISTA.woff") format("woff");
+  font-weight:normal;
+  font-style:normal;
+}
