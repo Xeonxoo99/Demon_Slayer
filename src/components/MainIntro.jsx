@@ -39,9 +39,14 @@ function MainIntro({ onAnimationComplete }) {
 
   const currentImageIndex = useTransform(scrollYProgress, [0, 1], [0, totalFrames - 1]);
   const bgOpacity = useTransform(scrollYProgress, [0, 0.95, 1], [1, 1, 0.8]);
-  const charScale = useTransform(scrollYProgress, [0, 0.7, 1], [1, 1.5, 2]);
+  // 캐릭터들 스케일. 오퍼시티 다 따로 관리
+  const charScale = useTransform(scrollYProgress, [0, 0.3, 0.5], [1, 2, 3]);
+  // 이동도 x축 y축으로 이동
   const charOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
+
   const textOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const leftTextOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const effectOpacity = useTransform(scrollYProgress, [0, 0.7], [0.1, 0]);
   const sectionOpacity = useTransform(scrollYProgress, [0.9, 1], [1, 0]);
   const finalTextOpacity = useTransform(scrollYProgress, [0.7, 0.9, 1], [0, 0.8, 0]);
@@ -66,7 +71,6 @@ function MainIntro({ onAnimationComplete }) {
     const timer = setTimeout(() => {
       setIsInitialAnimationDone(true);
       onAnimationComplete(); // App.js에 알림
-      console.log('MainIntro animation complete'); // 디버깅용
     }, 4500); // 3초 지연 + 1.5초 애니메이션
     return () => clearTimeout(timer);
   }, [onAnimationComplete]);
@@ -169,9 +173,9 @@ function MainIntro({ onAnimationComplete }) {
         <motion.div
           id="character"
           key={idx}
-          initial={{ opacity: 0, scale: 0.9, y: -50 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 1.5, ease: 'easeInOut', delay: 2 }}
+          // initial={{ opacity: 0, scale: 0.9, y: -50 }}
+          // animate={{ opacity: 1, scale: 1, y: 0 }}
+          // transition={{ duration: 0.5, ease: 'easeInOut', delay: 1 }}
           className={`fixed ${char.alt === 'tanjiro' ? 'z-20' : 'z-10'} pointer-events-none ${char.style} translate-x-[-50%]`}
           ref={(el) => (charRefs.current[idx] = el)}
           style={{
@@ -221,9 +225,9 @@ function MainIntro({ onAnimationComplete }) {
         id="text"
         src={text}
         alt="text"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.5, ease: 'easeInOut', delay: 1 }}
+        // initial={{ opacity: 0, scale: 0.9 }}
+        // animate={{ opacity: 1, scale: 1 }}
+        // transition={{ duration: 1.5, ease: 'easeInOut', delay: 1 }}
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-auto max-w-full h-auto object-contain z-10"
         transformTemplate={({ scale }) => `translate(-50%, -50%) scale(${scale})`}
         style={{ opacity: textOpacity }}
@@ -234,7 +238,7 @@ function MainIntro({ onAnimationComplete }) {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.5, ease: 'easeInOut', delay: 3 }}
-        style={{ opacity: textOpacity }}
+        style={{ opacity: leftTextOpacity }}
         className="fixed bottom-8 left-10 font-[16px] text-[#ffffff] flex flex-col"
       >
         <span>귀살대는 상처도 회복도 더딘 인간이지만,</span>

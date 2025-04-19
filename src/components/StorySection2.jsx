@@ -17,8 +17,6 @@ function StorySection2() {
     const sectionOpacity = useTransform(scrollYProgress, [0, 0.1, 0.3], [0, 0, 1]);
     const bg1Opacity = useTransform(scrollYProgress, [0, 0.3, 0.5], [1, 1, 0]);
     const bg2Opacity = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
-    const firstTextOpacity = useTransform(scrollYProgress, [0, 0.3, 0.5], [1, 1, 0]);
-    const secondTextOpacity = useTransform(scrollYProgress, [0.5, 0.7], [0, 1]);
 
     // 텍스트 전환을 위한 상태
     const [showSecondText, setShowSecondText] = useState(false);
@@ -30,7 +28,6 @@ function StorySection2() {
         });
         return () => unsubscribe();
     }, [scrollYProgress]);
-
 
     return (
         <motion.section
@@ -107,9 +104,6 @@ function StorySection2() {
                     </AnimatePresence>
                     <span className="text-[28px]">1912年 1月 1日</span>
                 </div>
-
-
-
             </motion.div>
         </motion.section>
     );
