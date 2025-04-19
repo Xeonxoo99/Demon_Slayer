@@ -26,18 +26,25 @@ section {
   display: none;
 }
 
-@keyframes fadeInScale {
+/* @keyframes fadeInScale {
   from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
   to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 @keyframes fadeInUp {
   from { opacity: 0; transform: translate(-50%, -50%) translateY(-50px) scale(0.9); }
   to { opacity: 1; transform: translate(-50%, -50%) translateY(0) scale(1); }
-}
+} */
 
 @font-face {
   font-family: 'ChosunGs';
   src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGs.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ChosunKm';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunKm.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
