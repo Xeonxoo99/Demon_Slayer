@@ -6,6 +6,7 @@ import StorySection2 from './components/StorySection2';
 import SlideTxt from './components/SlideTxt';
 import Serise from './components/Serise'
 import Movie from './components/Movie'
+import Pillars from './components/Pillars'
 
 import bmg from './images/pub/bgm/OST.mp3';
 import logo from './images/pub/logo/로고.png';
@@ -108,6 +109,7 @@ function App() {
           <SlideTxt/>
           <Serise/>
           <Movie/>
+          <Pillars/>
         </>
       )}
     </>
