@@ -54,3 +54,10 @@ section {
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face {
+  font-family: "myriad-pro", sans-serif;
+  src: url('https://fonts.adobe.com/fonts/myriad');
+  font-weight: 400;
+  font-style: normal;
+}
