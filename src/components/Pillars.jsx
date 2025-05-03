@@ -50,7 +50,6 @@ function Pillars() {
                 pin: true,
                 anticipatePin: 1,
                 invalidateOnRefresh: true,
-
             },
         });
 
@@ -68,7 +67,7 @@ function Pillars() {
             className="relative w-full h-[980px] bg-[#000000]"
             style={{ zIndex: 30 }}
         >
-            <div ref={containerRef} className="relative w-[6258px] h-screen">
+            <div ref={containerRef} className="relative w-[6258px] h-screen overflow-hidden">
                 {/* 렌고쿠 */}
                 <div className="absolute top-[177px] left-[334px]" style={{ zIndex: 3 }}>
                     <img src={kyojuro} alt="kyojuro" loading="lazy" />

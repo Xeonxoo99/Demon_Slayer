@@ -7,6 +7,8 @@ import SlideTxt from './components/SlideTxt';
 import Serise from './components/Serise'
 import Movie from './components/Movie'
 import Pillars from './components/Pillars'
+import FirstQuarterIntro from './components/FirstQuarterIntro'
+import ProductionIntro from './components/ProductionIntro'
 
 import bmg from './images/pub/bgm/OST.mp3';
 import logo from './images/pub/logo/로고.png';
@@ -69,7 +71,7 @@ function App() {
         ref={audioRef}
         src={bmg}
         loop
-        autoPlay
+        // autoPlay
         muted={isMuted}
       />
 
@@ -110,6 +112,8 @@ function App() {
           <Serise/>
           <Movie/>
           <Pillars/>
+          <FirstQuarterIntro/>
+          <ProductionIntro/>
         </>
       )}
     </>
