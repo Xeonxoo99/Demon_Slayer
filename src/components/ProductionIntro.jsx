@@ -18,6 +18,12 @@ import blackKyojuro from '../images/production/흑백 렌고쿠.png'
 import kyojurofr from '../images/production/흑백 렌고쿠 친구.png'
 
 import blackTanjiro from '../images/production/흑백 탄지로.png'
+
+import tji from '../images/production/tanzeni.png'
+import blackKyojuro2 from '../images/production/흑백 렌고쿠 2.png'
+import blackKyojuro3 from '../images/production/흑백 렌고쿠 3.png'
+import blackZenitsu from '../images/production/흑백 젠이츠.png'
+
 function ProductionIntro() {
     return (
         <section
@@ -172,8 +178,17 @@ function ProductionIntro() {
                 </div>
 
                 <div className='w-full relative text-[#ffffff]'>
-                    <h1 className='text-[153px] absolute top-[3210px] font-bold'>Production <br/> Crew</h1>
+                    <h1 className='text-[153px] absolute top-[3210px] font-bold leading-[150px] z-10'>Production <br/> Crew</h1>
+                    <img src={tji} alt="tji" className='absolute top-[3426px] left-[233px]' />
+                    <img src={blackKyojuro2} alt="tji" className='absolute top-[4081px] left-[982px]' />
+                    <img src={blackKyojuro3} alt="tji" className='absolute top-[4776px] left-[25px]' />
+                    <img src={blackZenitsu} alt="tji" className='absolute top-[5545px] left-[171px]' />
                 </div>
+
+
+            <div className='w-full h-auto relative text-[#ffffff]'>
+            <span className='absolute top-[2690px] left-[736px] text-[#eb181f] text-[20px]' style={{ fontFamily: 'VELISTA' }}>THANKS TO</span>
+            </div>
 
             </div>
         </section>
