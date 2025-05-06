@@ -122,7 +122,7 @@ function Pillars() {
                 <img
                     src={whiteBg}
                     alt="whiteBg"
-                    className="absolute w-fit h-fit bottom-0 right-0"
+                    className="absolute w-fit h-fit bottom-0 left-0"
                     style={{ zIndex: 1 }}
                     loading="lazy"
                 />

@@ -112,7 +112,7 @@ function App() {
           <Serise/>
           <Movie/>
           <Pillars/>
-          {/* <FirstQuarterIntro/> */}
+          <FirstQuarterIntro/>
           <ProductionIntro/>
         </>
       )}
