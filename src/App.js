@@ -4,23 +4,26 @@ import MainIntro from './components/MainIntro';
 import StorySection1 from './components/StorySection1';
 import StorySection2 from './components/StorySection2';
 import SlideTxt from './components/SlideTxt';
-import Serise from './components/Serise'
-import Movie from './components/Movie'
-import Pillars from './components/Pillars'
-import FirstQuarterIntro from './components/FirstQuarterIntro'
-import ProductionIntro from './components/ProductionIntro'
+import Serise from './components/Serise';
+import Movie from './components/Movie';
+import Pillars from './components/Pillars';
+import FirstQuarterIntro from './components/FirstQuarterIntro';
+import ProductionIntro from './components/ProductionIntro';
 
 import bmg from './images/pub/bgm/OST.mp3';
 import logo from './images/pub/logo/로고.png';
 import on from './images/pub/bgm/on.png';
 import off from './images/pub/bgm/off.png';
+
 import { useState, useEffect, useRef } from 'react';
 
 function App() {
   const [loading, setLoading] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
-  const [isScrollEnabled, setIsScrollEnabled] = useState(false); // 스크롤 제어
+  const [isScrollEnabled, setIsScrollEnabled] = useState(false);
+  const [logoVisible, setLogoVisible] = useState(true); // ✅ 로고 표시 여부 상태 추가
   const audioRef = useRef(null);
+  const movieRef = useRef(null); // ✅ Movie 위치 추적용 ref
 
   // 7.2초 후 로딩 끝
   useEffect(() => {
@@ -33,14 +36,14 @@ function App() {
 
   // 앱 전체 스크롤 제어
   useEffect(() => {
-    document.body.style.overflow = 'hidden'; // 초기 스크롤 비활성화
+    document.body.style.overflow = 'hidden';
 
     return () => {
-      document.body.style.overflow = ''; // cleanup 시 초기화
+      document.body.style.overflow = '';
     };
   }, []);
 
-  // loading이 false가 되면 오디오 재생 시도
+  // 로딩 끝나면 오디오 재생
   useEffect(() => {
     if (!loading && audioRef.current) {
       audioRef.current.muted = isMuted;
@@ -57,12 +60,23 @@ function App() {
     }
   };
 
-  // MainIntro 애니메이션 완료 시 스크롤 활성화
   const handleAnimationComplete = () => {
     setIsScrollEnabled(true);
     document.body.style.overflow = 'auto';
-    console.log('Scroll enabled'); // 디버깅용
   };
+
+  // ✅ 스크롤 시 로고 표시 여부 조정
+  useEffect(() => {
+    const handleScroll = () => {
+      if (movieRef.current) {
+        const movieTop = movieRef.current.getBoundingClientRect().top;
+        setLogoVisible(movieTop > window.innerHeight / 2);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <>
@@ -71,16 +85,18 @@ function App() {
         ref={audioRef}
         src={bmg}
         loop
-        // autoPlay
         muted={isMuted}
       />
 
-      {/* 버튼 */}
+      {/* 로고 & 버튼들 */}
       {!loading && (
         <>
-          <div className='fixed top-6 left-10 z-[9999]'>
-            <img src={logo} alt='logo' />
-          </div>
+          {/* ✅ 로고: Movie 컴포넌트 도달 시 사라짐 */}
+          {logoVisible && (
+            <div className='fixed top-6 left-10 z-[9999]'>
+              <img src={logo} alt='logo' />
+            </div>
+          )}
           <div className='fixed bottom-[10%] right-[5%] z-[9999] flex gap-3'>
             <button
               onClick={toggleMute}
@@ -100,7 +116,7 @@ function App() {
         </>
       )}
 
-      {/* 컴포넌트 렌더링 */}
+      {/* 콘텐츠 */}
       {loading ? (
         <Video />
       ) : (
@@ -108,12 +124,14 @@ function App() {
           <MainIntro onAnimationComplete={handleAnimationComplete} />
           <StorySection1 />
           <StorySection2 />
-          <SlideTxt/>
-          <Serise/>
-          <Movie/>
-          <Pillars/>
-          <FirstQuarterIntro/>
-          <ProductionIntro/>
+          <SlideTxt />
+          <Serise />
+          <div ref={movieRef}> {/* ✅ Movie 위치 감지용 */}
+            <Movie />
+          </div>
+          <Pillars />
+          <FirstQuarterIntro />
+          <ProductionIntro />
         </>
       )}
     </>

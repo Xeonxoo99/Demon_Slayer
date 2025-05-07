@@ -32,7 +32,7 @@ function Serise() {
                 <img src={tanjiro} alt="tanjiro" className='absolute top-[220px] left-[140px] z-10' />
                 <div className='w-[530px] h-[220px] text-[#ffffff] flex flex-col absolute top-[435px] right-[365px] z-10'>
                     <span className='w-[210px] h-[34px] text-[46px] mb-[40px] tracking-tight' style={{ fontFamily: 'VELISTA' }}>SEASON I</span>
-                    <span className='w-[415px] h-[61px] text-[66px] mb-[60px] font-bold tracking-tighter' style={{ fontFamily: 'Pretendard-Regular' }}>카마도 탄지로 입지편</span>
+                    <span className='w-[415px] h-[61px] text-[66px] mb-[60px] font-bold tracking-tighter r whitespace-nowrap' style={{ fontFamily: 'Pretendard-Regular' }}>카마도 탄지로 입지편</span>
                     <span className='text-[20px]' style={{ fontFamily: 'Pretendard-Regular' }}>탄지로는 혈귀에게 가족을 잃고 여동생을 되살리기 위해 <br /> 혈귀 사냥꾼의 길을 걷기로 결심한다.</span>
                 </div>
                 <img src={p1} alt="피1" className='absolute top-[59px] right-[468px]' />
@@ -45,7 +45,7 @@ function Serise() {
                 <img src={tengen} alt="tengen" className='absolute top-[1119px] right-[230px] z-10' />
                 <div className='w-[530px] h-[220px] text-[#ffffff] flex flex-col absolute top-[1147px] left-[626px] z-10'>
                     <span className='w-[210px] h-[34px] text-[46px] mb-[40px] tracking-tight' style={{ fontFamily: 'VELISTA' }}>SEASON 2</span>
-                    <span className='w-[415px] h-[61px] text-[66px] mb-[60px] font-bold tracking-tighter' style={{ fontFamily: 'Pretendard-Regular' }}>환락의거리편</span>
+                    <span className='w-[415px] h-[61px] text-[66px] mb-[60px] font-bold tracking-tighte' style={{ fontFamily: 'Pretendard-Regular' }}>환락의거리편</span>
                     <span className='text-[20px]' style={{ fontFamily: 'Pretendard-Regular' }}>탄지로 일행은 귀살대 최고의 검사 '주' 중 한 명인 음주
                         <br /> 우즈이 텐겐과 함께 혈귀가 사는 유곽으로 향한다.</span>
                 </div>
