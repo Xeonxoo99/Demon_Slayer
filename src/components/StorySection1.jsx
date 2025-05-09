@@ -27,7 +27,7 @@ function StorySection1() {
     const tanjiroRef = useRef(null);
     const zenitsuRef = useRef(null);
     const inosukeRef = useRef(null);
-    
+
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ['start start', 'end end'],
@@ -35,27 +35,37 @@ function StorySection1() {
     const { scrollYProgress: tanjiroProgress } = useScroll({
         target: tanjiroRef,
         offset: ['start end', 'end start'],
-      });
-      const { scrollYProgress: zenitsuProgress } = useScroll({
+    });
+    const { scrollYProgress: zenitsuProgress } = useScroll({
         target: zenitsuRef,
         offset: ['start end', 'end start'],
-      });
-      const { scrollYProgress: inosukeProgress } = useScroll({
+    });
+    const { scrollYProgress: inosukeProgress } = useScroll({
         target: inosukeRef,
         offset: ['start end', 'end start'],
-      });
+    });
 
 
-    const tanjiroOpacity = useTransform(scrollYProgress, [0, 0.33, 0.34], [1, 1, 0]);
-    const zenitsuOpacity = useTransform(scrollYProgress, [0.33, 0.66, 0.67], [0, 1, 0]);
-    const inosukeOpacity = useTransform(scrollYProgress, [0.6, 0.9, 0.91], [0, 1, 0]);
-    
+// 탄지로: 0.05 ~ 0.25 보여지고, 0.26부터 사라짐
+const tanjiroOpacity = useTransform(scrollYProgress, [0.05, 0.25, 0.26], [1, 1, 0]);
+
+// 젠이츠: 0.3 ~ 0.7 보여지고, 0.71부터 사라짐
+const zenitsuOpacity = useTransform(scrollYProgress, [0.3, 0.7, 0.71], [0, 1, 0]);
+const zenitsuTitleOpacity = useTransform(scrollYProgress, [0.3, 0.5, 0.51], [1, 1, 0]);
+const zenitsuDescriptionOpacity = useTransform(scrollYProgress, [0.5, 0.7], [0, 1]);
+
+// 이노스케: 0.7 ~ 1.0 보여지고, 1.0에서 사라짐
+const inosukeOpacity = useTransform(scrollYProgress, [0.7, 1.0, 1.0], [0, 1, 0]);
+const inosukeTitleOpacity = useTransform(scrollYProgress, [0.7, 0.85, 0.86], [1, 1, 0]);
+const inosukeDescriptionOpacity = useTransform(scrollYProgress, [0.85, 1.0], [0, 1]);
+
+
 
     return (
         <motion.section
             ref={containerRef}
             style={{
-                height: '600vh',
+                height: '1000vh',
                 zIndex: 0,
             }}
         >
@@ -127,7 +137,7 @@ function StorySection1() {
             {/* 젠이츠 */}
             <motion.div
                 style={{ opacity: zenitsuOpacity }}
-                className="fixed top-0 left-0 w-full h-screen bg-[rgba(0,0,0,0.3)]"
+                className="fixed h-[300vh] top-0 left-0 w-full  bg-[rgba(0,0,0,0.3)]"
             >
                 {/* 메인 이미지 */}
                 <img
@@ -136,16 +146,18 @@ function StorySection1() {
                     className="fixed top-1/2 right-[50px] -translate-y-1/2 w-auto max-w-full h-auto object-contain z-10"
                 />
                 {/* 제목 */}
-                <img
-                    src={zenitsuTitle1}
-                    alt="zenitsuTitle1"
-                    className="fixed bottom-[310px] left-[370px] w-auto max-w-full h-auto object-contain z-10"
-                />
-                <img
-                    src={zenitsuTitle2}
-                    alt="zenitsuTitle2"
-                    className="fixed bottom-[190px] left-[370px] w-auto max-w-full h-auto object-contain z-10"
-                />
+                <motion.div style={{ opacity: zenitsuTitleOpacity }}>
+                    <img
+                        src={zenitsuTitle1}
+                        alt="zenitsuTitle1"
+                        className="fixed bottom-[310px] left-[370px] w-auto max-w-full h-auto object-contain z-10"
+                    />
+                    <img
+                        src={zenitsuTitle2}
+                        alt="zenitsuTitle2"
+                        className="fixed bottom-[190px] left-[370px] w-auto max-w-full h-auto object-contain z-10"
+                    />
+                </motion.div>
                 {/* 서브 이미지 */}
                 <div
                     className="fixed top-[120px] left-[280px]"
@@ -166,31 +178,28 @@ function StorySection1() {
                     />
                 </div>
                 {/* 설명 */}
-                {/* <div className="fixed w-[450px] h-[170px] top-[270px] left-[215px] z-10 flex flex-col gap-2">
+                <motion.div
+                    style={{ opacity: zenitsuDescriptionOpacity }}
+                    className="fixed w-[450px] h-[170px] bottom-[190px] left-[370px] z-10 flex flex-col gap-2"
+                >
                     <h4 className="text-[#f42e35] text-xl font-bold">젠이츠</h4>
-                    <h2
-                        className="text-[#ffffff] text-[35px] font-bold"
-                        style={{ letterSpacing: '-2px' }}
-                    >
+                    <h2 className="text-white text-[35px] font-bold" style={{ letterSpacing: '-2px' }}>
                         번개의 호흡을 사용하는 소년
                     </h2>
-                    <p
-                        className="text-[#ffffff] text-[16px]"
-                        style={{ letterSpacing: '-1.3px' }}
-                    >
+                    <p className="text-white text-[16px]" style={{ letterSpacing: '-1.3px' }}>
                         젠이츠는 겁이 많지만, 위기 상황에서 잠재된 힘을 발휘한다.
                         <br />
                         스승의 죽음에 대한 단서를 찾아내고, 스승의 복수를 위해
                         <br />
                         사형인 카이가쿠를 찾으러간다.
                     </p>
-                </div> */}
+                </motion.div>
             </motion.div>
 
             {/* 이노스케 */}
             <motion.div
                 style={{ opacity: inosukeOpacity }}
-                className="fixed top-0 left-0 w-full h-screen bg-[rgba(0,0,0,0.3)]"
+                className="fixed top-0 left-0 w-full h-[300vh] bg-[rgba(0,0,0,0.3)]"
             >
                 {/* 메인 이미지 */}
                 <img
@@ -199,16 +208,18 @@ function StorySection1() {
                     className="fixed top-1/2 left-[120px] -translate-y-1/2 w-auto max-w-full h-auto object-contain z-10"
                 />
                 {/* 제목 */}
-                <img
-                    src={inosukeTitle1}
-                    alt="inosukeTitle1"
-                    className="fixed bottom-[330px] left-[960px] w-auto max-w-full h-auto object-contain z-10"
-                />
-                <img
-                    src={inosukeTitle2}
-                    alt="inosukeTitle2"
-                    className="fixed bottom-[205px] left-[960px] w-auto max-w-full h-auto object-contain z-10"
-                />
+                <motion.div style={{ opacity: inosukeTitleOpacity }}>
+                    <img
+                        src={inosukeTitle1}
+                        alt="inosukeTitle1"
+                        className="fixed bottom-[330px] left-[960px] w-auto max-w-full h-auto object-contain z-10"
+                    />
+                    <img
+                        src={inosukeTitle2}
+                        alt="inosukeTitle2"
+                        className="fixed bottom-[205px] left-[960px] w-auto max-w-full h-auto object-contain z-10"
+                    />
+                </motion.div>
                 {/* 서브 이미지 */}
                 <div
                     className="fixed top-[80px] right-[490px]"
@@ -230,25 +241,22 @@ function StorySection1() {
                     />
                 </div>
                 {/* 설명 */}
-                {/* <div className="fixed w-[450px] h-[170px] top-[270px] left-[215px] z-10 flex flex-col gap-2">
+                <motion.div
+                    style={{ opacity: inosukeDescriptionOpacity }}
+                    className="fixed w-[450px] h-[170px] bottom-[205px] left-[960px] z-10 flex flex-col gap-2"
+                >
                     <h4 className="text-[#f42e35] text-xl font-bold">이노스케</h4>
-                    <h2
-                        className="text-[#ffffff] text-[35px] font-bold"
-                        style={{ letterSpacing: '-2px' }}
-                    >
+                    <h2 className="text-white text-[35px] font-bold" style={{ letterSpacing: '-2px' }}>
                         짐승의 호흡을 사용하는 소년
                     </h2>
-                    <p
-                        className="text-[#ffffff] text-[16px]"
-                        style={{ letterSpacing: '-1.3px' }}
-                    >
+                    <p className="text-white text-[16px]" style={{ letterSpacing: '-1.3px' }}>
                         이노스케는 어릴 때부터 산에서 멧돼지에게 길러져 짐승의 호흡을
                         <br />
                         사용한다. 상현二 도우마를 만나게 되며, 진짜 부모에 대한
                         <br />
                         진실을 알게 되며 자신을 알아간다.
                     </p>
-                </div> */}
+                </motion.div>
             </motion.div>
         </motion.section>
     );
