@@ -1,10 +1,86 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef } from 'react'
+import { useRef,useState, useEffect } from 'react'
+import { CountUp } from 'countup.js';
 
 import React from 'react'
 import bg from '../images/movie/bg.png'
 
 function Movie() {
+    const finalNumber1 = 500; // ¥ 500M
+    const finalNumber2 = 2; // 2M
+    const finalNumber3 = 1.5; // 1.5M
+    const finalNumber4 = 21.4; // 21.4%
+
+    // 각 숫자에 대해 별도의 ref
+    const countUpRef1 = useRef(null);
+    const countUpRef2 = useRef(null);
+    const countUpRef3 = useRef(null);
+    const countUpRef4 = useRef(null);
+
+    useEffect(() => {
+        // 각 숫자에 대해 CountUp 인스턴스 생성
+        const countUps = [
+            new CountUp(countUpRef1.current, finalNumber1, {
+                duration: 2,
+                useEasing: true,
+                useGrouping: true,
+                separator: ',',
+                prefix: '¥ ',
+                suffix: 'M',
+            }),
+            new CountUp(countUpRef2.current, finalNumber2, {
+                duration: 2,
+                useEasing: true,
+                useGrouping: true,
+                separator: ',',
+                suffix: 'M',
+            }),
+            new CountUp(countUpRef3.current, finalNumber3, {
+                duration: 2,
+                useEasing: true,
+                useGrouping: true,
+                separator: ',',
+                suffix: 'M',
+                decimalPlaces: 1,
+            }),
+            new CountUp(countUpRef4.current, finalNumber4, {
+                duration: 2,
+                useEasing: true,
+                useGrouping: true,
+                separator: ',',
+                suffix: '%',
+                decimalPlaces: 1,
+            }),
+        ];
+
+        // IntersectionObserver로 요소가 화면에 나타날 때 애니메이션 시작
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const index = parseInt(entry.target.dataset.index);
+                        countUps[index].start();
+                        observer.unobserve(entry.target); // 한 번 실행 후 관찰 중지
+                    }
+                });
+            },
+            { threshold: 0.1 } // 요소의 10%가 보일 때 트리거
+        );
+
+        // 각 ref에 대해 관찰 설정
+        [countUpRef1, countUpRef2, countUpRef3, countUpRef4].forEach((ref, index) => {
+            if (ref.current) {
+                ref.current.dataset.index = index;
+                observer.observe(ref.current);
+            }
+        });
+
+        // 정리
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
+
     const blurRef = useRef(null)
     const { scrollYProgress } = useScroll({
         target: blurRef,
@@ -154,7 +230,7 @@ function Movie() {
 
                 >
                     {/* 텍스트 */}
-                    <div ref={blurRef} className='z-20 ml-[22.3px] mt-[38px]' style={{ letterSpacing: '-2.5px', lineHeight: '110px', display:'inline-block',whiteSpace: 'pre'}}>
+                    <div ref={blurRef} className='z-20 ml-[22.3px] mt-[38px]' style={{ letterSpacing: '-2.5px', lineHeight: '110px', display: 'inline-block', whiteSpace: 'pre' }}>
                         <div className='flex gap-5' >
                             <div><span>{generateBlurSpans("전 세계", 전세계_blurs)}</span></div>
                             <div className='text-[#000000]'><span>{generateBlurSpans("흥행수익,", 흥행수익_blurs)}</span></div>
@@ -198,58 +274,44 @@ function Movie() {
 
             {/* 아래 */}
             {/* 전 세계 흥행 수익 */}
-            <div className="absolute bottom-[23px] left-[23px] w-full h-auto text-[#ffffff] z-20">
-                <div className="flex items-center gap-[30px]">
-                    <span className="font-bold text-[120px] leading-none">¥ 500M</span>
-                    <div className="flex flex-col justify-between h-[120px]">
-                        <span className="text-[52px] w-fit h-fit flex items-start justify-center">
-                            +
-                        </span>
-                        <span className="text-[14px] w-fit h-fit leading-[3px] pb-5 flex items-start">
-                            전 세계 흥행수익
-                        </span>
+            <div>
+                <div className="absolute bottom-[23px] left-[23px] w-full h-auto text-[#ffffff] z-20">
+                    <div className="flex items-center gap-[30px]">
+                        <span ref={countUpRef1} className="font-bold text-[120px] leading-none"></span>
+                        <div className="flex flex-col justify-between h-[120px]">
+                            <span className="text-[52px] w-fit h-fit flex items-start justify-center">+</span>
+                            <span className="text-[14px] w-fit h-fit leading-[3px] pb-5 flex items-start">전 세계 흥행수익</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div className="absolute bottom-[23px] left-[677px] w-full h-auto text-[#ffffff] z-20">
-                <div className="flex items-center gap-[30px]">
-                    <span className="font-bold text-[120px] leading-none">2M</span>
-                    <div className="flex flex-col justify-between h-[120px]">
-                        <span className="text-[52px] w-fit h-fit flex items-start justify-center">
-                            +
-                        </span>
-                        <span className="text-[14px] w-fit h-fit leading-[3px] pb-5 flex items-start">
-                            일본 관객 동원
-                        </span>
+                <div className="absolute bottom-[23px] left-[677px] w-full h-auto text-[#ffffff] z-20">
+                    <div className="flex items-center gap-[30px]">
+                        <span ref={countUpRef2} className="font-bold text-[120px] leading-none"></span>
+                        <div className="flex flex-col justify-between h-[120px]">
+                            <span className="text-[52px] w-fit h-fit flex items-start justify-center">+</span>
+                            <span className="text-[14px] w-fit h-fit leading-[3px] pb-5 flex items-start">일본 관객 동원</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div className="absolute bottom-[23px] left-[1072px] w-full h-auto text-[#ffffff] z-20">
-                <div className="flex items-center gap-[30px]">
-                    <span className="font-bold text-[120px] leading-none">1.5M</span>
-                    <div className="flex flex-col justify-between h-[120px]">
-                        <span className="text-[52px] w-fit h-fit flex items-start justify-center">
-                            +
-                        </span>
-                        <span className="text-[14px] w-fit h-fit leading-[3px] pb-5 flex items-start">
-                            단일권 만화 판매량
-                        </span>
+                <div className="absolute bottom-[23px] left-[1072px] w-full h-auto text-[#ffffff] z-20">
+                    <div className="flex items-center gap-[30px]">
+                        <span ref={countUpRef3} className="font-bold text-[120px] leading-none"></span>
+                        <div className="flex flex-col justify-between h-[120px]">
+                            <span className="text-[52px] w-fit h-fit flex items-start justify-center">+</span>
+                            <span className="text-[14px] w-fit h-fit leading-[3px] pb-5 flex items-start">단일권 만화 판매량</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div className="absolute bottom-[23px] left-[1502px] w-full h-auto text-[#ffffff] z-20">
-                <div className="flex items-center gap-[30px]">
-                    <span className="font-bold text-[120px] leading-none">21.4%</span>
-                    <div className="flex flex-col justify-between h-[120px]">
-                        <span className="text-[52px] w-fit h-fit flex items-start justify-center">
-                            +
-                        </span>
-                        <span className="text-[14px] w-fit h-fit leading-[3px] pb-5 flex items-start">
-                            시청률
-                        </span>
+                <div className="absolute bottom-[23px] left-[1502px] w-full h-auto text-[#ffffff] z-20">
+                    <div className="flex items-center gap-[30px]">
+                        <span ref={countUpRef4} className="font-bold text-[120px] leading-none"></span>
+                        <div className="flex flex-col justify-between h-[120px]">
+                            <span className="text-[52px] w-fit h-fit flex items-start justify-center">+</span>
+                            <span className="text-[14px] w-fit h-fit leading-[3px] pb-5 flex items-start">시청률</span>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -126,11 +126,11 @@ function App() {
           <StorySection2 />
           <SlideTxt />
           <Serise />
-          <div ref={movieRef}> {/* ✅ Movie 위치 감지용 */}
+          <div ref={movieRef}> {/* Movie 위치 감지용 */}
             <Movie />
           </div>
           <Pillars />
-          <FirstQuarterIntro />
+          {/* <FirstQuarterIntro /> */}
           <ProductionIntro />
         </>
       )}
