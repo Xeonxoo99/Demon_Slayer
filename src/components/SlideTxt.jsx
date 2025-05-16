@@ -29,7 +29,7 @@ function SlideTxt() {
     return (
         <motion.section
             ref={sectionRef}
-            className="relative w-full min-h-[680px] py-[150px] text-[#ffffff] bg-[#000000]"
+            className="relative w-full min-h-[680px] pt-[150px] text-[#ffffff] bg-[#000000]"
             style={{ fontFamily: 'VELISTA', zIndex:30 }}
         >
             {/* 위쪽 텍스트 */}
