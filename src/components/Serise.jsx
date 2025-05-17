@@ -36,8 +36,8 @@ function Serise() {
 	})
 
 	// 탄지로 애니메이션
-	const tanjiroOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
-	const tanjiroY = useTransform(scrollYProgress, [0, 0.2], [500, 0]);
+	const tanjiroOpacity = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
+	const tanjiroY = useTransform(scrollYProgress, [0, 0.1], [500, 0]);
 	const tanjiroScale = useTransform(scrollYProgress, [0, 0.2], [0.5, 1]);
 	const tanjiroBgY = useTransform(scrollYProgress, [0, 1], [0, -500]);
 
@@ -60,7 +60,7 @@ function Serise() {
 	const gyomeiOpacity = useTransform(scrollYProgress, [0.6, 0.85], [0, 1]);
 	const gyomeiY = useTransform(scrollYProgress, [0.6, 0.85], [500, 0]);
 	const gyomeiScale = useTransform(scrollYProgress, [0.6, 0.8], [0.5, 1]);
-	const gyomeiBgY = useTransform(scrollYProgress, [0.6, 1], [0, -500]);
+	const gyomeiBgY = useTransform(scrollYProgress, [0.6, 1], [0, -400]);
 
 	return (
 		<section className='relative w-full h-[3642px] bg-[#000000]'

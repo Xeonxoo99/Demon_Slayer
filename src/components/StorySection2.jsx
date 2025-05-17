@@ -32,33 +32,33 @@ function StorySection2() {
     return (
         <motion.section
             ref={containerRef}
-            className="text-[#ffffff]"
+            className="text-[#ffffff] "
             style={{
                 height: '600vh',
                 fontFamily: 'ChosunKm',
                 zIndex: 0,
             }}
         >
-            <motion.div style={{ opacity: sectionOpacity }}>
+            <motion.div  style={{ opacity: sectionOpacity }}>
                 {/* 배경 이미지 */}
                 <motion.img
                     src={bg}
                     alt="bg1"
                     className="w-full h-screen object-cover fixed top-0 left-0"
-                    style={{ zIndex: 0, opacity: bg1Opacity }}
+                    style={{ zIndex: 1, opacity: bg1Opacity }}
                 />
                 <motion.img
                     src={bg2}
                     alt="bg2"
                     className="w-full h-screen object-cover fixed top-0 left-0"
-                    style={{ zIndex: 0, opacity: bg2Opacity }}
+                    style={{ zIndex: 1, opacity: bg2Opacity }}
                 />
 
 
                 {/* 불꽃 효과 비디오 */}
                 <motion.video
                     className="w-full h-screen object-cover fixed top-0 left-0 opacity-50"
-                    style={{ zIndex: 1}}
+                    style={{ zIndex: 2}}
                     autoPlay
                     loop
                     muted
@@ -72,13 +72,13 @@ function StorySection2() {
                     src={rock}
                     alt="rock"
                     className="w-full object-cover fixed -bottom-12"
-                    style={{ zIndex: 1 }}
+                    style={{ zIndex: 2 }}
                 />
 
 
                 {/* 텍스트 컨테이너 */}
                 <div
-                    className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[300px] flex flex-col items-center justify-center gap-4 z-[10]"
+                    className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[300px] flex flex-col items-center justify-center gap-4 z-[30]"
                 >
                     <span className="text-[28px]">다이쇼 시대</span>
                     {/* 텍스트 전환 */}
