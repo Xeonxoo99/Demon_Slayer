@@ -99,7 +99,7 @@ function ProductionIntro() {
     const blur31 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
     const blur32 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
     const blur33 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
-    const blur34 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
+    const blur34 = useTransform(blurProgress, [0.2, 0.45], ['blur(0git push -u origin masterpx)', 'blur(0px)']);
     const blur35 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
     const blur36 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
     const blur37 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
