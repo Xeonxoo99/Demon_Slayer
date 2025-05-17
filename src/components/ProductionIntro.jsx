@@ -1,15 +1,19 @@
-import React from 'react'
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 // 상단 이미지 섹션
-import tanjiro from '../images/production/2.png'
-import fire from '../images/production/3.png'
-import purple from '../images/production/4.png'
-import organization from '../images/production/5.png'
-import zenitsu from '../images/production/6.png'
-import tengen from '../images/production/7.png'
-import kyojuro from '../images/production/8.png'
-import pillars from '../images/production/9.png'
-import akaza from '../images/production/11.png'
+import tanjiro from '../images/production/1.png'
+import fire from '../images/production/2.png'
+
+import purple from '../images/production/3.png'
+import organization from '../images/production/4.png'
+import zenitsu from '../images/production/5.png'
+
+import tengen from '../images/production/6.png'
+import kyojuro from '../images/production/7.png'
+import pillars from '../images/production/8.png'
+
+import akaza from '../images/production/9.png'
 
 // 인트로
 import vs from '../images/production/렌고쿠vs아카자.png'
@@ -25,22 +29,73 @@ import blackKyojuro3 from '../images/production/흑백 렌고쿠 3.png'
 import blackZenitsu from '../images/production/흑백 젠이츠.png'
 
 function ProductionIntro() {
+
+    const imageRef = useRef(null);
+
+    const { scrollYProgress } = useScroll({
+        target: imageRef,
+        offset: ['start end', 'end start'],
+    })
+
+    const scrollX1 = useTransform(scrollYProgress, [0, 1], [0, -300]);
+    const scrollY1 = useTransform(scrollYProgress, [0, 1], [0, -300]);
+    const scrollX2 = useTransform(scrollYProgress, [0, 1], [0, 300]);
+    const scrollY2 = useTransform(scrollYProgress, [0, 1], [0, 300]);
+    const scrollX3 = useTransform(scrollYProgress, [0, 1], [0, -300]);
+    const scrollY3 = useTransform(scrollYProgress, [0, 1], [0, -300]);
+    const scrollX4 = useTransform(scrollYProgress, [0, 1], [0, 300]);
+    const scrollY4 = useTransform(scrollYProgress, [0, 1], [0, 300]);
+
     return (
         <section
             className="relative w-full h-[11105px] bg-[#000000]"
             style={{ zIndex: 30, fontFamily: 'Pretendard-Regular' }}
         >
-            <div className='relative w-full py-[200px]'>
-                <div className='relative w-full h-[930px] overflow-hidden'>
-                    <img src={tanjiro} alt="tanjiro" className='absolute top-0 right-[211px]' />
-                    <img src={fire} alt="fire" className='absolute right-0' />
-                    <img src={purple} alt="purple" className='absolute bottom-[915px] right-[1425px]' />
-                    <img src={organization} alt="organization" className='absolute top-0 right-[308px]' />
-                    <img src={zenitsu} alt="zenitsu" className='absolute top-[260px] right-0' />
-                    <img src={tengen} alt="tengen" className='absolute' />
-                    <img src={kyojuro} alt="kyojuro" className='absolute top-[182px] left-[65px]' />
-                    <img src={pillars} alt="pillars" className='absolute top-[842px] left-[724px]' />
-                    <img src={akaza} alt="akaza" className='absolute top-[766px]' />
+            <div className='relative w-full py-[200px]' >
+                <div className='relative w-full h-[930px] overflow-hidden' ref={imageRef}>
+                    <motion.div
+                        className="absolute top-[-313px] left-[1000px] w-[1860px] h-auto flex gap-[78px]"
+                        style={{
+                            x: scrollX1,
+                            y: scrollY1,
+                            rotate: 45,
+                        }}
+                    >
+                        <img src={tanjiro} alt="tanjiro" />
+                        <img src={fire} alt="fire" />
+                    </motion.div>
+                    <motion.div className='absolute top-[-477px] left-[-210px] w-[1860px] h-auto flex gap-[78px] rotate-45'
+                        style={{
+                            x: scrollX2,
+                            y: scrollY2,
+                            rotate: 45,
+                        }}
+                    >
+                        <img src={purple} alt="purple" />
+                        <img src={organization} alt="organization" />
+                        <img src={zenitsu} alt="zenitsu" />
+                    </motion.div>
+
+                    <motion.div className='absolute top-[-13px] left-[-800px] w-[1860px] h-auto flex gap-[78px] rotate-45'
+                        style={{
+                            x: scrollX3,
+                            y: scrollY3,
+                            rotate: 45,
+                        }}
+                    >
+                        <img src={tengen} alt="tengen" />
+                        <img src={kyojuro} alt="kyojuro" />
+                        <img src={pillars} alt="pillars" />
+                    </motion.div>
+                    <motion.div className='absolute top-[900px] left-[-950px] w-[1860px] h-auto flex gap-[78px] rotate-45'
+                        style={{
+                            x: scrollX4,
+                            y: scrollY4,
+                            rotate: 45,
+                        }}
+                    >
+                        <img src={akaza} alt="akaza" />
+                    </motion.div>
                 </div>
             </div>
 

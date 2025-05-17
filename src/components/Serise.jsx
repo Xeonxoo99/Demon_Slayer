@@ -38,14 +38,14 @@ function Serise() {
 	// 탄지로 애니메이션
 	const tanjiroOpacity = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
 	const tanjiroY = useTransform(scrollYProgress, [0, 0.1], [500, 0]);
-	const tanjiroScale = useTransform(scrollYProgress, [0, 0.2], [0.5, 1]);
+	const tanjiroScale = useTransform(scrollYProgress, [0, 0.1], [0.5, 1]);
 	const tanjiroBgY = useTransform(scrollYProgress, [0, 1], [0, -500]);
 
 
 	// 텐겐 애니메이션
 	const tengenOpacity = useTransform(scrollYProgress, [0.2, 0.45], [0, 1]);
 	const tengenY = useTransform(scrollYProgress, [0.2, 0.45], [500, 0]);
-	const tengenScale = useTransform(scrollYProgress, [0.2, 0.4], [0.5, 1]);
+	const tengenScale = useTransform(scrollYProgress, [0.2, 0.3], [0.5, 1]);
 	const tengenBgY = useTransform(scrollYProgress, [0.2, 1], [0, -500]);
 
 
