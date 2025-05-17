@@ -30,27 +30,124 @@ import blackZenitsu from '../images/production/흑백 젠이츠.png'
 
 function ProductionIntro() {
 
+    // 격자 이미지 부분
     const imageRef = useRef(null);
 
-    const { scrollYProgress } = useScroll({
+    const { scrollYProgress: imageProgress } = useScroll({
         target: imageRef,
         offset: ['start end', 'end start'],
     })
 
-    const scrollX1 = useTransform(scrollYProgress, [0, 1], [0, -300]);
-    const scrollY1 = useTransform(scrollYProgress, [0, 1], [0, -300]);
-    const scrollX2 = useTransform(scrollYProgress, [0, 1], [0, 300]);
-    const scrollY2 = useTransform(scrollYProgress, [0, 1], [0, 300]);
-    const scrollX3 = useTransform(scrollYProgress, [0, 1], [0, -300]);
-    const scrollY3 = useTransform(scrollYProgress, [0, 1], [0, -300]);
-    const scrollX4 = useTransform(scrollYProgress, [0, 1], [0, 300]);
-    const scrollY4 = useTransform(scrollYProgress, [0, 1], [0, 300]);
+    const scrollX1 = useTransform(imageProgress, [0, 1], [0, -300]);
+    const scrollY1 = useTransform(imageProgress, [0, 1], [0, -300]);
+    const scrollX2 = useTransform(imageProgress, [0, 1], [0, 300]);
+    const scrollY2 = useTransform(imageProgress, [0, 1], [0, 300]);
+    const scrollX3 = useTransform(imageProgress, [0, 1], [0, -300]);
+    const scrollY3 = useTransform(imageProgress, [0, 1], [0, -300]);
+    const scrollX4 = useTransform(imageProgress, [0, 1], [0, 300]);
+    const scrollY4 = useTransform(imageProgress, [0, 1], [0, 300]);
+
+    // 제작사 소개 ( 이미지 블러 처리 )
+    const blurRef = useRef(null)
+
+    const { scrollYProgress: blurProgress } = useScroll({
+        target: blurRef,
+        offset: ['start end', 'end start'],
+    })
+
+    // 1번 문구
+    const blur1 = useTransform(blurProgress, [0, 0.4], ['blur(7px)', 'blur(0px)']);
+    const blur2 = useTransform(blurProgress, [0, 0.4], ['blur(5px)', 'blur(0px)']);
+    const blur3 = useTransform(blurProgress, [0, 0.4], ['blur(6px)', 'blur(0px)']);
+    const blur4 = useTransform(blurProgress, [0, 0.4], ['blur(0px)', 'blur(0px)']);
+    const blur5 = useTransform(blurProgress, [0, 0.4], ['blur(0px)', 'blur(0px)']);
+    const blur6 = useTransform(blurProgress, [0, 0.4], ['blur(0px)', 'blur(0px)']);
+    const blur7 = useTransform(blurProgress, [0, 0.4], ['blur(0px)', 'blur(0px)']);
+    const blur8 = useTransform(blurProgress, [0, 0.4], ['blur(9px)', 'blur(0px)']);
+    const blur9 = useTransform(blurProgress, [0, 0.4], ['blur(6px)', 'blur(0px)']);
+    const blur10 = useTransform(blurProgress, [0, 0.4], ['blur(0px)', 'blur(0px)']);
+    const blur11 = useTransform(blurProgress, [0, 0.4], ['blur(0px)', 'blur(0px)']);
+    const blur12 = useTransform(blurProgress, [0, 0.4], ['blur(0px)', 'blur(0px)']);
+    const blur13 = useTransform(blurProgress, [0, 0.4], ['blur(0px)', 'blur(0px)']);
+    const blur14 = useTransform(blurProgress, [0, 0.4], ['blur(0px)', 'blur(0px)']);
+    const blur15 = useTransform(blurProgress, [0, 0.4], ['blur(8px)', 'blur(0px)']);
+    const blur16 = useTransform(blurProgress, [0, 0.4], ['blur(5px)', 'blur(0px)']);
+    const blur17 = useTransform(blurProgress, [0, 0.4], ['blur(0px)', 'blur(0px)']);
+    const blur18 = useTransform(blurProgress, [0, 0.4], ['blur(0px)', 'blur(0px)']);
+    const blur19 = useTransform(blurProgress, [0, 0.4], ['blur(0px)', 'blur(0px)']);
+    const blur20 = useTransform(blurProgress, [0, 0.4], ['blur(0px)', 'blur(0px)']);
+    const first_blurs1 = [
+        blur1, blur2, blur3, blur4, blur5, blur6, blur7, blur8, blur9, blur10,
+        blur11, blur12, blur13, blur14, blur15, blur16, blur17, blur18, blur19, blur20,
+    ];
+
+    const blur21 = useTransform(blurProgress, [0, 0.4], ['blur(7px)', 'blur(0px)']);
+    const blur22 = useTransform(blurProgress, [0, 0.4], ['blur(5px)', 'blur(0px)']);
+    const blur23 = useTransform(blurProgress, [0, 0.4], ['blur(6px)', 'blur(0px)']);
+    const blur24 = useTransform(blurProgress, [0, 0.4], ['blur(0px)', 'blur(0px)']);
+
+    const first_blurs2 = [blur21, blur22, blur23, blur24];
+
+    // 2번 문구
+
+    const blur25 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
+    const blur26 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
+    const blur27 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
+    const blur28 = useTransform(blurProgress, [0.2, 0.45], ['blur(8px)', 'blur(0px)']);
+    const blur29 = useTransform(blurProgress, [0.2, 0.45], ['blur(3px)', 'blur(0px)']);
+    const blur30 = useTransform(blurProgress, [0.2, 0.45], ['blur(5px)', 'blur(0px)']);
+    const blur31 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
+    const blur32 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
+    const blur33 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
+    const blur34 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
+    const blur35 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
+    const blur36 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
+    const blur37 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
+    const blur38 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
+    const blur39 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
+    const blur40 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
+    const blur41 = useTransform(blurProgress, [0.2, 0.45], ['blur(5px)', 'blur(0px)']);
+    const blur42 = useTransform(blurProgress, [0.2, 0.45], ['blur(7px)', 'blur(0px)']);
+    const blur43 = useTransform(blurProgress, [0.2, 0.45], ['blur(8px)', 'blur(0px)']);
+    const blur44 = useTransform(blurProgress, [0.2, 0.45], ['blur(3px)', 'blur(0px)']);
+    const blur45 = useTransform(blurProgress, [0.2, 0.45], ['blur(6px)', 'blur(0px)']);
+    const second_blurs1 = [blur25,blur26,blur27,blur28,blur29,blur30,blur31,blur32,blur33,blur34,blur35,blur36,blur37,blur38,blur39,blur40,blur41,blur42,blur43,blur44,blur45];
+
+
+
+
+
+    const blur46 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
+    const blur47 = useTransform(blurProgress, [0.2, 0.45], ['blur(0px)', 'blur(0px)']);
+    const blur48 = useTransform(blurProgress, [0.2, 0.45], ['blur(4px)', 'blur(0px)']);
+    const second_blurs2 = [blur41,blur42,blur43,blur44,blur45,blur46,blur47,blur48,];
+    
+
+    const generateBlurh1 = (text, blurStyles) => {
+        return text.split('').map((char, i) => {
+            if (char === ' ') {
+                return <span key={i} style={{ display: 'inline-block', width: '15px' }}>{char}</span>;
+            }
+
+            return (
+                <motion.h1
+                    key={i}
+                    style={{ filter: blurStyles[i], display: 'inline-block' }}
+                    className="inline-block"
+                >
+                    {char}
+                </motion.h1>
+            );
+        });
+    };
+    // 원작자 소개
 
     return (
         <section
             className="relative w-full h-[11105px] bg-[#000000]"
             style={{ zIndex: 30, fontFamily: 'Pretendard-Regular' }}
         >
+            {/* 격자 이미지 */}
             <div className='relative w-full py-[200px]' >
                 <div className='relative w-full h-[930px] overflow-hidden' ref={imageRef}>
                     <motion.div
@@ -99,6 +196,7 @@ function ProductionIntro() {
                 </div>
             </div>
 
+            {/* 제작사 소개 */}
             <div className='px-[40px]'>
                 <div className='w-full h-[1218px] relative text-[#ffffff]'>
                     <div className='text-[96px] leading-[96px] flex'><h1 className='text-[#eb181f]'>UFOTABLE</h1><h1>DECIDED TO PRODUCE</h1></div>
@@ -163,15 +261,20 @@ function ProductionIntro() {
 
                         </div>
                     </div>
-                    <div className='flex flex-col absolute top-[500px] left-[920px] text-[50px] leading-[50px]'>
+
+                    {/* 블러처리 구간 */}
+                    <div className='flex flex-col absolute top-[500px] left-[920px] text-[50px] leading-[50px]' ref={blurRef}>
                         <div className=''>
                             <span className='text-[14px] text-[#eb181f]' style={{ fontFamily: 'VELISTA' }}>01</span>
-                            <h1>"타협 없는 퀄리티" - 극장판 수준의 <br /> 작화 유지 </h1>
+                            <h1>{generateBlurh1(`"타협 없는 퀄리티" - 극장판 수준의`, first_blurs1)} </h1>
+                            <h1>{generateBlurh1('작화 유지', first_blurs2)}</h1>
+
                         </div>
                         <div className="w-[942px] h-[1px] mt-[40px] ml-[6px] bg-gradient-to-r from-white/40 to-black"></div>
                         <div className=''>
                             <span className='text-[14px] text-[#eb181f]' style={{ fontFamily: 'VELISTA' }}>02</span>
-                            <h1>"자체 제작 시스템" - 외주 최소화, <br /> 내부 완성도 극대화 </h1>
+                            <h1>{generateBlurh1(`"자체 제작 시스템" - 외주 최소화,`, second_blurs1)}</h1>
+                            <h1>{generateBlurh1(`내부 완성도 극대화`, second_blurs2)}</h1>
                         </div>
                         <div className="w-[942px] h-[1px] mt-[40px] ml-[6px] bg-gradient-to-r from-white/40 to-black"></div>
                         <div className=''>
@@ -181,6 +284,8 @@ function ProductionIntro() {
                         <div className="w-[942px] h-[1px] mt-[40px] ml-[6px] bg-gradient-to-r from-white/40 to-black"></div>
                     </div>
                 </div>
+
+                {/* 원작자 소개 */}
 
                 <div className='w-full h-[409px] relative text-[#ffffff]'>
                     <div className='h-[96px] leading-[96px]' style={{ fontFamily: 'myriad-pro' }}><h1 className='text-[96px] text-[#eb181f]' >KIMETSU NO YAIBA</h1></div>
