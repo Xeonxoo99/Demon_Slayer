@@ -654,16 +654,16 @@ function ProductionIntro() {
                         </div>
                     </div>
                     {/* 고정 */}
-                    <div className="absolute top-[00px] left-[408px] w-[0.5px] h-[7000px] bg-gradient-to-b from-[#ffffff]/20 to-[#000000]"></div>
-                    <div className="absolute top-[00px] left-[776px] w-[0.5px] h-[7000px] bg-gradient-to-b from-[#ffffff]/20 to-[#000000]"></div>
-                    <div className="absolute top-[00px] left-[1143px] w-[0.5px] h-[7000px] bg-gradient-to-b from-[#ffffff]/20 to-[#000000]"></div>
-                    <div className="absolute top-[00px] left-[1512px] w-[0.5px] h-[7000px] bg-gradient-to-b from-[#ffffff]/20 to-[#000000]"></div>
+                    <div className="absolute top-[00px] left-[368px] w-[0.5px] h-[7000px] bg-gradient-to-b from-[#ffffff]/20 to-[#000000]"></div>
+                    <div className="absolute top-[00px] left-[736px] w-[0.5px] h-[7000px] bg-gradient-to-b from-[#ffffff]/20 to-[#000000]"></div>
+                    <div className="absolute top-[00px] left-[1103px] w-[0.5px] h-[7000px] bg-gradient-to-b from-[#ffffff]/20 to-[#000000]"></div>
+                    <div className="absolute top-[00px] left-[1472px] w-[0.5px] h-[7000px] bg-gradient-to-b from-[#ffffff]/20 to-[#000000]"></div>
 
                     {/* 위에서 아래로 움직임 */}
-                    <div className="absolute top-[0px] left-[408px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line"></div>
-                    <div className="absolute top-[0px] left-[776px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line" style={{ animationDelay: '0.5s' }}></div>
-                    <div className="absolute top-[0px] left-[1143px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line" style={{ animationDelay: '1.5s' }}></div>
-                    <div className="absolute top-[0px] left-[1512px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line" style={{ animationDelay: '1s' }}></div>
+                    <div className="absolute top-[0px] left-[368px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line"></div>
+                    <div className="absolute top-[0px] left-[736px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line" style={{ animationDelay: '0.5s' }}></div>
+                    <div className="absolute top-[0px] left-[1103px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line" style={{ animationDelay: '1.5s' }}></div>
+                    <div className="absolute top-[0px] left-[1472px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line" style={{ animationDelay: '1s' }}></div>
                 </div>
             </div>
         </section>
