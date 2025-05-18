@@ -1,5 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { debounce } from 'lodash';
 
 // 상단 이미지 섹션
 import tanjiro from '../images/production/1.png'
@@ -184,6 +185,71 @@ function ProductionIntro() {
     };
     // 원작자 소개
 
+
+    // Sticky 효과
+    const stickyRef = useRef(null);
+    const stickyContentRef = useRef(null);
+    const textRefs = useRef([]);
+
+    // 스크롤 진행도 추적
+    const { scrollYProgress: stickyProgress } = useScroll({
+        target: stickyRef,
+        offset: ['start start', 'end end'], // 요소가 뷰포트 상단에 닿을 때부터 시작
+    });
+
+    // 스크롤에 따라 top 값을 동적으로 조정
+    const stickyTranslateY = useTransform(stickyProgress, [0, 1], [0, 3150]);
+
+    // 텍스트를 글자 단위로 분리하고 색상 제어
+    const SplitText = ({ children, className }) => {
+        return (
+            <span className={className}>
+                {children.split('').map((char, index) => (
+                    <span
+                        key={index}
+                        ref={(el) => (textRefs.current.push(el))}
+                        style={{ display: 'inline-block', color: '#ffffff' }}
+                    >
+                        {char === ' ' ? <span style={{ width: '8px' }}>&nbsp;</span> : char}
+                    </span>
+                ))}
+            </span>
+        );
+    };
+
+    // 겹침 감지 및 색상 업데이트
+    const updateTextColors = useCallback(() => {
+        if (!stickyContentRef.current || !textRefs.current.length) return;
+
+        const stickyRect = stickyContentRef.current.getBoundingClientRect();
+        textRefs.current.forEach((span) => {
+            if (!span) return;
+            const spanRect = span.getBoundingClientRect();
+            const isOverlapping =
+                spanRect.top < stickyRect.bottom &&
+                spanRect.bottom > stickyRect.top &&
+                spanRect.left < stickyRect.right &&
+                spanRect.right > stickyRect.left;
+            span.style.color = isOverlapping ? '#000000' : '#ffffff';
+        });
+    }, []);
+
+    // 스크롤 이벤트에 디바운싱 적용
+    const debouncedUpdateTextColors = debounce(updateTextColors, 10);
+
+    useEffect(() => {
+        window.addEventListener('scroll', debouncedUpdateTextColors);
+        window.addEventListener('resize', debouncedUpdateTextColors);
+        return () => {
+            window.removeEventListener('scroll', debouncedUpdateTextColors);
+            window.removeEventListener('resize', debouncedUpdateTextColors);
+        };
+    }, [debouncedUpdateTextColors]);
+
+    // textRefs 초기화
+    useEffect(() => {
+        textRefs.current = [];
+    }, []);
     return (
         <section
             className="relative w-full h-[11105px] bg-[#000000]"
@@ -329,93 +395,145 @@ function ProductionIntro() {
                 </div>
 
                 {/* 원작자 소개 */}
-                <div>
-                    <div className='w-full h-[409px] relative text-[#ffffff]'>
-                        <div className='h-[96px] leading-[96px]' style={{ fontFamily: 'myriad-pro' }}><h1 className='text-[96px] text-[#eb181f]' style={{ fontFamily: 'VELISTA' }} >KIMETSU NO YAIBA</h1></div>
-                        <div className='h-[320px] leading-[320px]'><h1 className='text-[320px] whitespace-nowrap font-bold'>Original Creator</h1></div>
-                        <div className='text-[20px] leading-[20px] whitespace-nowrap flex absolute top-[387px]'>
-                            <span className='mr-[245px]'>Story Planning</span>
-                            <span className='mr-[258px]'>Character</span>
-                            <span className='mr-[249px]'>WorldBuilding</span>
-                            <span className='mr-[272px]'>Story Board</span>
-                            <span className='mr-[292px]'>Direction</span>
-                            <span className='mr-[245px]'>Collaboration</span>
+                <div className="h-[96px] leading-[96px]" style={{ fontFamily: 'myriad-pro' }}>
+                    <h1 className="text-[96px] text-[#eb181f]" style={{ fontFamily: 'VELISTA' }}>
+                        KIMETSU NO YAIBA
+                    </h1>
+                </div>
+                <div ref={stickyRef} className="relative w-full h-[4120px]">
+                    <motion.div
+                        className="w-full h-[409px]"
+                        style={{ y: stickyTranslateY, zIndex: 40, willChange: 'transform' }}
+                        ref={stickyContentRef}
+                    >
+                        <div className="h-[320px] leading-[320px]">
+                            <h1 className="text-[320px] whitespace-nowrap font-bold text-[#ffffff]">
+                                Original Creator
+                            </h1>
+                            {/* <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="2256px" height="308px">
+                                <text kerning="auto" font-family="Gulim" fill="rgb(0, 0, 0)" transform="matrix( 1.55800222828815, 0, 0, 1.55800222828815,29.7618922763436, 249.038135925577)" font-size="205.391px"><tspan font-size="205.391px" font-family="Pretendard" font-weight="bold" fill="#FFFFFF">Original&#32;Creator</tspan></text>
+                            </svg> */}
                         </div>
-                    </div>
+                        <div className="text-[20px] leading-[20px] whitespace-nowrap flex absolute top-[300px] text-[#ffffff]">
+                            <span className="mr-[245px]">Story Planning</span>
+                            <span className="mr-[258px]">Character</span>
+                            <span className="mr-[249px]">WorldBuilding</span>
+                            <span className="mr-[272px]">Story Board</span>
+                            <span className="mr-[292px]">Direction</span>
+                            <span className="mr-[245px]">Collaboration</span>
+                        </div>
+                    </motion.div>
 
-                    <div className='w-full h-[3127px] relative'>
-                        <div className='w-full h-auto absolute text-[#ffffff]'>
-                            <img src={blackTanjiro} alt="blackTanjiro" className='absolute top-[90px] left-1/2 -translate-x-1/2' />
-                            <span className='absolute top-[945px] left-[368px] text-[#eb181f] text-[20px]' style={{ fontFamily: 'VELISTA' }}>MESSAGE</span>
-                            <div className='w-[443px] h-auto absolute top-[945px] left-[736px]'>
-                                <div className='text-[38px] mb-[76px]'><h1 >인간의 강인함과 <br /> 가족의 소중함</h1></div>
-                                <div className='flex flex-col gap-9'>
-                                    <span >
-                                        고토게 코요하루(吾峠呼世晴) 작가는 '귀멸의 칼날'을
-                                        통해 인간의 강인함과 가족의 소중함을 전하고자 했습니다. 작품
-                                        속에서 주인공 탄지로는 가족을 잃은 슬픔 속에서도 희망을 잃지 않고,
-                                        동료들과 함께 역경을 극복해 나갑니다. 이를 통해 작가는 희망, 용기,
-                                        연대의 중요성을 강조하고 있습니다.
-                                    </span>
-                                    <span>
-                                        또한, 고토게 코요하루는 인간의 감정과 관계를 깊이 있게 묘사하는 것을
-                                        중요하게 생각하며, 이를 통해 독자들에게 감동을 전하려 노력합니다.
-                                        이러한 신념은 '귀멸의 칼날'의 섬세한 캐릭터 설정과 스토리 전개에
-                                        잘 드러나 있습니다. 작품의 배경 스토리는 일본 다이쇼 시대를 기반으로
-                                        하여, 전통적인 일본 문화와 미신, 그리고 인간의 내면을 탐구하는 요소들이
-                                        결합되어 있습니다. 이를 통해 작가는 시대적 배경과 인간 본성에 대한
-                                        깊이 있는 이야기를 전달하고자 했습니다.`
-                                    </span>
+                    <div className="w-full h-[3127px] relative">
+                        <div className="w-full h-auto absolute">
+                            <img
+                                src={blackTanjiro}
+                                alt="blackTanjiro"
+                                className="absolute top-[90px] left-1/2 -translate-x-1/2"
+                            />
+                            <span
+                                className="absolute top-[945px] left-[368px] text-[#eb181f] text-[20px]"
+                                style={{ fontFamily: 'VELISTA' }}
+                            >
+                                MESSAGE
+                            </span>
+                            <div className="w-[443px] h-auto absolute top-[945px] left-[736px]">
+                                <div className="text-[38px] mb-[76px]">
+                                    <h1>
+                                        <SplitText>인간의 강인함과</SplitText>
+                                        <br />
+                                        <SplitText>가족의 소중함</SplitText>
+                                    </h1>
+                                </div>
+                                <div className="flex flex-col gap-9">
+                                    <SplitText>
+                                        고토게 코요하루(吾峠呼世晴) 작가는 '귀멸의 칼날'을 통해 인간의 강인함과 가족의 소중함을
+                                        전하고자 했습니다. 작품 속에서 주인공 탄지로는 가족을 잃은 슬픔 속에서도 희망을 잃지 않고,
+                                        동료들과 함께 역경을 극복해 나갑니다. 이를 통해 작가는 희망, 용기, 연대의 중요성을
+                                        강조하고 있습니다.
+                                    </SplitText>
+                                    <SplitText>
+                                        또한, 고토게 코요하루는 인간의 감정과 관계를 깊이 있게 묘사하는 것을 중요하게 생각하며, 이를
+                                        통해 독자들에게 감동을 전하려 노력합니다. 이러한 신념은 '귀멸의 칼날'의 섬세한 캐릭터 설정과
+                                        스토리 전개에 잘 드러나 있습니다. 작품의 배경 스토리는 일본 다이쇼 시대를 기반으로 하여,
+                                        전통적인 일본 문화와 미신, 그리고 인간의 내면을 탐구하는 요소들이 결합되어 있습니다. 이를
+                                        통해 작가는 시대적 배경과 인간 본성에 대한 깊이 있는 이야기를 전달하고자 했습니다.
+                                    </SplitText>
                                 </div>
                             </div>
                         </div>
 
-                        <div className='w-full h-auto absolute text-[#ffffff]'>
-                            <span className='absolute top-[1631px] left-[736px] text-[#eb181f] text-[20px]' style={{ fontFamily: 'VELISTA' }}>PAIN POINT</span>
-                            <div className='w-[443px] h-auto absolute top-[1631px] left-[1104px]'>
-                                <div className='text-[38px] mb-[76px]'><h1 >캐릭터의 개성과 <br /> 감정표현, 액션 연출</h1></div>
-                                <div className='flex flex-col gap-9'>
-                                    <span >
-                                        귀멸의 칼날은 주인공 일행과 주, 상현 등 많은 캐릭터가 등장하는
-                                        만큼, 각 인물의 개성을 살리면서 감정을 섬세하게 표현하는 것이 매우
-                                        중요했다. 주인공뿐만 아니라 조연 캐릭터들도 입체적으로 그리기 위해
-                                        각자의 과거와 성격을 깊이 고민하며 설정하려고 노력했다.
-                                    </span>
-                                    <span>
-                                        또한 몰입감을 높이기 위해 다양한 검술과 호흡 기술울 효과적으로
-                                        표현했고,빠른 전투 장면을 통해 이것을 극대화시키는 것이 큰 도전이었다.
-                                        전투의 흐름을 이해하기 쉽게 하면서도 박진감을 유지하기 위해 많은
-                                        수많은 실패와 연구, 수정을 거듭했다.
-                                    </span>
+                        <div className="w-full h-auto absolute">
+                            <span
+                                className="absolute top-[1631px] left-[736px] text-[#eb181f] text-[20px]"
+                                style={{ fontFamily: 'VELISTA' }}
+                            >
+                                PAIN POINT
+                            </span>
+                            <div className="w-[443px] h-auto absolute top-[1631px] left-[1104px]">
+                                <div className="text-[38px] mb-[76px]">
+                                    <h1>
+                                        <SplitText>캐릭터의 개성과</SplitText>
+                                        <br />
+                                        <SplitText>감정표현, 액션 연출</SplitText>
+                                    </h1>
+                                </div>
+                                <div className="flex flex-col gap-9">
+                                    <SplitText>
+                                        귀멸의 칼날은 주인공 일행과 주, 상현 등 많은 캐릭터가 등장하는 만큼, 각 인물의 개성을
+                                        살리면서 감정을 섬세하게 표현하는 것이 매우 중요했다. 주인공뿐만 아니라 조연 캐릭터들도
+                                        입체적으로 그리기 위해 각자의 과거와 성격을 깊이 고민하며 설정하려고 노력했다.
+                                    </SplitText>
+                                    <SplitText>
+                                        또한 몰입감을 높이기 위해 다양한 검술과 호흡 기술을 효과적으로 표현했고, 빠른 전투 장면을
+                                        통해 이것을 극대화시키는 것이 큰 도전이었다. 전투의 흐름을 이해하기 쉽게 하면서도 박진감을
+                                        유지하기 위해 많은 수많은 실패와 연구, 수정을 거듭했다.
+                                    </SplitText>
                                 </div>
                             </div>
                         </div>
 
-                        <div className='w-full h-auto absolute text-[#ffffff]'>
-                            <span className='absolute top-[2216px] left-0 text-[#eb181f] text-[20px]' style={{ fontFamily: 'VELISTA' }}>PAIN POINT</span>
-                            <div className='w-[443px] h-auto absolute top-[2216px] left-[368px]'>
-                                <div className='text-[38px] mb-[76px]'><h1 >인간의 강인함과 <br /> 가족의 소중함</h1></div>
-                                <div className='flex flex-col gap-9'>
-                                    <span >
-                                        작가는 독자들의 긍정적인 반응과 작품의 인기를 통해
-                                        큰 보람과 희열을 느꼈습니다. 특히, 애니메이션화 이후 작품이
-                                        전 세계적으로 사랑받으며, 작가로서의 성취감을 크게 느꼈으며,
-                                        작가로서의 성장에서 오는 보람과  독자들과의 소통을 통해
-                                        많은 기쁨을 느꼈을 것입니다.
-                                    </span>
+                        <div className="w-full h-auto absolute">
+                            <span
+                                className="absolute top-[2216px] left-0 text-[#eb181f] text-[20px]"
+                                style={{ fontFamily: 'VELISTA' }}
+                            >
+                                PAIN POINT
+                            </span>
+                            <div className="w-[443px] h-auto absolute top-[2216px] left-[368px]">
+                                <div className="text-[38px] mb-[76px]">
+                                    <h1>
+                                        <SplitText>인간의 강인함과</SplitText>
+                                        <br />
+                                        <SplitText>가족의 소중함</SplitText>
+                                    </h1>
+                                </div>
+                                <div className="flex flex-col gap-9">
+                                    <SplitText>
+                                        작가는 독자들의 긍정적인 반응과 작품의 인기를 통해 큰 보람과 희열을 느꼈습니다. 특히,
+                                        애니메이션화 이후 작품이 전 세계적으로 사랑받으며, 작가로서의 성취감을 크게 느꼈으며,
+                                        작가로서의 성장에서 오는 보람과 독자들과의 소통을 통해 많은 기쁨을 느꼈을 것입니다.
+                                    </SplitText>
                                 </div>
                             </div>
                         </div>
 
-                        <div className='w-full h-auto absolute text-[#ffffff]'>
-                            <span className='absolute top-[2690px] left-[736px] text-[#eb181f] text-[20px]' style={{ fontFamily: 'VELISTA' }}>THANKS TO</span>
-                            <div className='w-[443px] h-auto absolute top-[2690px] left-[1104px]'>
-                                <div className='flex flex-col gap-9'>
-                                    <span >
-                                        처음 만화를 그리기 시작했을 때는 이렇게 많은 분들이 제 작품을
-                                        사랑해 주실 거라고는 상상도 못 했습니다. 항상 귀멸의 칼날을 읽어 주시고,
-                                        캐릭터들과 함께 울고 웃어 주신 모든 분들께 진심으로 감사드립니다.
-                                    </span>
+                        <div className="w-full h-auto absolute">
+                            <span
+                                className="absolute top-[2690px] left-[736px] text-[#eb181f] text-[20px]"
+                                style={{ fontFamily: 'VELISTA' }}
+                            >
+                                THANKS TO
+                            </span>
+                            <div className="w-[443px] h-auto absolute top-[2690px] left-[1104px]">
+                                <div className="flex flex-col gap-9">
+                                    <SplitText>
+                                        처음 만화를 그리기 시작했을 때는 이렇게 많은 분들이 제 작품을 사랑해 주실 거라고는 상상도 못
+                                        했습니다. 항상 귀멸의 칼날을 읽어 주시고, 캐릭터들과 함께 울고 웃어 주신 모든 분들께 진심으로
+                                        감사드립니다.
+                                    </SplitText>
                                 </div>
                             </div>
                         </div>
@@ -535,17 +653,17 @@ function ProductionIntro() {
                             <h1 className='text-[152.9px] font-bold absolute top-[3394px] left-[1097px] whitespace-nowrap'>all readers.</h1>
                         </div>
                     </div>
-                        {/* 고정 */}
-                        <div className="absolute top-[4025px] left-[368px] w-[0.5px] h-[7000px] bg-gradient-to-b from-[#ffffff]/20 to-[#000000]"></div>
-                        <div className="absolute top-[4025px] left-[736px] w-[0.5px] h-[7000px] bg-gradient-to-b from-[#ffffff]/20 to-[#000000]"></div>
-                        <div className="absolute top-[4025px] left-[1104px] w-[0.5px] h-[7000px] bg-gradient-to-b from-[#ffffff]/20 to-[#000000]"></div>
-                        <div className="absolute top-[4025px] left-[1472px] w-[0.5px] h-[7000px] bg-gradient-to-b from-[#ffffff]/20 to-[#000000]"></div>
+                    {/* 고정 */}
+                    <div className="absolute top-[00px] left-[408px] w-[0.5px] h-[7000px] bg-gradient-to-b from-[#ffffff]/20 to-[#000000]"></div>
+                    <div className="absolute top-[00px] left-[776px] w-[0.5px] h-[7000px] bg-gradient-to-b from-[#ffffff]/20 to-[#000000]"></div>
+                    <div className="absolute top-[00px] left-[1143px] w-[0.5px] h-[7000px] bg-gradient-to-b from-[#ffffff]/20 to-[#000000]"></div>
+                    <div className="absolute top-[00px] left-[1512px] w-[0.5px] h-[7000px] bg-gradient-to-b from-[#ffffff]/20 to-[#000000]"></div>
 
-                        {/* 위에서 아래로 움직임 */}
-                        <div className="absolute top-[4025px] left-[368px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line"></div>
-                        <div className="absolute top-[4025px] left-[736px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line" style={{ animationDelay: '0.5s' }}></div>
-                        <div className="absolute top-[4025px] left-[1104px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line" style={{ animationDelay: '1.5s' }}></div>
-                        <div className="absolute top-[4025px] left-[1472px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line" style={{ animationDelay: '1s' }}></div>
+                    {/* 위에서 아래로 움직임 */}
+                    <div className="absolute top-[0px] left-[408px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line"></div>
+                    <div className="absolute top-[0px] left-[776px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line" style={{ animationDelay: '0.5s' }}></div>
+                    <div className="absolute top-[0px] left-[1143px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line" style={{ animationDelay: '1.5s' }}></div>
+                    <div className="absolute top-[0px] left-[1512px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line" style={{ animationDelay: '1s' }}></div>
                 </div>
             </div>
         </section>

@@ -67,10 +67,11 @@ section {
 @keyframes dropLine {
   0% {
     transform: translateY(0);
-    opacity: 1;
+    opacity: 0.2;
   }
   100% {
-    transform: translateY(8000px); /* 내려가는 거리 */
+    transform: translateY(8000px); 
+    opacity: 1;
   }
 }
 
