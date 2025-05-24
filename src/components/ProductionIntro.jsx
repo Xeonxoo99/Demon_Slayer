@@ -432,7 +432,7 @@ function ProductionIntro() {
                             >
                                 MESSAGE
                             </span>
-                            <div className="w-[443px] h-auto absolute top-[945px] left-[736px]">
+                            <div className="w-[443px] h-auto absolute top-[945px] left-[736px] mix-blend-difference">
                                 <div className="text-[38px] mb-[76px]">
                                     <h1>
                                         <SplitText>인간의 강인함과</SplitText>
