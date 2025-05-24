@@ -52,6 +52,16 @@ function StorySection2() {
       }}
     >
       <motion.div style={{ opacity: sectionOpacity }}>
+               {/* 효과 비디오 (effectVideo) */}
+               <motion.video
+          ref={videoRef}
+          className="w-full h-screen object-cover fixed top-0 left-0"
+          style={{ zIndex:11, opacity: videoOpacity }} // 최상단, 스크롤 끝에서 표시
+          muted
+          playsInline
+        >
+          <source src={effectVideo} type="video/mp4" />
+        </motion.video>
         {/* 배경 이미지 */}
         <motion.img
           src={bg}
@@ -66,16 +76,7 @@ function StorySection2() {
           style={{ zIndex: 1, opacity: bg2Opacity }}
         />
 
-        {/* 효과 비디오 (effectVideo) */}
-        <motion.video
-          ref={videoRef}
-          className="w-full h-screen object-cover fixed top-0 left-0"
-          style={{ zIndex:11, opacity: videoOpacity }} // 최상단, 스크롤 끝에서 표시
-          muted
-          playsInline
-        >
-          <source src={effectVideo} type="video/mp4" />
-        </motion.video>
+ 
 
         {/* 불꽃 효과 비디오 */}
         <motion.video

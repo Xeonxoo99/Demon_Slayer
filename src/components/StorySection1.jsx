@@ -74,19 +74,14 @@ function StorySection1() {
 
     return (
         <motion.section
-            className='relative w-full h-[2940px]'
+            className='relative w-full h-[2940px] '
             ref={containerRef}
-            style={{ zIndex: 0 }}
+            style={{ zIndex: 0, backgroundImage:{bg} }}
         >
             {/* 탄지로와 네즈코 */}
             <div className='relative w-full h-[980px]'>
                 {/* 배경 이미지 */}
-                <img
-                    src={bg}
-                    alt="bg"
-                    className="w-full h-full object-cover absolute top-0 left-0"
-                    style={{ zIndex: 0 }}
-                />
+
                 <motion.div
                     className="absolute top-0 left-0 w-full h-screen bg-[rgba(0,0,0,0.3)]"
                 >
@@ -141,12 +136,12 @@ function StorySection1() {
             {/* 젠이츠 */}
             <div className='relative w-full h-[980px]' ref={zenitsuRef}>
                 {/* 배경 이미지 */}
-                <img
+                {/* <img
                     src={bg}
                     alt="bg"
                     className="w-full h-full object-cover absolute top-0 left-0"
                     style={{ zIndex: 0 }}
-                />
+                /> */}
                 <motion.div
                     style={{ opacity: zenitsuOpacity }}
                     className="absolute h-[100vh] top-0 left-0 w-full bg-[rgba(0,0,0,0.3)]"
@@ -216,12 +211,12 @@ function StorySection1() {
             {/* 이노스케 */}
             <div className='relative w-full h-[980px]' ref={inosukeRef}>
                 {/* 배경 이미지 */}
-                <img
+                {/* <img
                     src={bg}
                     alt="bg"
                     className="w-full h-full object-cover absolute top-0 left-0"
                     style={{ zIndex: 0 }}
-                />
+                /> */}
                 <motion.div
                     style={{ opacity: inosukeOpacity }}
                     className="absolute top-0 left-0 w-full h-[100vh] bg-[rgba(0,0,0,0.3)]"
