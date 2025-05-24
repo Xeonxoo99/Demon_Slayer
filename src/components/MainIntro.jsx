@@ -38,7 +38,7 @@ function MainIntro({ onAnimationComplete }) {
   });
 
   const currentImageIndex = useTransform(scrollYProgress, [0, 1], [0, totalFrames - 1]);
-  const bgOpacity = useTransform(scrollYProgress, [0, 0.95, 1], [1, 1, 0.8]);
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.95, 1], [1, 1, 0.9]);
   // 캐릭터들 스케일. 오퍼시티 다 따로 관리
   const charScale = useTransform(scrollYProgress, [0, 0.3, 0.5], [1, 2, 3]);
   // 이동도 x축 y축으로 이동

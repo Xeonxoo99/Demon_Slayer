@@ -246,6 +246,8 @@ function Movie() {
                             <div className='text-[#000000]'><span>{generateBlurSpans("판매 세계 1위,", 판매세계_blurs)}</span></div>
                         </div>
                         <div><span>{generateBlurSpans("TV 애니메이션 최고 시청률", TV시청률_blurs)}</span></div>
+                        <div className="absolute top-[252px] left-0 w-[444px] h-[6px] bg-gradient-to-r from-white to-black/10"></div>
+                        <div className="absolute top-[688px] left-[573px] w-[618px] h-[6px] bg-gradient-to-r from-white to-black/10"></div>
                     </div>
                     {/* 배경 */}
                     <div className='absolute bg-[#000000] opacity-60 z-10'>
