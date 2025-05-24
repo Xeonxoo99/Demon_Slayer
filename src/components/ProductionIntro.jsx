@@ -210,6 +210,63 @@ function ProductionIntro() {
             className="relative w-full h-[11105px] bg-[#000000]"
             style={{ zIndex: 30, fontFamily: 'Pretendard-Regular' }}
         >
+<div
+  style={{
+    alignItems: 'center',
+    display: 'flex',
+    flex: 'none',
+    flexDirection: 'column',
+    flexWrap: 'nowrap',
+    gap: '10px',
+    height: '100vh',
+    justifyContent: 'flex-end',
+    left: 'calc(50.00000000000002% - 100% / 2)',
+    overflow: 'hidden',
+    padding: 0,
+    pointerEvents: 'none',
+    position: 'fixed',
+    top: 'calc(50.00000000000002% - 100vh / 2)',
+    width: '100%',
+    zIndex: 7,
+  }}
+>
+  <div
+    style={{
+      flex: 'none',
+      height: '194px',
+      position: 'relative',
+      width: '100%',
+      zIndex: 9,
+    }}
+  >
+    <div
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        borderRadius: '12px',
+      }}
+    >
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 1,
+          backdropFilter: 'blur(0.5px)',
+          WebkitBackdropFilter: 'blur(0.5px)',
+          maskImage:
+            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 12.5%, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 0) 37.5%)',
+          WebkitMaskImage:
+            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 12.5%, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 0) 37.5%)',
+          borderRadius: '12px',
+          pointerEvents: 'none',
+        }}
+      />
+    </div>
+  </div>
+</div>
+
+
             {/* 격자 이미지 */}
             <div className='relative w-full py-[200px]' >
                 <div className='relative w-full h-[930px] overflow-hidden' ref={imageRef}>
@@ -355,14 +412,14 @@ function ProductionIntro() {
                         KIMETSU NO YAIBA
                     </h1>
                 </div>
-                <div className="relative w-full h-[4120px]">
+                <div className="relative w-full h-[3600px]">
                     <motion.div
                         className="w-full h-[409px] sticky top-2"
                     >
                         <div className="w-[2256px] h-[320px] leading-[320px] ">
                             <svg
-                                viewBox="0 0 2254.53 306.25" className='mix-blend-difference'>
-                                <g fill="#FFFFFF">                 
+                                viewBox="0 0 2254.53 306.25">
+                                <g fill="#FFFFFF">
                                     <path d="M105.94,242.19C45.62,242.19,0,199.38,0,125.94C0,52.19,45.62,9.69,105.94,9.69
 		c59.69,0,105.62,42.5,105.62,116.25S165.62,242.19,105.94,242.19z M105.94,51.25c-35,0-58.12,26.25-58.12,74.69
 		s23.12,74.69,58.12,74.69s57.81-26.25,57.81-74.69S140.94,51.25,105.94,51.25z"/>
@@ -465,7 +522,7 @@ function ProductionIntro() {
                             >
                                 PAIN POINT
                             </span>
-                            <div className="w-[443px] h-auto absolute top-[1631px] left-[1104px]">
+                            <div className="w-[443px] h-auto absolute top-[1631px] left-[1104px] mix-blend-difference">
                                 <div className="text-[38px] mb-[76px]">
                                     <h1>
                                         <SplitText>캐릭터의 개성과</SplitText>
@@ -495,7 +552,7 @@ function ProductionIntro() {
                             >
                                 PAIN POINT
                             </span>
-                            <div className="w-[443px] h-auto absolute top-[2216px] left-[368px]">
+                            <div className="w-[443px] h-auto absolute top-[2216px] left-[368px] mix-blend-difference">
                                 <div className="text-[38px] mb-[76px]">
                                     <h1>
                                         <SplitText>인간의 강인함과</SplitText>
@@ -503,7 +560,7 @@ function ProductionIntro() {
                                         <SplitText>가족의 소중함</SplitText>
                                     </h1>
                                 </div>
-                                <div className="flex flex-col gap-9">
+                                <div className="flex flex-col gap-9 ">
                                     <SplitText>
                                         작가는 독자들의 긍정적인 반응과 작품의 인기를 통해 큰 보람과 희열을 느꼈습니다. 특히,
                                         애니메이션화 이후 작품이 전 세계적으로 사랑받으며, 작가로서의 성취감을 크게 느꼈으며,
@@ -520,7 +577,7 @@ function ProductionIntro() {
                             >
                                 THANKS TO
                             </span>
-                            <div className="w-[443px] h-auto absolute top-[2690px] left-[1104px]">
+                            <div className="w-[443px] h-auto absolute top-[2690px] left-[1104px] mix-blend-difference">
                                 <div className="flex flex-col gap-9">
                                     <SplitText>
                                         처음 만화를 그리기 시작했을 때는 이렇게 많은 분들이 제 작품을 사랑해 주실 거라고는 상상도 못
@@ -657,6 +714,7 @@ function ProductionIntro() {
                     <div className="absolute top-[0px] left-[736px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line" style={{ animationDelay: '0.5s' }}></div>
                     <div className="absolute top-[0px] left-[1103px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line" style={{ animationDelay: '1.5s' }}></div>
                     <div className="absolute top-[0px] left-[1472px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line" style={{ animationDelay: '1s' }}></div>
+                
                 </div>
             </div>
         </section>
