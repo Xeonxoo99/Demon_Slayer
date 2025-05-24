@@ -186,20 +186,7 @@ function ProductionIntro() {
     // 원작자 소개
 
 
-    // Sticky 효과
-    const stickyRef = useRef(null);
-    const stickyContentRef = useRef(null);
-    const textRefs = useRef([]);
-
-    // 스크롤 진행도 추적
-    const { scrollYProgress: stickyProgress } = useScroll({
-        target: stickyRef,
-        offset: ['start start', 'end end'], // 요소가 뷰포트 상단에 닿을 때부터 시작
-    });
-
-    // 스크롤에 따라 top 값을 동적으로 조정
-    const stickyTranslateY = useTransform(stickyProgress, [0, 1], [0, 3150]);
-
+    
     // 텍스트를 글자 단위로 분리하고 색상 제어
     const SplitText = ({ children, className }) => {
         return (
@@ -207,7 +194,6 @@ function ProductionIntro() {
                 {children.split('').map((char, index) => (
                     <span
                         key={index}
-                        ref={(el) => (textRefs.current.push(el))}
                         style={{ display: 'inline-block', color: '#ffffff' }}
                     >
                         {char === ' ' ? <span style={{ width: '8px' }}>&nbsp;</span> : char}
@@ -217,39 +203,8 @@ function ProductionIntro() {
         );
     };
 
-    // 겹침 감지 및 색상 업데이트
-    const updateTextColors = useCallback(() => {
-        if (!stickyContentRef.current || !textRefs.current.length) return;
 
-        const stickyRect = stickyContentRef.current.getBoundingClientRect();
-        textRefs.current.forEach((span) => {
-            if (!span) return;
-            const spanRect = span.getBoundingClientRect();
-            const isOverlapping =
-                spanRect.top < stickyRect.bottom &&
-                spanRect.bottom > stickyRect.top &&
-                spanRect.left < stickyRect.right &&
-                spanRect.right > stickyRect.left;
-            span.style.color = isOverlapping ? '#000000' : '#ffffff';
-        });
-    }, []);
 
-    // 스크롤 이벤트에 디바운싱 적용
-    const debouncedUpdateTextColors = debounce(updateTextColors, 10);
-
-    useEffect(() => {
-        window.addEventListener('scroll', debouncedUpdateTextColors);
-        window.addEventListener('resize', debouncedUpdateTextColors);
-        return () => {
-            window.removeEventListener('scroll', debouncedUpdateTextColors);
-            window.removeEventListener('resize', debouncedUpdateTextColors);
-        };
-    }, [debouncedUpdateTextColors]);
-
-    // textRefs 초기화
-    useEffect(() => {
-        textRefs.current = [];
-    }, []);
     return (
         <section
             className="relative w-full h-[11105px] bg-[#000000]"
@@ -257,7 +212,7 @@ function ProductionIntro() {
         >
             {/* 격자 이미지 */}
             <div className='relative w-full py-[200px]' >
-                <div className='relative w-full h-[930px] overflow-hidden' ref={imageRef}>
+                <div className='relative w-full h-[930px] overflow-x-clip' ref={imageRef}>
                     <motion.div
                         className="absolute top-[-313px] left-[1000px] w-[1860px] h-auto flex gap-[78px]"
                         style={{
@@ -402,13 +357,12 @@ function ProductionIntro() {
                         KIMETSU NO YAIBA
                     </h1>
                 </div>
-                <div ref={stickyRef} className="relative w-full h-[4120px]">
+                <div className="relative w-full h-[4120px]">
                     <motion.div
                         className="w-full h-[409px]"
-                        style={{ y: stickyTranslateY, zIndex: 40, willChange: 'transform' }}
-                        ref={stickyContentRef}
+                        style={{  zIndex: 40, willChange: 'transform' }}
                     >
-                        <div className="h-[320px] leading-[320px]">
+                        <div className="h-[320px] leading-[320px] sticky top-0">
                             <h1 className="text-[320px] whitespace-nowrap font-bold text-[#ffffff]">
                                 Original Creator
                             </h1>

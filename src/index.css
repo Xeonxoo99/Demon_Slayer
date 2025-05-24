@@ -20,7 +20,7 @@ code {
 }
 
 section {
-  overflow: hidden;
+  overflow-x: clip;
 }
 
 ::-webkit-scrollbar {
