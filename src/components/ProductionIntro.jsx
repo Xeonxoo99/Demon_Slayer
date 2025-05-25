@@ -202,15 +202,17 @@ function ProductionIntro() {
             </span>
         );
     };
-
+    useEffect(() => {
+        console.log('Blur div mounted');
+    }, []);
 
 
     return (
         <section
-            className="relative w-full h-[11105px] bg-[#000000]"
+            className="relative w-full h-[11305px] bg-[#000000]"
             style={{ zIndex: 30, fontFamily: 'Pretendard-Regular' }}
         >
-<div
+            <div
   style={{
     alignItems: 'center',
     display: 'flex',
@@ -220,13 +222,13 @@ function ProductionIntro() {
     gap: '10px',
     height: '100vh',
     justifyContent: 'flex-end',
-    left: 'calc(50.00000000000002% - 100% / 2)',
+    left: 0, // 간소화
+    top: 0, // 간소화
     overflow: 'hidden',
     padding: 0,
     pointerEvents: 'none',
     position: 'fixed',
-    top: 'calc(50.00000000000002% - 100vh / 2)',
-    width: '100%',
+    width: '100vw', // 명시적 설정
     zIndex: 7,
   }}
 >
@@ -247,17 +249,106 @@ function ProductionIntro() {
         borderRadius: '12px',
       }}
     >
+      {/* 기존 블러 div 대체 및 다층 블러 효과 추가 */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          zIndex: 1,
-          backdropFilter: 'blur(0.5px)',
-          WebkitBackdropFilter: 'blur(0.5px)',
+          zIndex: 2,
+          backdropFilter: 'blur(0.5625px)',
+          WebkitBackdropFilter: 'blur(0.5625px)',
           maskImage:
-            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 12.5%, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 0) 37.5%)',
+            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 12.5%, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 1) 37.5%, rgba(0, 0, 0, 0) 50%)',
           WebkitMaskImage:
-            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 12.5%, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 0) 37.5%)',
+            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 12.5%, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 1) 37.5%, rgba(0, 0, 0, 0) 50%)',
+          borderRadius: '12px',
+          pointerEvents: 'none',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 3,
+          backdropFilter: 'blur(1.125px)',
+          WebkitBackdropFilter: 'blur(1.125px)',
+          maskImage:
+            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 1) 37.5%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 62.5%)',
+          WebkitMaskImage:
+            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 1) 37.5%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 62.5%)',
+          borderRadius: '12px',
+          pointerEvents: 'none',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 4,
+          backdropFilter: 'blur(2.25px)',
+          WebkitBackdropFilter: 'blur(2.25px)',
+          maskImage:
+            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 37.5%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 1) 62.5%, rgba(0, 0, 0, 0) 75%)',
+          WebkitMaskImage:
+            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 37.5%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 1) 62.5%, rgba(0, 0, 0, 0) 75%)',
+          borderRadius: '12px',
+          pointerEvents: 'none',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 5,
+          backdropFilter: 'blur(4.5px)',
+          WebkitBackdropFilter: 'blur(4.5px)',
+          maskImage:
+            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1) 62.5%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 87.5%)',
+          WebkitMaskImage:
+            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1) 62.5%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 87.5%)',
+          borderRadius: '12px',
+          pointerEvents: 'none',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 6,
+          backdropFilter: 'blur(9px)',
+          WebkitBackdropFilter: 'blur(9px)',
+          maskImage:
+            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 62.5%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 1) 87.5%, rgba(0, 0, 0, 0) 100%)',
+          WebkitMaskImage:
+            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 62.5%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 1) 87.5%, rgba(0, 0, 0, 0) 100%)',
+          borderRadius: '12px',
+          pointerEvents: 'none',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 7,
+          backdropFilter: 'blur(18px)',
+          WebkitBackdropFilter: 'blur(18px)',
+          maskImage:
+            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 1) 87.5%, rgba(0, 0, 0, 1) 100%)',
+          WebkitMaskImage:
+            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 1) 87.5%, rgba(0, 0, 0, 1) 100%)',
+          borderRadius: '12px',
+          pointerEvents: 'none',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 8,
+          backdropFilter: 'blur(36px)',
+          WebkitBackdropFilter: 'blur(36px)',
+          maskImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0) 87.5%, rgba(0, 0, 0, 1) 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0) 87.5%, rgba(0, 0, 0, 1) 100%)',
           borderRadius: '12px',
           pointerEvents: 'none',
         }}
@@ -714,7 +805,7 @@ function ProductionIntro() {
                     <div className="absolute top-[0px] left-[736px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line" style={{ animationDelay: '0.5s' }}></div>
                     <div className="absolute top-[0px] left-[1103px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line" style={{ animationDelay: '1.5s' }}></div>
                     <div className="absolute top-[0px] left-[1472px] w-[0.5px] h-[250px] bg-gradient-to-b from-white/20 to-[#ffffff]/50 drop-line" style={{ animationDelay: '1s' }}></div>
-                
+
                 </div>
             </div>
         </section>

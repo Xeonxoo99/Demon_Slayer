@@ -64,7 +64,7 @@ function Serise() {
 
 	return (
 		<section className='relative w-full h-[3642px] bg-[#000000]'
-			style={{ zIndex: 30 }}
+			style={{ zIndex: 60 }}
 			ref={containerRef}
 		>
 

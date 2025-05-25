@@ -21,7 +21,7 @@ function StorySection2() {
   const bg1Opacity = useTransform(scrollYProgress, [0, 0.3, 0.5], [1, 1, 0]);
   const bg2Opacity = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
   // effectVideo의 투명도: 스크롤 끝(1)에서만 표시
-  const videoOpacity = useTransform(scrollYProgress, [0.6, 1], [0, 1]);
+  const videoOpacity = useTransform(scrollYProgress, [0.59, 0.6], [0, 1]);
 
   // 텍스트 전환을 위한 상태
   const [showSecondText, setShowSecondText] = useState(false);
@@ -52,16 +52,6 @@ function StorySection2() {
       }}
     >
       <motion.div style={{ opacity: sectionOpacity }}>
-               {/* 효과 비디오 (effectVideo) */}
-               <motion.video
-          ref={videoRef}
-          className="w-full h-screen object-cover fixed top-0 left-0"
-          style={{ zIndex:11, opacity: videoOpacity }} // 최상단, 스크롤 끝에서 표시
-          muted
-          playsInline
-        >
-          <source src={effectVideo} type="video/mp4" />
-        </motion.video>
         {/* 배경 이미지 */}
         <motion.img
           src={bg}
@@ -76,12 +66,21 @@ function StorySection2() {
           style={{ zIndex: 1, opacity: bg2Opacity }}
         />
 
- 
+        {/* 효과 비디오 (effectVideo) */}
+        <motion.video
+          ref={videoRef}
+          className="w-full h-screen object-cover fixed top-0 left-0"
+          style={{ zIndex:1, opacity: videoOpacity }}
+          muted
+          playsInline
+        >
+          <source src={effectVideo} type="video/mp4" />
+        </motion.video>
 
         {/* 불꽃 효과 비디오 */}
         <motion.video
           className="w-full h-screen object-cover fixed top-0 left-0 opacity-50"
-          style={{ zIndex: 2 }}
+          style={{ zIndex: 10 }}
           autoPlay
           loop
           muted
@@ -95,7 +94,7 @@ function StorySection2() {
           src={rock}
           alt="rock"
           className="w-full object-cover fixed -bottom-12"
-          style={{ zIndex: 2 }}
+          style={{ zIndex: 11 }}
         />
 
         {/* 텍스트 컨테이너 */}

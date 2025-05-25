@@ -32,39 +32,39 @@ function StorySection1() {
         target: containerRef,
         offset: ['start start', 'end end'],
     });
+
     const { scrollYProgress: tanjiroProgress } = useScroll({
         target: tanjiroRef,
-        offset: ['start end', 'end end'],
+        offset: ['start end', 'end start'],
     });
     const { scrollYProgress: zenitsuProgress } = useScroll({
         target: zenitsuRef,
-        offset: ['start end', 'end end'],
+        offset: ['start end', 'end start'],
     });
     const { scrollYProgress: inosukeProgress } = useScroll({
         target: inosukeRef,
-        offset: ['start end', 'end end'],
+        offset: ['start end', 'end start'],
     });
 
-    // 젠이츠: 0 ~ 0.7 보여지고, 0.95에서 사라짐
-    const zenitsuOpacity = useTransform(zenitsuProgress, [0, 0.7], [0, 1]);
-    const zenitsuTitleOpacity = useTransform(zenitsuProgress, [0, 0.71, 0.95, 1], [0, 1, 1, 0]);
+    // 메인 콘텐츠 opacity
+    const zenitsuOpacity = useTransform(zenitsuProgress, [0, 0.5, 0.65, 1], [0, 1, 1, 0]);
+    const inosukeOpacity = useTransform(inosukeProgress, [0, 0.5, 0.65, 1], [0, 1, 1, 0]);
 
-    // 이노스케: 0.7 ~ 0.85 보여지고, 0.86에서 사라짐
-    const inosukeOpacity = useTransform(inosukeProgress, [0, 0.7], [0, 1]);
-    const inosukeTitleOpacity = useTransform(inosukeProgress, [0, 0.71, 0.95, 1], [0, 1, 1, 0]);
-
-
-    // 설명 섹션 표시 상태
+    // 설명 및 제목 표시 상태
     const [showZenitsuDescription, setShowZenitsuDescription] = useState(false);
     const [showInosukeDescription, setShowInosukeDescription] = useState(false);
+    const [showZenitsuTitles, setShowZenitsuTitles] = useState(false);
+    const [showInosukeTitles, setShowInosukeTitles] = useState(false);
 
-    // 스크롤 진행도에 따라 설명 섹션 표시
+    // 스크롤 진행도에 따라 설명 및 제목 표시
     useEffect(() => {
         const unsubscribeZenitsu = zenitsuProgress.on('change', (latest) => {
-            setShowZenitsuDescription(latest >= 0.95);
+            setShowZenitsuDescription(latest >= 0.5);
+            setShowZenitsuTitles(latest <= 0.5);
         });
         const unsubscribeInosuke = inosukeProgress.on('change', (latest) => {
-            setShowInosukeDescription(latest >= 0.85);
+            setShowInosukeDescription(latest >= 0.4);
+            setShowInosukeTitles(latest <= 0.4);
         });
         return () => {
             unsubscribeZenitsu();
@@ -74,24 +74,26 @@ function StorySection1() {
 
     return (
         <motion.section
-            className='relative w-full h-[2940px] '
+            className='relative w-full h-[2940px]'
             ref={containerRef}
-            style={{ zIndex: 0, backgroundImage:{bg} }}
+            style={{
+                backgroundImage: `url(${bg})`,
+                backgroundAttachment: 'fixed',
+                backgroundSize: 'contain',
+                backgroundPosition: 'center',
+                zIndex: 0,
+            }}
         >
             {/* 탄지로와 네즈코 */}
-            <div className='relative w-full h-[980px]'>
-                {/* 배경 이미지 */}
-
+            <div className='relative w-full h-[980px]' ref={tanjiroRef}>
                 <motion.div
-                    className="absolute top-0 left-0 w-full h-screen bg-[rgba(0,0,0,0.3)]"
+                    className="absolute top-0 left-0 w-full h-screen"
                 >
-                    {/* 메인 이미지 */}
                     <motion.img
                         src={bns}
                         alt="탄지로와 네즈코"
                         className="absolute top-1/2 right-[450px] -translate-y-1/2 w-auto max-w-full h-auto object-contain z-10"
                     />
-                    {/* 제목 */}
                     <img
                         src={tanjiroTitle1}
                         alt="tanjiroTitle1"
@@ -102,7 +104,6 @@ function StorySection1() {
                         alt="tanjiroTitle2"
                         className="absolute top-[220px] right-[130px] w-auto max-w-full h-auto object-contain z-10"
                     />
-                    {/* 서브 이미지 */}
                     <div className="absolute bottom-[220px] left-[215px]">
                         <img
                             src={tanjiro}
@@ -110,7 +111,6 @@ function StorySection1() {
                             className="w-auto max-w-full h-auto object-contain"
                         />
                     </div>
-                    {/* 설명 */}
                     <div className="absolute w-[450px] h-[170px] top-[270px] left-[215px] z-10 flex flex-col gap-2">
                         <h4 className="text-[#f42e35] text-xl font-bold">탄지로&네즈코</h4>
                         <h2
@@ -135,24 +135,15 @@ function StorySection1() {
 
             {/* 젠이츠 */}
             <div className='relative w-full h-[980px]' ref={zenitsuRef}>
-                {/* 배경 이미지 */}
-                {/* <img
-                    src={bg}
-                    alt="bg"
-                    className="w-full h-full object-cover absolute top-0 left-0"
-                    style={{ zIndex: 0 }}
-                /> */}
                 <motion.div
+                    className="absolute h-[100vh] top-0 left-0 w-full"
                     style={{ opacity: zenitsuOpacity }}
-                    className="absolute h-[100vh] top-0 left-0 w-full bg-[rgba(0,0,0,0.3)]"
                 >
-                    {/* 메인 이미지 */}
                     <img
                         src={zenitsu}
                         alt="zenitsu"
                         className="absolute top-1/2 right-[50px] -translate-y-1/2 w-auto max-w-full h-auto object-contain z-10"
                     />
-                    {/* 서브 이미지 */}
                     <div className="absolute top-[120px] left-[280px]">
                         <img
                             src={zenitsu1}
@@ -167,20 +158,28 @@ function StorySection1() {
                             className="w-auto max-w-full h-auto object-contain"
                         />
                     </div>
-                    {/* 제목 */}
-                    <motion.div style={{ opacity: zenitsuTitleOpacity }}>
-                        <img
-                            src={zenitsuTitle1}
-                            alt="zenitsuTitle1"
-                            className="absolute bottom-[310px] left-[370px] w-auto max-w-full h-auto object-contain z-10"
-                        />
-                        <img
-                            src={zenitsuTitle2}
-                            alt="zenitsuTitle2"
-                            className="absolute bottom-[190px] left-[370px] w-auto max-w-full h-auto object-contain z-10"
-                        />
-                    </motion.div>
-                    {/* 설명 */}
+                    <AnimatePresence mode="wait">
+                        {showZenitsuTitles && (
+                            <motion.div
+                                key="zenitsu-titles"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.5 }}
+                            >
+                                <img
+                                    src={zenitsuTitle1}
+                                    alt="zenitsuTitle1"
+                                    className="absolute bottom-[310px] left-[370px] w-auto max-w-full h-auto object-contain z-10"
+                                />
+                                <img
+                                    src={zenitsuTitle2}
+                                    alt="zenitsuTitle2"
+                                    className="absolute bottom-[190px] left-[370px] w-auto max-w-full h-auto object-contain z-10"
+                                />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                     <AnimatePresence mode="wait">
                         {showZenitsuDescription && (
                             <motion.div
@@ -192,10 +191,16 @@ function StorySection1() {
                                 className="absolute w-[450px] h-[170px] bottom-[190px] left-[370px] z-10 flex flex-col gap-2"
                             >
                                 <h4 className="text-[#f42e35] text-xl font-bold">젠이츠</h4>
-                                <h2 className="text-white text-[35px] font-bold" style={{ letterSpacing: '-2px' }}>
+                                <h2
+                                    className="text-white text-[35px] font-bold"
+                                    style={{ letterSpacing: '-2px' }}
+                                >
                                     번개의 호흡을 사용하는 소년
                                 </h2>
-                                <p className="text-white text-[16px]" style={{ letterSpacing: '-1.3px' }}>
+                                <p
+                                    className="text-white text-[16px]"
+                                    style={{ letterSpacing: '-1.3px' }}
+                                >
                                     젠이츠는 겁이 많지만, 위기 상황에서 잠재된 힘을 발휘한다.
                                     <br />
                                     스승의 죽음에 대한 단서를 찾아내고, 스승의 복수를 위해
@@ -210,37 +215,37 @@ function StorySection1() {
 
             {/* 이노스케 */}
             <div className='relative w-full h-[980px]' ref={inosukeRef}>
-                {/* 배경 이미지 */}
-                {/* <img
-                    src={bg}
-                    alt="bg"
-                    className="w-full h-full object-cover absolute top-0 left-0"
-                    style={{ zIndex: 0 }}
-                /> */}
                 <motion.div
+                    className="absolute top-0 left-0 w-full h-[100vh]"
                     style={{ opacity: inosukeOpacity }}
-                    className="absolute top-0 left-0 w-full h-[100vh] bg-[rgba(0,0,0,0.3)]"
                 >
-                    {/* 메인 이미지 */}
                     <img
                         src={inosuke}
                         alt="inosuke"
                         className="absolute top-1/2 left-[120px] -translate-y-1/2 w-auto max-w-full h-auto object-contain z-10"
                     />
-                    {/* 제목 */}
-                    <motion.div style={{ opacity: inosukeTitleOpacity }}>
-                        <img
-                            src={inosukeTitle1}
-                            alt="inosukeTitle1"
-                            className="absolute bottom-[330px] left-[960px] w-auto max-w-full h-auto object-contain z-10"
-                        />
-                        <img
-                            src={inosukeTitle2}
-                            alt="inosukeTitle2"
-                            className="absolute bottom-[205px] left-[960px] w-auto max-w-full h-auto object-contain z-10"
-                        />
-                    </motion.div>
-                    {/* 서브 이미지 */}
+                    <AnimatePresence mode="wait">
+                        {showInosukeTitles && (
+                            <motion.div
+                                key="inosuke-titles"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.5 }}
+                            >
+                                <img
+                                    src={inosukeTitle1}
+                                    alt="inosukeTitle1"
+                                    className="absolute bottom-[330px] left-[960px] w-auto max-w-full h-auto object-contain z-10"
+                                />
+                                <img
+                                    src={inosukeTitle2}
+                                    alt="inosukeTitle2"
+                                    className="absolute bottom-[205px] left-[960px] w-auto max-w-full h-auto object-contain z-10"
+                                />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                     <div className="absolute top-[80px] right-[490px]">
                         <img
                             src={inosuke1}
@@ -255,7 +260,6 @@ function StorySection1() {
                             className="w-auto max-w-full h-auto object-contain"
                         />
                     </div>
-                    {/* 설명 */}
                     <AnimatePresence mode="wait">
                         {showInosukeDescription && (
                             <motion.div
@@ -267,10 +271,16 @@ function StorySection1() {
                                 className="absolute w-[450px] h-[170px] bottom-[205px] left-[960px] z-10 flex flex-col gap-2"
                             >
                                 <h4 className="text-[#f42e35] text-xl font-bold">이노스케</h4>
-                                <h2 className="text-white text-[35px] font-bold" style={{ letterSpacing: '-2px' }}>
+                                <h2
+                                    className="text-white text-[35px] font-bold"
+                                    style={{ letterSpacing: '-2px' }}
+                                >
                                     짐승의 호흡을 사용하는 소년
                                 </h2>
-                                <p className="text-white text-[16px]" style={{ letterSpacing: '-1.3px' }}>
+                                <p
+                                    className="text-white text-[16px]"
+                                    style={{ letterSpacing: '-1.3px' }}
+                                >
                                     이노스케는 어릴 때부터 산에서 멧돼지에게 길러져 짐승의 호흡을
                                     <br />
                                     사용한다. 상현二 도우마를 만나게 되며, 진짜 부모에 대한
