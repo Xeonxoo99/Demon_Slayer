@@ -48,7 +48,7 @@ function StorySection2() {
       style={{
         height: '600vh',
         fontFamily: 'ChosunKm',
-        zIndex: 0,
+        zIndex: 99,
       }}
     >
       <motion.div style={{ opacity: sectionOpacity }}>

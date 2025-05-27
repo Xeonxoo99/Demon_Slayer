@@ -81,7 +81,7 @@ function StorySection1() {
                 backgroundAttachment: 'fixed',
                 backgroundSize: 'contain',
                 backgroundPosition: 'center',
-                zIndex: 0,
+                zIndex: 99,
             }}
         >
             {/* 탄지로와 네즈코 */}

@@ -149,7 +149,7 @@ function MainIntro({ onAnimationComplete }) {
         position: 'relative',
         fontFamily: 'ChosunGs',
         opacity: sectionOpacity,
-        zIndex:1
+        zIndex: 100
       }}
     >
       {/* 배경 이미지 시퀀스 */}

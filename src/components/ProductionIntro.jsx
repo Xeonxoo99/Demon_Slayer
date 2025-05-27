@@ -213,149 +213,149 @@ function ProductionIntro() {
             style={{ zIndex: 30, fontFamily: 'Pretendard-Regular' }}
         >
             <div
-  style={{
-    alignItems: 'center',
-    display: 'flex',
-    flex: 'none',
-    flexDirection: 'column',
-    flexWrap: 'nowrap',
-    gap: '10px',
-    height: '100vh',
-    justifyContent: 'flex-end',
-    left: 0, // 간소화
-    top: 0, // 간소화
-    overflow: 'hidden',
-    padding: 0,
-    pointerEvents: 'none',
-    position: 'fixed',
-    width: '100vw', // 명시적 설정
-    zIndex: 7,
-  }}
->
-  <div
-    style={{
-      flex: 'none',
-      height: '194px',
-      position: 'relative',
-      width: '100%',
-      zIndex: 9,
-    }}
-  >
-    <div
-      style={{
-        position: 'relative',
-        width: '100%',
-        height: '100%',
-        borderRadius: '12px',
-      }}
-    >
-      {/* 기존 블러 div 대체 및 다층 블러 효과 추가 */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          zIndex: 2,
-          backdropFilter: 'blur(0.5625px)',
-          WebkitBackdropFilter: 'blur(0.5625px)',
-          maskImage:
-            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 12.5%, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 1) 37.5%, rgba(0, 0, 0, 0) 50%)',
-          WebkitMaskImage:
-            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 12.5%, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 1) 37.5%, rgba(0, 0, 0, 0) 50%)',
-          borderRadius: '12px',
-          pointerEvents: 'none',
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          zIndex: 3,
-          backdropFilter: 'blur(1.125px)',
-          WebkitBackdropFilter: 'blur(1.125px)',
-          maskImage:
-            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 1) 37.5%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 62.5%)',
-          WebkitMaskImage:
-            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 1) 37.5%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 62.5%)',
-          borderRadius: '12px',
-          pointerEvents: 'none',
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          zIndex: 4,
-          backdropFilter: 'blur(2.25px)',
-          WebkitBackdropFilter: 'blur(2.25px)',
-          maskImage:
-            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 37.5%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 1) 62.5%, rgba(0, 0, 0, 0) 75%)',
-          WebkitMaskImage:
-            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 37.5%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 1) 62.5%, rgba(0, 0, 0, 0) 75%)',
-          borderRadius: '12px',
-          pointerEvents: 'none',
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          zIndex: 5,
-          backdropFilter: 'blur(4.5px)',
-          WebkitBackdropFilter: 'blur(4.5px)',
-          maskImage:
-            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1) 62.5%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 87.5%)',
-          WebkitMaskImage:
-            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1) 62.5%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 87.5%)',
-          borderRadius: '12px',
-          pointerEvents: 'none',
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          zIndex: 6,
-          backdropFilter: 'blur(9px)',
-          WebkitBackdropFilter: 'blur(9px)',
-          maskImage:
-            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 62.5%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 1) 87.5%, rgba(0, 0, 0, 0) 100%)',
-          WebkitMaskImage:
-            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 62.5%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 1) 87.5%, rgba(0, 0, 0, 0) 100%)',
-          borderRadius: '12px',
-          pointerEvents: 'none',
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          zIndex: 7,
-          backdropFilter: 'blur(18px)',
-          WebkitBackdropFilter: 'blur(18px)',
-          maskImage:
-            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 1) 87.5%, rgba(0, 0, 0, 1) 100%)',
-          WebkitMaskImage:
-            'linear-gradient(to bottom, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 1) 87.5%, rgba(0, 0, 0, 1) 100%)',
-          borderRadius: '12px',
-          pointerEvents: 'none',
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          zIndex: 8,
-          backdropFilter: 'blur(36px)',
-          WebkitBackdropFilter: 'blur(36px)',
-          maskImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0) 87.5%, rgba(0, 0, 0, 1) 100%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0) 87.5%, rgba(0, 0, 0, 1) 100%)',
-          borderRadius: '12px',
-          pointerEvents: 'none',
-        }}
-      />
-    </div>
-  </div>
-</div>
+                style={{
+                    alignItems: 'center',
+                    display: 'flex',
+                    flex: 'none',
+                    flexDirection: 'column',
+                    flexWrap: 'nowrap',
+                    gap: '10px',
+                    height: '100vh',
+                    justifyContent: 'flex-end',
+                    left: 0, // 간소화
+                    top: 0, // 간소화
+                    overflow: 'hidden',
+                    padding: 0,
+                    pointerEvents: 'none',
+                    position: 'fixed',
+                    width: '100vw', // 명시적 설정
+                    zIndex: 7,
+                }}
+            >
+                <div
+                    style={{
+                        flex: 'none',
+                        height: '194px',
+                        position: 'relative',
+                        width: '100%',
+                        zIndex: 9,
+                    }}
+                >
+                    <div
+                        style={{
+                            position: 'relative',
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: '12px',
+                        }}
+                    >
+                        {/* 기존 블러 div 대체 및 다층 블러 효과 추가 */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                inset: 0,
+                                zIndex: 2,
+                                backdropFilter: 'blur(0.5625px)',
+                                WebkitBackdropFilter: 'blur(0.5625px)',
+                                maskImage:
+                                    'linear-gradient(to bottom, rgba(0, 0, 0, 0) 12.5%, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 1) 37.5%, rgba(0, 0, 0, 0) 50%)',
+                                WebkitMaskImage:
+                                    'linear-gradient(to bottom, rgba(0, 0, 0, 0) 12.5%, rgba(0, 0, 0, 1) 25%, rgba(0, 0, 0, 1) 37.5%, rgba(0, 0, 0, 0) 50%)',
+                                borderRadius: '12px',
+                                pointerEvents: 'none',
+                            }}
+                        />
+                        <div
+                            style={{
+                                position: 'absolute',
+                                inset: 0,
+                                zIndex: 3,
+                                backdropFilter: 'blur(1.125px)',
+                                WebkitBackdropFilter: 'blur(1.125px)',
+                                maskImage:
+                                    'linear-gradient(to bottom, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 1) 37.5%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 62.5%)',
+                                WebkitMaskImage:
+                                    'linear-gradient(to bottom, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 1) 37.5%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 62.5%)',
+                                borderRadius: '12px',
+                                pointerEvents: 'none',
+                            }}
+                        />
+                        <div
+                            style={{
+                                position: 'absolute',
+                                inset: 0,
+                                zIndex: 4,
+                                backdropFilter: 'blur(2.25px)',
+                                WebkitBackdropFilter: 'blur(2.25px)',
+                                maskImage:
+                                    'linear-gradient(to bottom, rgba(0, 0, 0, 0) 37.5%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 1) 62.5%, rgba(0, 0, 0, 0) 75%)',
+                                WebkitMaskImage:
+                                    'linear-gradient(to bottom, rgba(0, 0, 0, 0) 37.5%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 1) 62.5%, rgba(0, 0, 0, 0) 75%)',
+                                borderRadius: '12px',
+                                pointerEvents: 'none',
+                            }}
+                        />
+                        <div
+                            style={{
+                                position: 'absolute',
+                                inset: 0,
+                                zIndex: 5,
+                                backdropFilter: 'blur(4.5px)',
+                                WebkitBackdropFilter: 'blur(4.5px)',
+                                maskImage:
+                                    'linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1) 62.5%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 87.5%)',
+                                WebkitMaskImage:
+                                    'linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1) 62.5%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 87.5%)',
+                                borderRadius: '12px',
+                                pointerEvents: 'none',
+                            }}
+                        />
+                        <div
+                            style={{
+                                position: 'absolute',
+                                inset: 0,
+                                zIndex: 6,
+                                backdropFilter: 'blur(9px)',
+                                WebkitBackdropFilter: 'blur(9px)',
+                                maskImage:
+                                    'linear-gradient(to bottom, rgba(0, 0, 0, 0) 62.5%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 1) 87.5%, rgba(0, 0, 0, 0) 100%)',
+                                WebkitMaskImage:
+                                    'linear-gradient(to bottom, rgba(0, 0, 0, 0) 62.5%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 1) 87.5%, rgba(0, 0, 0, 0) 100%)',
+                                borderRadius: '12px',
+                                pointerEvents: 'none',
+                            }}
+                        />
+                        <div
+                            style={{
+                                position: 'absolute',
+                                inset: 0,
+                                zIndex: 7,
+                                backdropFilter: 'blur(18px)',
+                                WebkitBackdropFilter: 'blur(18px)',
+                                maskImage:
+                                    'linear-gradient(to bottom, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 1) 87.5%, rgba(0, 0, 0, 1) 100%)',
+                                WebkitMaskImage:
+                                    'linear-gradient(to bottom, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 1) 87.5%, rgba(0, 0, 0, 1) 100%)',
+                                borderRadius: '12px',
+                                pointerEvents: 'none',
+                            }}
+                        />
+                        <div
+                            style={{
+                                position: 'absolute',
+                                inset: 0,
+                                zIndex: 8,
+                                backdropFilter: 'blur(36px)',
+                                WebkitBackdropFilter: 'blur(36px)',
+                                maskImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0) 87.5%, rgba(0, 0, 0, 1) 100%)',
+                                WebkitMaskImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0) 87.5%, rgba(0, 0, 0, 1) 100%)',
+                                borderRadius: '12px',
+                                pointerEvents: 'none',
+                            }}
+                        />
+                    </div>
+                </div>
+            </div>
 
 
             {/* 격자 이미지 */}
@@ -681,7 +681,7 @@ function ProductionIntro() {
                     </div>
 
                     {/* Production */}
-                    <div className='w-full h-[3703px] relative'>
+                    <div className='w-full h-[3703px] relative overflow-hidden'>
                         <div className='w-full absolute text-[#ffffff]'>
                             <h1 className='text-[153px] absolute top-[0px] font-bold leading-[153px] z-10'>Production <br /> Crew</h1>
                             <img src={tji} alt="tji" className='absolute top-[218px] left-[233px]' />

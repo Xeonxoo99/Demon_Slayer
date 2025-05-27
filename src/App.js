@@ -129,8 +129,10 @@ function App() {
           <div ref={movieRef}> {/* Movie 위치 감지용 */}
             <Movie />
           </div>
-          <Pillars />
-          {/* <FirstQuarterIntro /> */}
+          {/* <div ref={doorRef}> */}
+            <Pillars />
+            <FirstQuarterIntro />
+          {/* </div> */}
           <ProductionIntro />
         </>
       )}
