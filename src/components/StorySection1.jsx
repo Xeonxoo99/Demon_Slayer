@@ -30,7 +30,7 @@ function StorySection1() {
 
     const { scrollYProgress } = useScroll({
         target: containerRef,
-        offset: ['start start', 'end end'],
+        offset: ['start start', 'start end'],
     });
 
     const { scrollYProgress: tanjiroProgress } = useScroll({
@@ -72,7 +72,25 @@ function StorySection1() {
         };
     }, [zenitsuProgress, inosukeProgress]);
 
-    return (
+    // 탄지로 스크롤
+    const tanjiroBnsY = useTransform(tanjiroProgress, [0, 1], [0, -200]); 
+    const tanjiroTitle1Y = useTransform(tanjiroProgress, [0, 1], [0, -300]); 
+    const tanjiroImgY = useTransform(tanjiroProgress, [0, 1], [0, -500]); 
+    const tanjiroDescY = useTransform(tanjiroProgress, [0, 1], [0, -350]); 
+    // 젠이츠 스크롤
+    const zenitsuImgY = useTransform(zenitsuProgress, [0.3, 0.7], [0, -200]); 
+    const zenitsu1Y = useTransform(zenitsuProgress, [0.3, 0.7], [0, -100]); 
+    const zenitsuTitle1Y = useTransform(zenitsuProgress, [0.3, 0.7], [0, -250]);
+    const zenitsu2Y = useTransform(zenitsuProgress, [0.3, 0.7], [0, -150]);
+    const zenitsuDescY = useTransform(zenitsuProgress, [0.3, 0.7], [0, -250]); 
+     // 이노스케 스크롤
+    const inosukeImgY = useTransform(inosukeProgress, [0.4, 0.7], [0, -400]); 
+    const inosuke1Y = useTransform(inosukeProgress, [0.4, 0.7], [0, -300]);
+    const inosuke2Y = useTransform(inosukeProgress, [0.4, 0.7], [0, -600]);
+    const inosukeTitle1Y = useTransform(inosukeProgress, [0.4, 0.7], [0, -550]); 
+    const inosukeTitle2Y = useTransform(inosukeProgress, [0.4, 0.7], [0, -350]); 
+    const inosukeDescY = useTransform(inosukeProgress, [0.4, 0.7], [0, -300]); 
+     return (
         <motion.section
             className='relative w-full h-[2940px]'
             ref={containerRef}
@@ -86,32 +104,39 @@ function StorySection1() {
         >
             {/* 탄지로와 네즈코 */}
             <div className='relative w-full h-[980px]' ref={tanjiroRef}>
-                <motion.div
-                    className="absolute top-0 left-0 w-full h-screen"
-                >
+                <motion.div className="absolute top-0 left-0 w-full h-screen">
                     <motion.img
                         src={bns}
                         alt="탄지로와 네즈코"
-                        className="absolute top-1/2 right-[450px] -translate-y-1/2 w-auto max-w-full h-auto object-contain z-10"
+                        className="absolute top-1/3 right-[450px] -translate-y-1/2 w-auto max-w-full h-auto object-contain z-10"
+                        style={{ y: tanjiroBnsY }}
                     />
-                    <img
+                    <motion.img
                         src={tanjiroTitle1}
                         alt="tanjiroTitle1"
                         className="absolute top-[165px] right-[250px] w-auto max-w-full h-auto object-contain z-10"
+                        style={{ y: tanjiroTitle1Y }}
                     />
-                    <img
+                    <motion.img
                         src={tanjiroTitle2}
                         alt="tanjiroTitle2"
                         className="absolute top-[220px] right-[130px] w-auto max-w-full h-auto object-contain z-10"
+                        style={{ y: tanjiroTitle1Y }}
                     />
-                    <div className="absolute bottom-[220px] left-[215px]">
+                    <motion.div
+                        className="absolute top-[720px] left-[215px]"
+                        style={{ y: tanjiroImgY }}
+                    >
                         <img
                             src={tanjiro}
                             alt="tanjiro"
                             className="w-auto max-w-full h-auto object-contain"
                         />
-                    </div>
-                    <div className="absolute w-[450px] h-[170px] top-[270px] left-[215px] z-10 flex flex-col gap-2">
+                    </motion.div>
+                    <motion.div
+                        className="absolute w-[450px] h-[170px] top-[270px] left-[215px] z-10 flex flex-col gap-2"
+                        style={{ y: tanjiroDescY }}
+                    >
                         <h4 className="text-[#f42e35] text-xl font-bold">탄지로&네즈코</h4>
                         <h2
                             className="text-[#ffffff] text-[35px] font-bold"
@@ -129,7 +154,7 @@ function StorySection1() {
                             <br />
                             동생을 지켜내려고 한다.
                         </p>
-                    </div>
+                    </motion.div>
                 </motion.div>
             </div>
 
@@ -139,25 +164,32 @@ function StorySection1() {
                     className="absolute h-[100vh] top-0 left-0 w-full"
                     style={{ opacity: zenitsuOpacity }}
                 >
-                    <img
+                    <motion.img
                         src={zenitsu}
                         alt="zenitsu"
-                        className="absolute top-1/2 right-[50px] -translate-y-1/2 w-auto max-w-full h-auto object-contain z-10"
+                        className="absolute top-1/3 right-[50px] -translate-y-1/2 w-auto max-w-full h-auto object-contain z-10"
+                        style={{ y: zenitsuImgY }}
                     />
-                    <div className="absolute top-[120px] left-[280px]">
+                    <motion.div
+                        className="absolute top-[120px] left-[280px]"
+                        style={{ y: zenitsu1Y }}
+                    >
                         <img
                             src={zenitsu1}
                             alt="zenitsu1"
                             className="w-auto max-w-full h-auto object-contain"
                         />
-                    </div>
-                    <div className="absolute bottom-[70px] left-[650px]">
+                    </motion.div>
+                    <motion.div
+                        className="absolute bottom-[70px] left-[650px]"
+                        style={{ y: zenitsu2Y }}
+                    >
                         <img
                             src={zenitsu2}
                             alt="zenitsu2"
                             className="w-auto max-w-full h-auto object-contain"
                         />
-                    </div>
+                    </motion.div>
                     <AnimatePresence mode="wait">
                         {showZenitsuTitles && (
                             <motion.div
@@ -167,15 +199,17 @@ function StorySection1() {
                                 exit={{ opacity: 0 }}
                                 transition={{ duration: 0.5 }}
                             >
-                                <img
+                                <motion.img
                                     src={zenitsuTitle1}
                                     alt="zenitsuTitle1"
                                     className="absolute bottom-[310px] left-[370px] w-auto max-w-full h-auto object-contain z-10"
+                                    style={{ y: zenitsuTitle1Y }}
                                 />
-                                <img
+                                <motion.img
                                     src={zenitsuTitle2}
                                     alt="zenitsuTitle2"
                                     className="absolute bottom-[190px] left-[370px] w-auto max-w-full h-auto object-contain z-10"
+                                    style={{ y: zenitsuTitle1Y }}
                                 />
                             </motion.div>
                         )}
@@ -189,6 +223,7 @@ function StorySection1() {
                                 exit={{ opacity: 0 }}
                                 transition={{ duration: 0.5 }}
                                 className="absolute w-[450px] h-[170px] bottom-[190px] left-[370px] z-10 flex flex-col gap-2"
+                                style={{ y: zenitsuDescY }}
                             >
                                 <h4 className="text-[#f42e35] text-xl font-bold">젠이츠</h4>
                                 <h2
@@ -219,10 +254,11 @@ function StorySection1() {
                     className="absolute top-0 left-0 w-full h-[100vh]"
                     style={{ opacity: inosukeOpacity }}
                 >
-                    <img
+                    <motion.img
                         src={inosuke}
                         alt="inosuke"
-                        className="absolute top-1/2 left-[120px] -translate-y-1/2 w-auto max-w-full h-auto object-contain z-10"
+                        className="absolute top-1/4 left-[120px] -translate-y-1/2 w-auto max-w-full h-auto object-contain z-10"
+                        style={{ y: inosukeImgY }}
                     />
                     <AnimatePresence mode="wait">
                         {showInosukeTitles && (
@@ -233,33 +269,41 @@ function StorySection1() {
                                 exit={{ opacity: 0 }}
                                 transition={{ duration: 0.5 }}
                             >
-                                <img
+                                <motion.img
                                     src={inosukeTitle1}
                                     alt="inosukeTitle1"
                                     className="absolute bottom-[330px] left-[960px] w-auto max-w-full h-auto object-contain z-10"
+                                    style={{ y: inosukeTitle1Y }}
                                 />
-                                <img
+                                <motion.img
                                     src={inosukeTitle2}
                                     alt="inosukeTitle2"
                                     className="absolute bottom-[205px] left-[960px] w-auto max-w-full h-auto object-contain z-10"
+                                    style={{ y: inosukeTitle2Y }}
                                 />
                             </motion.div>
                         )}
                     </AnimatePresence>
-                    <div className="absolute top-[80px] right-[490px]">
+                    <motion.div
+                        className="absolute top-[80px] right-[490px]"
+                        style={{ y: inosuke1Y }}
+                    >
                         <img
                             src={inosuke1}
                             alt="inosuke1"
                             className="w-auto max-w-full h-auto object-contain"
                         />
-                    </div>
-                    <div className="absolute bottom-[120px] right-[280px]">
+                    </motion.div>
+                    <motion.div
+                        className="absolute bottom-[120px] right-[280px]"
+                        style={{ y: inosuke2Y }}
+                    >
                         <img
                             src={inosuke2}
                             alt="inosuke2"
                             className="w-auto max-w-full h-auto object-contain"
                         />
-                    </div>
+                    </motion.div>
                     <AnimatePresence mode="wait">
                         {showInosukeDescription && (
                             <motion.div
@@ -269,6 +313,7 @@ function StorySection1() {
                                 exit={{ opacity: 0 }}
                                 transition={{ duration: 0.5 }}
                                 className="absolute w-[450px] h-[170px] bottom-[205px] left-[960px] z-10 flex flex-col gap-2"
+                                style={{ y: inosukeDescY }}
                             >
                                 <h4 className="text-[#f42e35] text-xl font-bold">이노스케</h4>
                                 <h2
