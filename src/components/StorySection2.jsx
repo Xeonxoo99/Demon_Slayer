@@ -4,12 +4,12 @@ import bg from '../images/story2/배경.png';
 import bg2 from '../images/story2/배경2.png';
 import rock from '../images/story2/돌.png';
 import fireEffect from '../images/story2/불꽃효과.mp4';
-import effectVideo from '../images/story2/storysection2Effect.mp4';
 
 function StorySection2() {
   const containerRef = useRef(null);
-  const videoRef = useRef(null); // effectVideo 참조
-  const [hasPlayed, setHasPlayed] = useState(false); // 재생 여부 추적
+  const [currentFrame, setCurrentFrame] = useState(0); // 현재 이미지 프레임
+  const [hasPlayed, setHasPlayed] = useState(false); // 애니메이션 재생 여부
+  const totalFrames = 150; // burn_Transition_00000.webp ~ burn_Transition_00149.webp
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -20,26 +20,42 @@ function StorySection2() {
   const sectionOpacity = useTransform(scrollYProgress, [0, 0.1, 0.3], [0, 0, 1]);
   const bg1Opacity = useTransform(scrollYProgress, [0, 0.3, 0.5], [1, 1, 0]);
   const bg2Opacity = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
-  // effectVideo의 투명도: 스크롤 끝(1)에서만 표시
-  const videoOpacity = useTransform(scrollYProgress, [0.59, 0.6], [0, 1]);
+  const textOpacity = useTransform(scrollYProgress, [0.9, 1], [20, 0]);
+  // 이미지 시퀀스의 투명도: 스크롤 0.6~1.0에서 표시
+  const imageSequenceOpacity = useTransform(scrollYProgress, [0.59, 0.6], [0, 9]);
 
   // 텍스트 전환을 위한 상태
   const [showSecondText, setShowSecondText] = useState(false);
 
-  // 스크롤 진행도에 따라 텍스트 전환 및 비디오 재생
+  // 스크롤 진행도에 따라 텍스트 전환 및 이미지 시퀀스 프레임 업데이트
   useEffect(() => {
     const unsubscribe = scrollYProgress.on('change', (latest) => {
-      setShowSecondText(latest >= 0.5);
+      setShowSecondText(latest >= 0.4);
 
-      // scrollYProgress가 1에 도달하고, 아직 재생되지 않은 경우 비디오 재생
-      if (latest >= 0.6 && !hasPlayed && videoRef.current) {
-        videoRef.current.play();
-        setHasPlayed(true); // 한 번 재생 후 상태 업데이트
+      // scrollYProgress 0.6~1.0을 0~149 프레임으로 매핑
+      if (latest >= 0.6 && !hasPlayed) {
+        const frameProgress = (latest - 0.6) / 0.4; // 0.6~1.0을 0~1로 정규화
+        const frame = Math.min(
+          Math.floor(frameProgress * totalFrames),
+          totalFrames - 1
+        ); // 0~149 프레임
+        setCurrentFrame(frame);
+        if (frame === totalFrames - 1) {
+          setHasPlayed(true); // 마지막 프레임에 도달하면 재생 완료
+        }
+      } else if (latest < 0.6 && hasPlayed) {
+        setCurrentFrame(0); // 스크롤이 0.6 미만으로 돌아가면 초기화
+        setHasPlayed(false);
       }
     });
 
     return () => unsubscribe();
   }, [scrollYProgress, hasPlayed]);
+
+  // 이미지 경로 생성 (burn_Transition_XXXXX.webp)
+  const getFrameSrc = (frame) => {
+    return `/fireEffectWebp/burn_Transition_${String(frame).padStart(5, '0')}.webp`;
+  };
 
   return (
     <motion.section
@@ -55,50 +71,43 @@ function StorySection2() {
         {/* 배경 이미지 */}
         <motion.img
           src={bg}
-          alt="bg1"
+          alt="배경 1"
           className="w-full h-screen object-cover fixed top-0 left-0"
           style={{ zIndex: 1, opacity: bg1Opacity }}
         />
         <motion.img
           src={bg2}
-          alt="bg2"
+          alt="배경 2"
           className="w-full h-screen object-cover fixed top-0 left-0"
           style={{ zIndex: 1, opacity: bg2Opacity }}
         />
 
-        {/* 효과 비디오 (effectVideo) */}
-        <motion.video
-          ref={videoRef}
+        {/* 이미지 시퀀스 */}
+        <motion.img
+          src={getFrameSrc(currentFrame)}
+          alt="Burn transition effect"
           className="w-full h-screen object-cover fixed top-0 left-0"
-          style={{ zIndex:1, opacity: videoOpacity }}
-          muted
-          playsInline
-        >
-          <source src={effectVideo} type="video/mp4" />
-        </motion.video>
+          style={{ zIndex: 20, opacity: imageSequenceOpacity }}
+        />
 
         {/* 불꽃 효과 비디오 */}
         <motion.video
           className="w-full h-screen object-cover fixed top-0 left-0 opacity-50"
-          style={{ zIndex: 10 }}
+          style={{ zIndex: 20 }}
           autoPlay
           loop
           muted
           playsInline
+          aria-label="Background fire effect video"
         >
           <source src={fireEffect} type="video/mp4" />
         </motion.video>
 
-        {/* 바위 이미지 */}
-        <img
-          src={rock}
-          alt="rock"
-          className="w-full object-cover fixed -bottom-12"
-          style={{ zIndex: 11 }}
-        />
 
         {/* 텍스트 컨테이너 */}
-        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[300px] flex flex-col items-center justify-center gap-4 z-[10]">
+        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[300px] flex flex-col items-center justify-center gap-4"
+        style={{zIndex:textOpacity}}
+        >
           <span className="text-[28px]">다이쇼 시대</span>
           <AnimatePresence mode="wait">
             <motion.span
@@ -122,6 +131,14 @@ function StorySection2() {
           </AnimatePresence>
           <span className="text-[28px]">1912年 1月 1日</span>
         </div>
+
+        {/* 바위 이미지 */}
+        <img
+          src={rock}
+          alt="바위"
+          className="w-full object-cover fixed -bottom-12"
+          style={{ zIndex: 20 }}
+        />
       </motion.div>
     </motion.section>
   );
