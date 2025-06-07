@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import './App.css';
 import Video from './components/Video';
 import MainIntro from './components/MainIntro';
@@ -9,23 +10,21 @@ import Movie from './components/Movie';
 import Pillars from './components/Pillars';
 import FirstQuarterIntro from './components/FirstQuarterIntro';
 import ProductionIntro from './components/ProductionIntro';
+import Door from './components/door';
 
 import bmg from './images/pub/bgm/OST.mp3';
 import logo from './images/pub/logo/로고.png';
 import on from './images/pub/bgm/on.png';
 import off from './images/pub/bgm/off.png';
 
-import { useState, useEffect, useRef } from 'react';
-
 function App() {
   const [loading, setLoading] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
   const [isScrollEnabled, setIsScrollEnabled] = useState(false);
-  const [logoVisible, setLogoVisible] = useState(true); // ✅ 로고 표시 여부 상태 추가
+  const [logoVisible, setLogoVisible] = useState(true);
   const audioRef = useRef(null);
-  const movieRef = useRef(null); // ✅ Movie 위치 추적용 ref
+  const movieRef = useRef(null);
 
-  // 7.2초 후 로딩 끝
   useEffect(() => {
     const loadTimer = setTimeout(() => {
       setLoading(false);
@@ -34,7 +33,6 @@ function App() {
     return () => clearTimeout(loadTimer);
   }, []);
 
-  // 앱 전체 스크롤 제어
   useEffect(() => {
     document.body.style.overflow = 'hidden';
 
@@ -43,7 +41,6 @@ function App() {
     };
   }, []);
 
-  // 로딩 끝나면 오디오 재생
   useEffect(() => {
     if (!loading && audioRef.current) {
       audioRef.current.muted = isMuted;
@@ -65,7 +62,6 @@ function App() {
     document.body.style.overflow = 'auto';
   };
 
-  // ✅ 스크롤 시 로고 표시 여부 조정
   useEffect(() => {
     const handleScroll = () => {
       if (movieRef.current) {
@@ -80,18 +76,14 @@ function App() {
 
   return (
     <>
-      {/* BGM */}
       <audio
         ref={audioRef}
         src={bmg}
         loop
         muted={isMuted}
       />
-
-      {/* 로고 & 버튼들 */}
       {!loading && (
         <>
-          {/* ✅ 로고: Movie 컴포넌트 도달 시 사라짐 */}
           {logoVisible && (
             <div className='fixed top-6 left-10 z-[9999]'>
               <img src={logo} alt='logo' />
@@ -115,8 +107,6 @@ function App() {
           </div>
         </>
       )}
-
-      {/* 콘텐츠 */}
       {loading ? (
         <Video />
       ) : (
@@ -126,13 +116,17 @@ function App() {
           <StorySection2 />
           <SlideTxt />
           <Serise />
-          <div ref={movieRef}> {/* Movie 위치 감지용 */}
+          <div ref={movieRef}>
             <Movie />
           </div>
-          {/* <div ref={doorRef}> */}
+
             <Pillars />
+            <div className="scroll-target-pillars">
+          </div>
+          <div className="scroll-target-intro">
             <FirstQuarterIntro />
-          {/* </div> */}
+          </div>
+          <Door />
           <ProductionIntro />
         </>
       )}

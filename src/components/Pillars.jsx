@@ -71,7 +71,7 @@ function Pillars() {
             scrollTrigger: {
                 trigger: section,
                 start: 'top top',
-                end: `+=${containerWidth}`,
+                end: `+=${containerWidth + 2000}`,
                 scrub: true,
                 pin: true,
                 anticipatePin: 1,
@@ -225,7 +225,7 @@ function Pillars() {
                 {/* 기유 */}
                 <motion.div
                     ref={giyuuRef}
-                    className="absolute top-[69px] right-[790px]"
+                    className="absolute top-[69px] left-[4850px]"
                     style={{ zIndex: 3 }}
                     custom={0}
                     animate={giyuuControls}
@@ -234,7 +234,7 @@ function Pillars() {
                 </motion.div>
                 <motion.div
                     ref={giyuuTextRef}
-                    className="absolute top-0 right-[1529px]"
+                    className="absolute top-0 left-[4050px]"
                     style={{ zIndex: 3 }}
                     custom={1}
                     animate={giyuuControls}
@@ -243,7 +243,7 @@ function Pillars() {
                 </motion.div>
                 <motion.div
                     ref={giyuuEffectBackRef}
-                    className="absolute top-0 right-[139px]"
+                    className="absolute top-0 left-[4250px]"
                     style={{ zIndex: 2 }}
                     custom={2}
                     animate={giyuuControls}
@@ -252,7 +252,7 @@ function Pillars() {
                 </motion.div>
                 <motion.div
                     ref={giyuuEffectFrontRef}
-                    className="absolute bottom-0 right-[840px]"
+                    className="absolute bottom-0 left-[4550px]"
                     style={{ zIndex: 4 }}
                     custom={3}
                     animate={giyuuControls}

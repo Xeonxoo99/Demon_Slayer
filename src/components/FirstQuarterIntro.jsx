@@ -89,28 +89,17 @@ function FirstQuarterIntro() {
         };
     }, [isInView]);
 
-    // 현재 프레임에 따라 보여줄 캐릭터 결정
-    let currentCharacter = null;
-    if (currentImage === 1) currentCharacter = 'akaza';
-    else if (currentImage === 41) currentCharacter = 'daki';
-    else if (currentImage === 80) currentCharacter = 'gyokko';
-
-    const characterData = {
-        akaza: { image: akaza, name: akazaName },
-        daki: { image: dakiGyutaro, name: dakiGyutaroName },
-        gyokko: { image: gyokko, name: gyokkoName },
-    };
-
     return (
         <section
             ref={sectionRef}
             className="relative w-full h-[1000vh] bg-black"
             style={{ zIndex: 30 }}
+            key="first-quarter-intro"
         >
             {/* 배경 시퀀스 이미지 */}
             {isInView && (
                 <motion.img
-                    key={currentImage}
+                    key={`background-${currentImage}`}
                     src={images[currentImage]}
                     alt="frame"
                     style={{
@@ -127,22 +116,23 @@ function FirstQuarterIntro() {
 
             {/* 캐릭터 등장 */}
             <AnimatePresence mode="wait">
-                {currentImage === 1 && (
+                {isInView && currentImage === 1 && (
                     <>
                         <motion.img
                             key="akaza"
                             src={akaza}
                             initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
+                            animate={{ opacity: 0.8 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.5 }}
                             className="fixed bottom-0 left-1/2 -translate-x-1/2 w-[40%] z-10 pointer-events-none"
+                            style={{ maxWidth: '600px' }}
                         />
                         <motion.img
                             key="akaza-name"
                             src={akazaName}
                             initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
+                            animate={{ opacity: 0.8 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.5 }}
                             className="fixed -bottom-[100px] left-[550px] -translate-x-1/2 w-[60%] z-10 pointer-events-none"
@@ -150,48 +140,48 @@ function FirstQuarterIntro() {
                     </>
                 )}
 
-                {currentImage === 41 && (
+                {isInView && currentImage === 41 && (
                     <>
                         <motion.img
                             key="daki"
                             src={dakiGyutaro}
                             initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
+                            animate={{ opacity: 0.8 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.5 }}
-                            className="fixed -bottom-[5%] left-1/2 -translate-x-1/2 w-[60%] z-10 pointer-events-none"
+                            className="fixed bottom-[5%] left-1/2 -translate-x-1/2 w-[50%] z-10 pointer-events-none"
                         />
                         <motion.img
                             key="daki-name"
                             src={dakiGyutaroName}
                             initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
+                            animate={{ opacity: 0.8 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.5 }}
-                            className="fixed -bottom-0 left-[470px] -translate-x-1/2 w-[50%] z-10 pointer-events-none"
+                            className="fixed bottom-0 left-[550px] -translate-x-1/2 w-[60%] z-10 pointer-events-none"
                         />
                     </>
                 )}
 
-                {currentImage === 80 && (
+                {isInView && currentImage === 80 && (
                     <>
                         <motion.img
                             key="gyokko"
                             src={gyokko}
                             initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
+                            animate={{ opacity: 0.8 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.5 }}
-                            className="fixed -bottom-[5%] left-1/2 -translate-x-1/2 w-[60%] z-10 pointer-events-none"
+                            className="fixed bottom-[5%] left-1/2 -translate-x-1/2 w-[50%] z-10 pointer-events-none"
                         />
                         <motion.img
                             key="gyokko-name"
                             src={gyokkoName}
                             initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
+                            animate={{ opacity: 0.8 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.5 }}
-                            className="fixed -bottom-0 left-[460px] -translate-x-1/2 w-[50%] z-10 pointer-events-none"
+                            className="fixed -bottom-[50px] left-[550px] -translate-x-1/2 w-[60%] z-10 pointer-events-none"
                         />
                     </>
                 )}
