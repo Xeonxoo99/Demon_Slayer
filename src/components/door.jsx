@@ -40,10 +40,10 @@ export default function Doors() {
                 },
             },
         })
-        .to(left1.current, { x: '25vw', duration: 1 }, 0)
-        .to(right2.current, { x: '-25vw', duration: 1 }, 0)
+        .to(left1.current, { x: '26vw', duration: 1 }, 0)
+        .to(right2.current, { x: '-26vw', duration: 1 }, 0)
         .to(left2.current, { x: '50vw', duration: 1 }, 1)
-        .to(right1.current, { x: '-50vw', duration: 1 }, 1)
+        .to(right1.current, { x: '-51vw', duration: 1 }, 1)
 
         // 문 열림 (스크롤 더 내린 시점)
         gsap.timeline({
@@ -68,10 +68,10 @@ export default function Doors() {
                 markers: true,
             },
         })
-        .to(left1.current, { x: '25vw', duration: 1 }, 0)
-        .to(right2.current, { x: '-25vw', duration: 1 }, 0)
+        .to(left1.current, { x: '26vw', duration: 1 }, 0)
+        .to(right2.current, { x: '-26vw', duration: 1 }, 0)
         .to(left2.current, { x: '50vw', duration: 1 }, 1)
-        .to(right1.current, { x: '-50vw', duration: 1 }, 1)
+        .to(right1.current, { x: '-51vw', duration: 1 }, 1)
 
         // 문 열림 (Intro 더 스크롤 시점)
         gsap.timeline({

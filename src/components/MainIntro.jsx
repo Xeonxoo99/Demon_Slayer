@@ -167,7 +167,7 @@ function MainIntro({ onAnimationComplete }) {
           zIndex: 0,
         }}
       />
-
+<img src="/mainIntroWebp/0000.webp" alt="test" />
       {/* 캐릭터들 */}
       {characters.map((char, idx) => (
         <motion.div
