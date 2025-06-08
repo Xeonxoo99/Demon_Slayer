@@ -29,11 +29,11 @@ const characters = [
 function MainIntro({ onAnimationComplete }) {
   const containerRef = useRef(null);
   const [currentImage, setCurrentImage] = useState(0);
-const images = [];
-for (let i = 0; i < 61; i++) {
-  const filename = String(i).padStart(4, '0');
-  images.push(require(`../images/mainIntroWebp/${filename}.webp`));
-}
+  const images = [];
+  for (let i = 0; i < 61; i++) {
+    const filename = String(i).padStart(4, '0');
+    images.push(require(`../images/mainIntroWebp/${filename}.webp`));
+  }
   const totalFrames = images.length;
 
   const { scrollYProgress } = useScroll({
@@ -43,12 +43,8 @@ for (let i = 0; i < 61; i++) {
 
   const currentImageIndex = useTransform(scrollYProgress, [0, 1], [0, totalFrames - 1]);
   const bgOpacity = useTransform(scrollYProgress, [0, 0.95, 1], [1, 1, 0.9]);
-  // 캐릭터들 스케일. 오퍼시티 다 따로 관리
   const charScale = useTransform(scrollYProgress, [0, 0.3, 0.5], [1, 2, 3]);
-  // 이동도 x축 y축으로 이동
   const charOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-
-
   const textOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const leftTextOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const effectOpacity = useTransform(scrollYProgress, [0, 0.7], [0.1, 0]);
@@ -70,16 +66,14 @@ for (let i = 0; i < 61; i++) {
     })
   );
 
-  // 초기 애니메이션 완료 및 콜백 호출
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsInitialAnimationDone(true);
-      onAnimationComplete(); // App.js에 알림
-    }, 4500); // 3초 지연 + 1.5초 애니메이션
+      onAnimationComplete();
+    }, 4500);
     return () => clearTimeout(timer);
   }, [onAnimationComplete]);
 
-  // 마우스 이동 이벤트
   useEffect(() => {
     let rafId;
     const handleMouseMove = (e) => {
@@ -100,13 +94,29 @@ for (let i = 0; i < 61; i++) {
     };
   }, []);
 
-  // 이미지 프리로딩
+  // ✅ 이미지 프리로딩 개선
   useEffect(() => {
-    const preloadImages = [text, fog, effect, ...characters.map((c) => c.src)];
-    preloadImages.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-    });
+    const preloadImage = (src) =>
+      new Promise((resolve) => {
+        const img = new Image();
+        img.onload = resolve;
+        img.onerror = () => {
+          console.warn(`프리로딩 실패: ${src}`);
+          resolve();
+        };
+        img.src = src;
+      });
+
+    const preloadAll = async () => {
+      const staticImages = [text, fog, effect, ...characters.map((c) => c.src)];
+      const frameImages = images.map((img) => img.default ?? img);
+
+      const allImages = [...staticImages, ...frameImages];
+      await Promise.all(allImages.map(preloadImage));
+      console.log('✅ 모든 이미지 프리로딩 완료');
+    };
+
+    preloadAll();
   }, []);
 
   useEffect(() => {
@@ -156,10 +166,8 @@ for (let i = 0; i < 61; i++) {
         zIndex: 100
       }}
     >
-      {/* 배경 이미지 시퀀스 */}
       <motion.img
         src={images[currentImage]}
-        onError={() => console.error(`이미지를 불러올 수 없습니다: ${images[currentImage]}`)}
         alt="background"
         style={{
           opacity: bgOpacity,
@@ -172,14 +180,9 @@ for (let i = 0; i < 61; i++) {
           zIndex: 0,
         }}
       />
-      {/* 캐릭터들 */}
       {characters.map((char, idx) => (
         <motion.div
-          id="character"
           key={idx}
-          // initial={{ opacity: 0, scale: 0.9, y: -50 }}
-          // animate={{ opacity: 1, scale: 1, y: 0 }}
-          // transition={{ duration: 0.5, ease: 'easeInOut', delay: 1 }}
           className={`fixed ${char.alt === 'tanjiro' ? 'z-20' : 'z-10'} pointer-events-none ${char.style} translate-x-[-50%]`}
           ref={(el) => (charRefs.current[idx] = el)}
           style={{
