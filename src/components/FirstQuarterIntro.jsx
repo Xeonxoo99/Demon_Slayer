@@ -12,6 +12,7 @@ function FirstQuarterIntro() {
     const sectionRef = useRef(null);
     const [currentImage, setCurrentImage] = useState(0);
     const [isInView, setIsInView] = useState(false);
+    const [isPreloaded, setIsPreloaded] = useState(false);
     const images = Array.from({ length: 81 }, (_, i) => `/FirstQuarterwebp/${i.toString().padStart(4, '0')}.webp`);
 
     const { scrollYProgress } = useScroll({
@@ -22,6 +23,8 @@ function FirstQuarterIntro() {
     const prevSectionRef = useRef(null);
 
     useEffect(() => {
+        if (!isPreloaded) return;
+
         const unsubscribe = scrollYProgress.on('change', (latest) => {
             const prev = prevSectionRef.current;
 
@@ -38,7 +41,7 @@ function FirstQuarterIntro() {
         });
 
         return () => unsubscribe();
-    }, [scrollYProgress]);
+    }, [scrollYProgress, isPreloaded]);
 
     function playImageSequence(startIndex, endIndex, setImageIndex, delay = 30) {
         let current = startIndex;
@@ -54,12 +57,13 @@ function FirstQuarterIntro() {
         animate();
     }
 
+    // IntersectionObserver로 시야 감지
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 setIsInView(entry.isIntersecting);
             },
-            { threshold: 0 }
+            { threshold: 0.1 }
         );
 
         if (sectionRef.current) {
@@ -73,19 +77,32 @@ function FirstQuarterIntro() {
         };
     }, []);
 
+    // 이미지 프리로딩
     useEffect(() => {
         if (!isInView) return;
-        const loadedImages = [];
+
+        let loadedCount = 0;
+        const tempImages = [];
 
         images.forEach((src) => {
             const img = new Image();
             img.src = src;
-            img.onerror = () => console.error(`Failed to load image: ${src}`);
-            loadedImages.push(img);
+            img.onload = () => {
+                loadedCount++;
+                if (loadedCount === images.length) {
+                    setIsPreloaded(true);
+                }
+            };
+            img.onerror = () => {
+                console.error(`Failed to load image: ${src}`);
+            };
+            tempImages.push(img);
         });
 
         return () => {
-            loadedImages.forEach((img) => (img.src = ''));
+            tempImages.forEach((img) => {
+                img.src = '';
+            });
         };
     }, [isInView]);
 
@@ -97,7 +114,7 @@ function FirstQuarterIntro() {
             key="first-quarter-intro"
         >
             {/* 배경 시퀀스 이미지 */}
-            {isInView && (
+            {isInView && isPreloaded && (
                 <motion.img
                     key={`background-${currentImage}`}
                     src={images[currentImage]}
@@ -116,7 +133,7 @@ function FirstQuarterIntro() {
 
             {/* 캐릭터 등장 */}
             <AnimatePresence mode="wait">
-                {isInView && currentImage === 1 && (
+                {isInView && isPreloaded && currentImage === 1 && (
                     <>
                         <motion.img
                             key="akaza"
@@ -140,7 +157,7 @@ function FirstQuarterIntro() {
                     </>
                 )}
 
-                {isInView && currentImage === 41 && (
+                {isInView && isPreloaded && currentImage === 41 && (
                     <>
                         <motion.img
                             key="daki"
@@ -163,7 +180,7 @@ function FirstQuarterIntro() {
                     </>
                 )}
 
-                {isInView && currentImage === 80 && (
+                {isInView && isPreloaded && currentImage === 80 && (
                     <>
                         <motion.img
                             key="gyokko"
