@@ -29,7 +29,11 @@ const characters = [
 function MainIntro({ onAnimationComplete }) {
   const containerRef = useRef(null);
   const [currentImage, setCurrentImage] = useState(0);
-  const images = Array.from({ length: 61 }, (_, i) => `/mainIntroWebp/${i.toString().padStart(4, '0')}.webp`);
+const images = [];
+for (let i = 0; i < 61; i++) {
+  const filename = String(i).padStart(4, '0');
+  images.push(require(`../images/mainIntroWebp/${filename}.webp`));
+}
   const totalFrames = images.length;
 
   const { scrollYProgress } = useScroll({
