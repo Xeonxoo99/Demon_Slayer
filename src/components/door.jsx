@@ -36,28 +36,28 @@ export default function Doors() {
                     disableScroll()
                     setTimeout(() => {
                         enableScroll()
-                    }, 2000) // 2초 후 복원
+                    }, 3000) // 2초 후 복원
                 },
             },
         })
-        .to(left1.current, { x: '26vw', duration: 1 }, 0)
-        .to(right2.current, { x: '-26vw', duration: 1 }, 0)
-        .to(left2.current, { x: '50vw', duration: 1 }, 1)
-        .to(right1.current, { x: '-51vw', duration: 1 }, 1)
+            .to(left1.current, { x: '26vw', duration: 1 }, 0)
+            .to(right2.current, { x: '-26vw', duration: 1 }, 0)
+            .to(left2.current, { x: '50vw', duration: 1 }, 1)
+            .to(right1.current, { x: '-51vw', duration: 1 }, 1)
 
         // 문 열림 (스크롤 더 내린 시점)
         gsap.timeline({
             scrollTrigger: {
                 trigger: '.scroll-target-pillars',
-                start: 'bottom bottom',
+                start: 'bottom bottom-=1000',
                 toggleActions: 'play none none reverse',
                 markers: true,
             },
         })
-        .to(left2.current, { x: '0vw', duration: 1 }, 0)
-        .to(right1.current, { x: '0vw', duration: 1 }, 0)
-        .to(left1.current, { x: '0vw', duration: 1 }, 1)
-        .to(right2.current, { x: '0vw', duration: 1 }, 1)
+            .to(left2.current, { x: '0vw', duration: 1 }, 0)
+            .to(right1.current, { x: '0vw', duration: 1 }, 0)
+            .to(left1.current, { x: '0vw', duration: 1 }, 1)
+            .to(right2.current, { x: '0vw', duration: 1 }, 1)
 
         // 문 닫힘 (FirstQuarterIntro 진입 시점)
         gsap.timeline({
@@ -66,12 +66,18 @@ export default function Doors() {
                 start: 'bottom bottom+=500',
                 toggleActions: 'play none none reverse',
                 markers: true,
+                onEnter: () => {
+                    disableScroll()
+                    setTimeout(() => {
+                        enableScroll()
+                    }, 3000) // 2초 후 복원
+                },
             },
         })
-        .to(left1.current, { x: '26vw', duration: 1 }, 0)
-        .to(right2.current, { x: '-26vw', duration: 1 }, 0)
-        .to(left2.current, { x: '50vw', duration: 1 }, 1)
-        .to(right1.current, { x: '-51vw', duration: 1 }, 1)
+            .to(left1.current, { x: '26vw', duration: 1 }, 0)
+            .to(right2.current, { x: '-26vw', duration: 1 }, 0)
+            .to(left2.current, { x: '50vw', duration: 1 }, 1)
+            .to(right1.current, { x: '-51vw', duration: 1 }, 1)
 
         // 문 열림 (Intro 더 스크롤 시점)
         gsap.timeline({
@@ -82,10 +88,10 @@ export default function Doors() {
                 markers: true,
             },
         })
-        .to(left2.current, { x: '0vw', duration: 1 }, 0)
-        .to(right1.current, { x: '0vw', duration: 1 }, 0)
-        .to(left1.current, { x: '0vw', duration: 1 }, 1)
-        .to(right2.current, { x: '0vw', duration: 1 }, 1)
+            .to(left2.current, { x: '0vw', duration: 1 }, 0)
+            .to(right1.current, { x: '0vw', duration: 1 }, 0)
+            .to(left1.current, { x: '0vw', duration: 1 }, 1)
+            .to(right2.current, { x: '0vw', duration: 1 }, 1)
 
     }, [])
 

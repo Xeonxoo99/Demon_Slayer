@@ -22,7 +22,7 @@ function StorySection2() {
   const bg2Opacity = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
   const textOpacity = useTransform(scrollYProgress, [0.9, 1], [20, 0]);
   // 이미지 시퀀스의 투명도: 스크롤 0.6~1.0에서 표시
-  const imageSequenceOpacity = useTransform(scrollYProgress, [0.59, 0.6], [0, 9]);
+  const imageSequenceOpacity = useTransform(scrollYProgress, [0.59, 0.6], [0, 1]);
 
   // 텍스트 전환을 위한 상태
   const [showSecondText, setShowSecondText] = useState(false);
@@ -33,19 +33,12 @@ function StorySection2() {
       setShowSecondText(latest >= 0.4);
 
       // scrollYProgress 0.6~1.0을 0~149 프레임으로 매핑
-      if (latest >= 0.6 && !hasPlayed) {
-        const frameProgress = (latest - 0.6) / 0.4; // 0.6~1.0을 0~1로 정규화
-        const frame = Math.min(
-          Math.floor(frameProgress * totalFrames),
-          totalFrames - 1
-        ); // 0~149 프레임
+      if (latest >= 0.6 && latest <= 1.0) {
+        const frameProgress = (latest - 0.6) / 0.4;
+        const frame = Math.floor(frameProgress * totalFrames);
         setCurrentFrame(frame);
-        if (frame === totalFrames - 1) {
-          setHasPlayed(true); // 마지막 프레임에 도달하면 재생 완료
-        }
-      } else if (latest < 0.6 && hasPlayed) {
-        setCurrentFrame(0); // 스크롤이 0.6 미만으로 돌아가면 초기화
-        setHasPlayed(false);
+      } else if (latest < 0.6) {
+        setCurrentFrame(0);
       }
     });
 
@@ -56,6 +49,17 @@ function StorySection2() {
   const getFrameSrc = (frame) => {
     return `/fireEffectWebp/burn_Transition_${String(frame).padStart(5, '0')}.webp`;
   };
+
+  useEffect(() => {
+    const preloadImages = () => {
+      for (let i = 0; i < totalFrames; i++) {
+        const img = new Image();
+        img.src = getFrameSrc(i);
+      }
+    };
+
+    preloadImages();
+  }, []);
 
   return (
     <motion.section
@@ -106,7 +110,7 @@ function StorySection2() {
 
         {/* 텍스트 컨테이너 */}
         <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[300px] flex flex-col items-center justify-center gap-4"
-        style={{zIndex:textOpacity}}
+          style={{ zIndex: textOpacity }}
         >
           <span className="text-[28px]">다이쇼 시대</span>
           <AnimatePresence mode="wait">
