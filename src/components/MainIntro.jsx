@@ -155,6 +155,7 @@ function MainIntro({ onAnimationComplete }) {
       {/* 배경 이미지 시퀀스 */}
       <motion.img
         src={images[currentImage]}
+        onError={() => console.error(`이미지를 불러올 수 없습니다: ${images[currentImage]}`)}
         alt="background"
         style={{
           opacity: bgOpacity,
