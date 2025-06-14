@@ -16,9 +16,8 @@ import Mitsuri from '../images/mainIntro/el/미츠리.png';
 import Gyomei from '../images/mainIntro/el/교메이.png';
 
 const characters = [
-  // opacity [0, 0.1, 0.25], [0, 1, 0] scale [0,  0.25], [1,  1.15
+  // opacity [0, 0.1, 0.25], [0, 1, 0] scale [0,  0.25], [1,  1.15]
   { src: tanjiro, alt: 'tanjiro', style: 'bottom-[-5%] right-[12%]', moveDistance: 100 },
-  // opacity [0, 0.15, 0.3], [0, 1, 0] scale [0,  0.3], [1,  1.15]
   { src: Giyuu, alt: 'giyuu', style: 'bottom-[-3%] left-[17%]', moveDistance: 80 },
   { src: Obanai, alt: 'obanai', style: 'bottom-[40%] right-[18%]', moveDistance: 60 },
   { src: Muichiro, alt: 'muichiro', style: 'bottom-[30%] left-[16%]', moveDistance: 60 },
@@ -27,6 +26,7 @@ const characters = [
   { src: Sanemi, alt: 'sanemi', style: 'top-[8%] right-[35%]', moveDistance: 20 },
   { src: Shinobu, alt: 'shinobu', style: 'top-[8%] left-[33%]', moveDistance: 10 },
 ];
+
 
 function MainIntro({ onAnimationComplete }) {
   const containerRef = useRef(null);
@@ -43,12 +43,15 @@ function MainIntro({ onAnimationComplete }) {
     offset: ['start start', 'end end'],
   });
 
+  // 한자 부분 스크롤 x 시 null 값으로 만들기
+  const [isScrollReady, setIsScrollReady] = useState(false);
+
   const currentImageIndex = useTransform(scrollYProgress, [0, 1], [0, totalFrames - 1]);
   const bgOpacity = useTransform(scrollYProgress, [0, 0.95, 1], [1, 1, 0.9]);
   const charScale = useTransform(scrollYProgress, [0, 0.3, 0.5], [1, 2, 3]);
   const charOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.5, 0.65], [0, 1, 0]);
-  const textScale = useTransform(scrollYProgress, [0,  0.7], [0.5, 0.65]);
+  const textScale = useTransform(scrollYProgress, [0, 0.7], [0.5, 0.65]);
   const leftTextOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const effectOpacity = useTransform(scrollYProgress, [0, 0.7], [0.1, 0]);
   const sectionOpacity = useTransform(scrollYProgress, [0.9, 1], [1, 0]);
@@ -57,6 +60,28 @@ function MainIntro({ onAnimationComplete }) {
   const [showFinalText, setShowFinalText] = useState(false);
   const [isInitialAnimationDone, setIsInitialAnimationDone] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+    const opacityList = [
+    useTransform(scrollYProgress, [0, 0.1, 0.25], [0, 1, 0]), // tanjiro
+    useTransform(scrollYProgress, [0, 0.15, 0.3], [0, 1, 0]), // Giyuu
+    useTransform(scrollYProgress, [0, 0.2, 0.35], [0, 1, 0]), // Obanai
+    useTransform(scrollYProgress, [0, 0.25, 0.4], [0, 1, 0]), // Muichiro
+    useTransform(scrollYProgress, [0, 0.3, 0.45], [0, 1, 0]), // Mitsuri
+    useTransform(scrollYProgress, [0, 0.35, 0.5], [0, 1, 0]), // Gyomei
+    useTransform(scrollYProgress, [0, 0.4, 0.55], [0, 1, 0]), // Sanemi
+    useTransform(scrollYProgress, [0, 0.45, 0.6], [0, 1, 0]), // Shinobu
+  ];
+
+  const scaleList = [
+    useTransform(scrollYProgress, [0, 0.1, 0.25], [0, 0.25, 1.15]),
+    useTransform(scrollYProgress, [0, 0.15, 0.3], [0, 0.3, 1.15]),
+    useTransform(scrollYProgress, [0, 0.2, 0.35], [0, 0.35, 1.15]),
+    useTransform(scrollYProgress, [0, 0.25, 0.4], [0, 0.4, 1.15]),
+    useTransform(scrollYProgress, [0, 0.3, 0.45], [0, 0.45, 1.15]),
+    useTransform(scrollYProgress, [0, 0.35, 0.5], [0, 0.5, 1.15]),
+    useTransform(scrollYProgress, [0, 0.4, 0.55], [0, 0.55, 1.15]),
+    useTransform(scrollYProgress, [0, 0.45, 0.6], [0, 0.6, 1.15]),
+  ];
 
   const randomDirections = useRef(
     characters.map(() => {
@@ -97,7 +122,7 @@ function MainIntro({ onAnimationComplete }) {
     };
   }, []);
 
-  // ✅ 이미지 프리로딩 개선
+  // 이미지 프리로딩 개선
   useEffect(() => {
     const preloadImage = (src) =>
       new Promise((resolve) => {
@@ -116,7 +141,7 @@ function MainIntro({ onAnimationComplete }) {
 
       const allImages = [...staticImages, ...frameImages];
       await Promise.all(allImages.map(preloadImage));
-      console.log('✅ 모든 이미지 프리로딩 완료');
+      console.log(' 모든 이미지 프리로딩 완료');
     };
 
     preloadAll();
@@ -158,6 +183,15 @@ function MainIntro({ onAnimationComplete }) {
     });
   };
 
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.onChange((v) => {
+      if (!isScrollReady && typeof v === 'number') {
+        setIsScrollReady(true);
+      }
+    });
+    return () => unsubscribe();
+  }, [scrollYProgress]);
+
   return (
     <motion.section
       ref={containerRef}
@@ -186,11 +220,11 @@ function MainIntro({ onAnimationComplete }) {
       {characters.map((char, idx) => (
         <motion.div
           key={idx}
-          className={`fixed ${char.alt === 'tanjiro' ? 'z-20' : 'z-10'} pointer-events-none ${char.style} translate-x-[-50%]`}
+          className={`fixed ${char.alt === 'tanjiro' ? 'z-20' : 'z-10'} pointer-events-none ${char.style} translate-x-[-50%] translate-y-[-50%]`}
           ref={(el) => (charRefs.current[idx] = el)}
           style={{
-            scale: charScale,
-            opacity: charOpacity,
+            scale: scaleList[idx],
+            opacity: opacityList[idx],
             x: isInitialAnimationDone && !showFinalText ? mousePos.x * char.moveDistance * randomDirections.current[idx].x : 0,
             y: isInitialAnimationDone && !showFinalText ? mousePos.y * char.moveDistance * randomDirections.current[idx].y : 0,
             transition: 'transform 1s ease-out',
@@ -199,12 +233,9 @@ function MainIntro({ onAnimationComplete }) {
           <img
             src={char.src}
             alt={char.alt}
-            onLoad={(e) => handleImageLoad(idx, e)}
-            style={{
-              width: imageSizes[idx].width ? `${imageSizes[idx].width}px` : 'auto',
-              height: imageSizes[idx].height ? `${imageSizes[idx].height}px` : 'auto',
-            }}
             className="object-contain"
+            style={{              width: imageSizes[idx].width ? `${imageSizes[idx].width}px` : 'auto',
+              height: imageSizes[idx].height ? `${imageSizes[idx].height}px` : 'auto',}}
           />
         </motion.div>
       ))}
@@ -231,17 +262,19 @@ function MainIntro({ onAnimationComplete }) {
       />
 
       {/* 한자 */}
-      <motion.img
-        id="text"
-        src={text}
-        alt="text"
-        // initial={{ opacity: 0, scale: 0.9 }}
-        // animate={{ opacity: 1, scale: 1 }}
-        // transition={{ duration: 1.5, ease: 'easeInOut', delay: 1 }}
-        className="fixed inset-0 w-full max-w-full h-full object-contain z-10"
-        // transformTemplate={({ scale }) => `translate(-50%, -50%) scale(${scale})`}
-        style={{ opacity: textOpacity, scale : textScale }}
-      />
+      {isScrollReady && (
+        <motion.img
+          id="text"
+          src={text}
+          alt="text"
+          className="fixed inset-0 w-full max-w-full h-full object-contain z-10"
+          style={{
+            opacity: scrollYProgress < 0.01 ? 0 : textOpacity,
+            scale: textScale
+          }}
+          initial={{ opacity: 0 }}
+        />
+      )}
 
       {/* 좌측 하단 텍스트 */}
       <motion.div

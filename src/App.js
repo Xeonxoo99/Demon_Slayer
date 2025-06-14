@@ -23,99 +23,99 @@ import Section05 from './_view/Section05';
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
-  // const [loading, setLoading] = useState(true);
-  // const [isMuted, setIsMuted] = useState(false);
-  // const [isScrollEnabled, setIsScrollEnabled] = useState(false);
-  // const [logoVisible, setLogoVisible] = useState(true);
-  // const [isPillarsSectionEnd, setIsPillarsSectionEnd] = useState(false);
-  // const audioRef = useRef(null);
-  // const movieRef = useRef(null);
-  // const pillarsEndRef = useRef(null);
+  const [loading, setLoading] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
+  const [isScrollEnabled, setIsScrollEnabled] = useState(false);
+  const [logoVisible, setLogoVisible] = useState(true);
+  const [isPillarsSectionEnd, setIsPillarsSectionEnd] = useState(false);
+  const audioRef = useRef(null);
+  const movieRef = useRef(null);
+  const pillarsEndRef = useRef(null);
 
-  // useEffect(() => {
-  //   const loadTimer = setTimeout(() => {
-  //     setLoading(false);
-  //   }, 7200);
+  useEffect(() => {
+    const loadTimer = setTimeout(() => {
+      setLoading(false);
+    }, 7200);
 
-  //   return () => clearTimeout(loadTimer);
-  // }, []);
+    return () => clearTimeout(loadTimer);
+  }, []);
 
-  // useEffect(() => {
-  //   document.body.style.overflow = 'hidden';
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
 
-  //   return () => {
-  //     document.body.style.overflow = '';
-  //   };
-  // }, []);
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
 
-  // useEffect(() => {
-  //   if (!loading && audioRef.current) {
-  //     audioRef.current.muted = isMuted;
-  //     audioRef.current.play().catch((e) => {
-  //       console.log('Audio play error:', e);
-  //     });
-  //   }
-  // }, [loading]);
+  useEffect(() => {
+    if (!loading && audioRef.current) {
+      audioRef.current.muted = isMuted;
+      audioRef.current.play().catch((e) => {
+        console.log('Audio play error:', e);
+      });
+    }
+  }, [loading]);
 
-  // const toggleMute = () => {
-  //   if (audioRef.current) {
-  //     audioRef.current.muted = !audioRef.current.muted;
-  //     setIsMuted(audioRef.current.muted);
-  //   }
-  // };
+  const toggleMute = () => {
+    if (audioRef.current) {
+      audioRef.current.muted = !audioRef.current.muted;
+      setIsMuted(audioRef.current.muted);
+    }
+  };
 
-  // const handleAnimationComplete = () => {
-  //   setIsScrollEnabled(true);
-  //   document.body.style.overflow = 'auto';
-  // };
+  const handleAnimationComplete = () => {
+    setIsScrollEnabled(true);
+    document.body.style.overflow = 'auto';
+  };
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     if (movieRef.current) {
-  //       const movieTop = movieRef.current.getBoundingClientRect().top;
-  //       setLogoVisible(movieTop > window.innerHeight / 2);
-  //     }
-  //   };
+  useEffect(() => {
+    const handleScroll = () => {
+      if (movieRef.current) {
+        const movieTop = movieRef.current.getBoundingClientRect().top;
+        setLogoVisible(movieTop > window.innerHeight / 2);
+      }
+    };
 
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => window.removeEventListener('scroll', handleScroll);
-  // }, []);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-  // useEffect(() => {
-  //   if (isPillarsSectionEnd && pillarsEndRef.current) {
-  //     const scrollToPillarsEnd = () => {
-  //       const targetPosition = pillarsEndRef.current.offsetTop;
-  //       window.scrollTo({
-  //         top: targetPosition,
-  //         behavior: 'smooth'
-  //       });
-  //     };
-  //     scrollToPillarsEnd();
-  //   }
-  // }, [isPillarsSectionEnd]);
+  useEffect(() => {
+    if (isPillarsSectionEnd && pillarsEndRef.current) {
+      const scrollToPillarsEnd = () => {
+        const targetPosition = pillarsEndRef.current.offsetTop;
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+      };
+      scrollToPillarsEnd();
+    }
+  }, [isPillarsSectionEnd]);
 
-  // const handlePillarsSectionEnd = () => {
-  //   setIsPillarsSectionEnd(true);
-  // };
+  const handlePillarsSectionEnd = () => {
+    setIsPillarsSectionEnd(true);
+  };
 
-  // useEffect(() => {
-  //   if (!loading) {
-  //     const pillarsEnd = pillarsEndRef.current;
+  useEffect(() => {
+    if (!loading) {
+      const pillarsEnd = pillarsEndRef.current;
       
-  //     ScrollTrigger.create({
-  //       trigger: pillarsEnd,
-  //       start: "top top",
-  //       end: "+=100vh",
-  //       pin: true,
-  //       pinSpacing: true,
-  //       anticipatePin: 1,
-  //     });
+      ScrollTrigger.create({
+        trigger: pillarsEnd,
+        start: "top top",
+        end: "+=100vh",
+        pin: true,
+        pinSpacing: true,
+        anticipatePin: 1,
+      });
 
-  //     return () => {
-  //       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-  //     };
-  //   }
-  // }, [loading]);
+      return () => {
+        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      };
+    }
+  }, [loading]);
 
   return (
     <>
@@ -154,14 +154,14 @@ function App() {
         <Video />
       ) : ( */}
         <>
-          {/* <MainIntro onAnimationComplete={handleAnimationComplete} />
+          <MainIntro onAnimationComplete={handleAnimationComplete} />
           <StorySection1 />
           <StorySection2 />
           <SlideTxt />
           <Serise />
           <div ref={movieRef}>
             <Movie />
-          </div> */}
+          </div>
 
           {/* <Pillars /> */}
           {/* <div ref={pillarsEndRef} className="h-screen bg-black" /> */}
@@ -172,7 +172,7 @@ function App() {
           {/* </div> */}
           {/* <Door /> */}
 
-          <Section05 />
+          {/* <Section05 /> */}
 
 
           <ProductionIntro />

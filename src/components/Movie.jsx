@@ -1,5 +1,5 @@
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef,useState, useEffect } from 'react'
+import { motion, useScroll, useTransform, useInView } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
 import { CountUp } from 'countup.js';
 
 import React from 'react'
@@ -16,6 +16,15 @@ function Movie() {
     const countUpRef2 = useRef(null);
     const countUpRef3 = useRef(null);
     const countUpRef4 = useRef(null);
+
+    const ref1 = useRef(null);
+    const ref2 = useRef(null);
+    const ref3 = useRef(null);
+
+    const isInView1 = useInView(ref1, { once: true, margin: "0px 0px -90% 0px" });
+    const isInView2 = useInView(ref2, { once: true, margin: "0px 0px -60% 0px" });
+    const isInView3 = useInView(ref3, { once: true, margin: "0px 0px -38% 0px" });
+
 
     useEffect(() => {
         // 각 숫자에 대해 CountUp 인스턴스 생성
@@ -254,21 +263,42 @@ function Movie() {
                         <img src={bg} alt="bg" />
                     </div>
                     {/* 반전 */}
-                    <div className='absolute top-[34px] left-[293px] w-[357px] h-[111px]' style={{
-                        backgroundColor: '#fff',
-                        mixBlendMode: 'exclusion',
-                        zIndex: "11"
-                    }}></div>
-                    <div className='absolute top-[254px] left-[613px] w-[790px] h-[111px]' style={{
-                        backgroundColor: '#fff',
-                        mixBlendMode: 'exclusion',
-                        zIndex: "11"
-                    }}></div>
-                    <div className='absolute top-[472px] left-[375px] w-[518px] h-[111px]' style={{
-                        backgroundColor: '#fff',
-                        mixBlendMode: 'exclusion',
-                        zIndex: "11"
-                    }}></div>
+                    <motion.div
+                        ref={ref1}
+                        className="absolute top-[34px] left-[293px] h-[111px]"
+                        style={{
+                            backgroundColor: "#fff",
+                            mixBlendMode: "difference",
+                            zIndex: 11,
+                        }}
+                        initial={{ width: 0 }}
+                        animate={{ width: isInView1 ? 357 : 0 }}
+                        transition={{ duration: 1 }}
+                    />
+                    <motion.div
+                        ref={ref2}
+                        className="absolute top-[254px] left-[613px] h-[111px]"
+                        style={{
+                            backgroundColor: "#fff",
+                            mixBlendMode: "difference",
+                            zIndex: 11,
+                        }}
+                        initial={{ width: 0 }}
+                        animate={{ width: isInView2 ? 790 : 0 }}
+                        transition={{ duration: 1 }}
+                    />
+                    <motion.div
+                        ref={ref3}
+                        className="absolute top-[472px] left-[375px] h-[111px]"
+                        style={{
+                            backgroundColor: "#fff",
+                            mixBlendMode: "exclusion",
+                            zIndex: 11,
+                        }}
+                        initial={{ width: 0 }}
+                        animate={{ width: isInView3 ? 518 : 0 }}
+                        transition={{ duration: 1 }}
+                    />
                 </div>
 
             </div>

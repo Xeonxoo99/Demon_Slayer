@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, } from 'framer-motion';
 
 // 탄지로
 import tanjiroBg from '../images/serise/배경 탄지로.png'
@@ -39,28 +39,28 @@ function Serise() {
 	const tanjiroOpacity = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
 	const tanjiroY = useTransform(scrollYProgress, [0, 0.1], [500, 0]);
 	// const tanjiroScale = useTransform(scrollYProgress, [0, 0.1], [0.5, 1]);
-	const tanjiroBgY = useTransform(scrollYProgress, [0, 1], [0, -500]);
+	const tanjiroBgY = useTransform(scrollYProgress, [0, 0.3], ['0','-20%']);
 
 
 	// 텐겐 애니메이션
 	const tengenOpacity = useTransform(scrollYProgress, [0.2, 0.45], [0, 1]);
 	const tengenY = useTransform(scrollYProgress, [0.2, 0.45], [500, 0]);
 	// const tengenScale = useTransform(scrollYProgress, [0.2, 0.3], [0.5, 1]);
-	const tengenBgY = useTransform(scrollYProgress, [0.2, 1], [0, -500]);
+	const tengenBgY = useTransform(scrollYProgress, [0.35, 0.8], ['0','-20%']);
 
 
 	// 무이치로 애니메이션
 	const muichiroOpacity = useTransform(scrollYProgress, [0.4, 0.65], [0, 1]);
 	const muichiroY = useTransform(scrollYProgress, [0.4, 0.65], [500, 0]);
 	// const muichiroScale = useTransform(scrollYProgress, [0.4, 0.6], [0.5, 1]);
-	const muichiroBgY = useTransform(scrollYProgress, [0.4, 1], [0, -500]);
+	const muichiroBgY = useTransform(scrollYProgress, [0.4, 1], ['0','-20%']);
 
 
 	// 교메이 애니메이션
 	const gyomeiOpacity = useTransform(scrollYProgress, [0.6, 0.85], [0, 1]);
 	const gyomeiY = useTransform(scrollYProgress, [0.6, 0.85], [500, 0]);
 	// const gyomeiScale = useTransform(scrollYProgress, [0.6, 0.8], [0.5, 1]);
-	const gyomeiBgY = useTransform(scrollYProgress, [0.6, 1], [0, -400]);
+	const gyomeiBgY = useTransform(scrollYProgress, [0.6, 1], ['0','-20%']);
 
 	return (
 		<section className='relative w-full h-[3642px] bg-[#000000]'
