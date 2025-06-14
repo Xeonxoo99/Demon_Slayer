@@ -23,6 +23,7 @@ function StorySection2() {
   const textOpacity = useTransform(scrollYProgress, [0.9, 1], [20, 0]);
   // 이미지 시퀀스의 투명도: 스크롤 0.6~1.0에서 표시
   const imageSequenceOpacity = useTransform(scrollYProgress, [0.59, 0.6], [0, 1]);
+  const blackOverlayOpacity = useTransform(scrollYProgress, [0.8, 0.85], [0, 1]);
 
   // 텍스트 전환을 위한 상태
   const [showSecondText, setShowSecondText] = useState(false);
@@ -90,14 +91,13 @@ function StorySection2() {
         <motion.img
           src={getFrameSrc(currentFrame)}
           alt="Burn transition effect"
-          className="w-full h-screen object-cover fixed top-0 left-0"
+          className="w-full h-screen object-cover fixed top-0 left-0 z-20"
           style={{ zIndex: 20, opacity: imageSequenceOpacity }}
         />
 
         {/* 불꽃 효과 비디오 */}
         <motion.video
-          className="w-full h-screen object-cover fixed top-0 left-0 opacity-50"
-          style={{ zIndex: 20 }}
+          className="w-full h-screen object-cover fixed top-0 left-0 opacity-50 z-30"
           autoPlay
           loop
           muted
@@ -107,6 +107,11 @@ function StorySection2() {
           <source src={fireEffect} type="video/mp4" />
         </motion.video>
 
+        {/* 검은색 오버레이 */}
+        <motion.div 
+          className='fixed inset-0 w-full h-screen bg-black z-30'
+          style={{ opacity: blackOverlayOpacity }}
+        />
 
         {/* 텍스트 컨테이너 */}
         <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[300px] flex flex-col items-center justify-center gap-4"
