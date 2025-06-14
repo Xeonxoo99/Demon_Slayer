@@ -16,13 +16,15 @@ import Mitsuri from '../images/mainIntro/el/미츠리.png';
 import Gyomei from '../images/mainIntro/el/교메이.png';
 
 const characters = [
-  { src: tanjiro, alt: 'tanjiro', style: 'bottom-[-5%] right-[12%]', moveDistance: 25 },
-  { src: Giyuu, alt: 'giyuu', style: 'bottom-[-3%] left-[17%]', moveDistance: 25 },
-  { src: Obanai, alt: 'obanai', style: 'bottom-[40%] right-[18%]', moveDistance: 20 },
-  { src: Muichiro, alt: 'muichiro', style: 'bottom-[30%] left-[16%]', moveDistance: 20 },
-  { src: Mitsuri, alt: 'mitsuri', style: 'top-[15%] right-[21%]', moveDistance: 15 },
-  { src: Gyomei, alt: 'gyomei', style: 'top-[18%] left-[12%]', moveDistance: 15 },
-  { src: Sanemi, alt: 'sanemi', style: 'top-[8%] right-[35%]', moveDistance: 10 },
+  // opacity [0, 0.1, 0.25], [0, 1, 0] scale [0,  0.25], [1,  1.15
+  { src: tanjiro, alt: 'tanjiro', style: 'bottom-[-5%] right-[12%]', moveDistance: 100 },
+  // opacity [0, 0.15, 0.3], [0, 1, 0] scale [0,  0.3], [1,  1.15]
+  { src: Giyuu, alt: 'giyuu', style: 'bottom-[-3%] left-[17%]', moveDistance: 80 },
+  { src: Obanai, alt: 'obanai', style: 'bottom-[40%] right-[18%]', moveDistance: 60 },
+  { src: Muichiro, alt: 'muichiro', style: 'bottom-[30%] left-[16%]', moveDistance: 60 },
+  { src: Mitsuri, alt: 'mitsuri', style: 'top-[15%] right-[21%]', moveDistance: 40 },
+  { src: Gyomei, alt: 'gyomei', style: 'top-[18%] left-[12%]', moveDistance: 40 },
+  { src: Sanemi, alt: 'sanemi', style: 'top-[8%] right-[35%]', moveDistance: 20 },
   { src: Shinobu, alt: 'shinobu', style: 'top-[8%] left-[33%]', moveDistance: 10 },
 ];
 
@@ -45,7 +47,8 @@ function MainIntro({ onAnimationComplete }) {
   const bgOpacity = useTransform(scrollYProgress, [0, 0.95, 1], [1, 1, 0.9]);
   const charScale = useTransform(scrollYProgress, [0, 0.3, 0.5], [1, 2, 3]);
   const charOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.5, 0.65], [0, 1, 0]);
+  const textScale = useTransform(scrollYProgress, [0,  0.7], [0.5, 0.65]);
   const leftTextOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const effectOpacity = useTransform(scrollYProgress, [0, 0.7], [0.1, 0]);
   const sectionOpacity = useTransform(scrollYProgress, [0.9, 1], [1, 0]);
@@ -70,7 +73,7 @@ function MainIntro({ onAnimationComplete }) {
     const timer = setTimeout(() => {
       setIsInitialAnimationDone(true);
       onAnimationComplete();
-    }, 4500);
+    }, 0);
     return () => clearTimeout(timer);
   }, [onAnimationComplete]);
 
@@ -235,9 +238,9 @@ function MainIntro({ onAnimationComplete }) {
         // initial={{ opacity: 0, scale: 0.9 }}
         // animate={{ opacity: 1, scale: 1 }}
         // transition={{ duration: 1.5, ease: 'easeInOut', delay: 1 }}
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-auto max-w-full h-auto object-contain z-10"
-        transformTemplate={({ scale }) => `translate(-50%, -50%) scale(${scale})`}
-        style={{ opacity: textOpacity }}
+        className="fixed inset-0 w-full max-w-full h-full object-contain z-10"
+        // transformTemplate={({ scale }) => `translate(-50%, -50%) scale(${scale})`}
+        style={{ opacity: textOpacity, scale : textScale }}
       />
 
       {/* 좌측 하단 텍스트 */}

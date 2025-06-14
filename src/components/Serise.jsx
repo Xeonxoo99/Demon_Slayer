@@ -38,28 +38,28 @@ function Serise() {
 	// 탄지로 애니메이션
 	const tanjiroOpacity = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
 	const tanjiroY = useTransform(scrollYProgress, [0, 0.1], [500, 0]);
-	const tanjiroScale = useTransform(scrollYProgress, [0, 0.1], [0.5, 1]);
+	// const tanjiroScale = useTransform(scrollYProgress, [0, 0.1], [0.5, 1]);
 	const tanjiroBgY = useTransform(scrollYProgress, [0, 1], [0, -500]);
 
 
 	// 텐겐 애니메이션
 	const tengenOpacity = useTransform(scrollYProgress, [0.2, 0.45], [0, 1]);
 	const tengenY = useTransform(scrollYProgress, [0.2, 0.45], [500, 0]);
-	const tengenScale = useTransform(scrollYProgress, [0.2, 0.3], [0.5, 1]);
+	// const tengenScale = useTransform(scrollYProgress, [0.2, 0.3], [0.5, 1]);
 	const tengenBgY = useTransform(scrollYProgress, [0.2, 1], [0, -500]);
 
 
 	// 무이치로 애니메이션
 	const muichiroOpacity = useTransform(scrollYProgress, [0.4, 0.65], [0, 1]);
 	const muichiroY = useTransform(scrollYProgress, [0.4, 0.65], [500, 0]);
-	const muichiroScale = useTransform(scrollYProgress, [0.4, 0.6], [0.5, 1]);
+	// const muichiroScale = useTransform(scrollYProgress, [0.4, 0.6], [0.5, 1]);
 	const muichiroBgY = useTransform(scrollYProgress, [0.4, 1], [0, -500]);
 
 
 	// 교메이 애니메이션
 	const gyomeiOpacity = useTransform(scrollYProgress, [0.6, 0.85], [0, 1]);
 	const gyomeiY = useTransform(scrollYProgress, [0.6, 0.85], [500, 0]);
-	const gyomeiScale = useTransform(scrollYProgress, [0.6, 0.8], [0.5, 1]);
+	// const gyomeiScale = useTransform(scrollYProgress, [0.6, 0.8], [0.5, 1]);
 	const gyomeiBgY = useTransform(scrollYProgress, [0.6, 1], [0, -400]);
 
 	return (
@@ -72,7 +72,7 @@ function Serise() {
 			<div>
 				<motion.svg viewBox="0 0 694 689" width="700"
 					height="700"
-					style={{ display: 'block', position: 'absolute', top: '0px', left: '353px', scale: tanjiroScale }}
+					style={{ display: 'block', position: 'absolute', top: '0px', left: '353px' }}
 				>
 					<defs>
 						<clipPath id="shape1">
@@ -255,7 +255,7 @@ function Serise() {
 					viewBox="0 0 776 811"
 					width="775"
 					height="810"
-					style={{ display: 'block', position: 'absolute', top: '821px', left: '849px', scale: tengenScale }}
+					style={{ display: 'block', position: 'absolute', top: '821px', left: '849px' }}
 				>
 					<defs>
 						<clipPath id="shape2">
@@ -448,7 +448,6 @@ function Serise() {
 						x="0"
 						y={tengenBgY}
 						width="900"
-						height="900"
 						href={tengenBg}
 						clipPath="url(#shape2)"
 					/>
@@ -475,7 +474,7 @@ function Serise() {
 					viewBox="0 0 822 916"
 					width="794"
 					height="905"
-					style={{ display: 'block', position: 'absolute', top: '1656px', left: '315px', scale: muichiroScale }}
+					style={{ display: 'block', position: 'absolute', top: '1656px', left: '315px'}}
 				>
 					<defs>
 						<clipPath id="shape">
@@ -706,7 +705,7 @@ function Serise() {
 					viewBox="0 0 846 823"
 					width="845"
 					height="798"
-					style={{ display: 'block', position: 'absolute', top: '2315px', left: '868px', scale: gyomeiScale }}
+					style={{ display: 'block', position: 'absolute', top: '2315px', left: '868px' }}
 				>
 					<defs>
 						<clipPath id="shape4">

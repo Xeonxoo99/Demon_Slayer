@@ -31,7 +31,7 @@ function FirstQuarterIntro() {
             if (latest < 0.33 && prev !== 'first') {
                 prevSectionRef.current = 'first';
                 playImageSequence(0, 1, setCurrentImage);
-            } else if (latest >= 0.33 && latest < 0.66 && prev !== 'second') {
+            } else if (latest >= 0.33 && latest < 0.34 && prev !== 'second') {
                 prevSectionRef.current = 'second';
                 playImageSequence(1, 41, setCurrentImage);
             } else if (latest >= 0.66 && prev !== 'third') {

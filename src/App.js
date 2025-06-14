@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './App.css';
 import Video from './components/Video';
 import MainIntro from './components/MainIntro';
@@ -17,13 +19,17 @@ import logo from './images/pub/logo/로고.png';
 import on from './images/pub/bgm/on.png';
 import off from './images/pub/bgm/off.png';
 
+gsap.registerPlugin(ScrollTrigger);
+
 function App() {
   const [loading, setLoading] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
   const [isScrollEnabled, setIsScrollEnabled] = useState(false);
   const [logoVisible, setLogoVisible] = useState(true);
+  const [isPillarsSectionEnd, setIsPillarsSectionEnd] = useState(false);
   const audioRef = useRef(null);
   const movieRef = useRef(null);
+  const pillarsEndRef = useRef(null);
 
   useEffect(() => {
     const loadTimer = setTimeout(() => {
@@ -74,6 +80,42 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (isPillarsSectionEnd && pillarsEndRef.current) {
+      const scrollToPillarsEnd = () => {
+        const targetPosition = pillarsEndRef.current.offsetTop;
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+      };
+      scrollToPillarsEnd();
+    }
+  }, [isPillarsSectionEnd]);
+
+  const handlePillarsSectionEnd = () => {
+    setIsPillarsSectionEnd(true);
+  };
+
+  useEffect(() => {
+    if (!loading) {
+      const pillarsEnd = pillarsEndRef.current;
+      
+      ScrollTrigger.create({
+        trigger: pillarsEnd,
+        start: "top top",
+        end: "+=100vh",
+        pin: true,
+        pinSpacing: true,
+        anticipatePin: 1,
+      });
+
+      return () => {
+        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      };
+    }
+  }, [loading]);
+
   return (
     <>
       <audio
@@ -120,13 +162,14 @@ function App() {
             <Movie />
           </div>
 
-            <Pillars />
-            <div className="scroll-target-pillars">
+          <Pillars />
+          {/* <div ref={pillarsEndRef} className="h-screen bg-black" /> */}
+          {/* <div className="scroll-target-pillars">
           </div>
-          <div className="scroll-target-intro">
+          <div className="scroll-target-intro"> */}
             <FirstQuarterIntro />
-          </div>
-          <Door />
+          {/* </div> */}
+          {/* <Door /> */}
           <ProductionIntro />
         </>
       )}

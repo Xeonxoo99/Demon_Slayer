@@ -28,7 +28,7 @@ import giyuuEffect from '../images/pillars/물 효과.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
-function Pillars() {
+function Pillars({ onSectionEnd }) {
     const sectionRef = useRef(null);
     const containerRef = useRef(null);
     // Refs for Kyojuro elements
@@ -76,6 +76,11 @@ function Pillars() {
                 pin: true,
                 anticipatePin: 1,
                 invalidateOnRefresh: true,
+                onLeave: () => {
+                    if (onSectionEnd) {
+                        onSectionEnd();
+                    }
+                }
             },
         });
 
@@ -83,7 +88,7 @@ function Pillars() {
         return () => {
             ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
         };
-    }, []);
+    }, [onSectionEnd]);
 
     // Kyojuro animations
     useEffect(() => {
