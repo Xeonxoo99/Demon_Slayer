@@ -163,13 +163,8 @@ function App() {
             <Movie />
           </div>
 
-          {/* <Pillars /> */}
-          {/* <div ref={pillarsEndRef} className="h-screen bg-black" /> */}
-          {/* <div className="scroll-target-pillars">
-          </div>
-          <div className="scroll-target-intro"> */}
-            {/* <FirstQuarterIntro /> */}
-          {/* </div> */}
+          <Pillars />
+          <FirstQuarterIntro />
           {/* <Door /> */}
 
           {/* <Section05 /> */}
