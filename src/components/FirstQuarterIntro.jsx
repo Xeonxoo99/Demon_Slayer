@@ -13,49 +13,38 @@ function FirstQuarterIntro() {
     const [currentImage, setCurrentImage] = useState(0);
     const [isInView, setIsInView] = useState(false);
     const [isPreloaded, setIsPreloaded] = useState(false);
-    const images = Array.from({ length: 81 }, (_, i) => `/FirstQuarterwebp/${i.toString().padStart(4, '0')}.webp`);
+
+    // 원본 이미지 시퀀스
+    const baseImages = Array.from({ length: 81 }, (_, i) =>
+        `/FirstQuarterwebp/${i.toString().padStart(4, '0')}.webp`
+    );
+
+    // 30장씩 복제된 시퀀스 삽입 (총 프레임 수: 30 + 40 + 30 + 38 + 30 = 168)
+const images = [
+    ...Array(100).fill(baseImages[0]),               // 0번 30장
+    ...baseImages.slice(1, 41),                     // 1 ~ 40
+    ...Array(100).fill(baseImages[41]),              // 41번 30장
+    ...baseImages.slice(42, 81),                    // ✅ 42 ~ 80 (총 39장 → 40장)
+    ...Array(100).fill(baseImages[80]),              // 80번 30장
+];
+
+    const totalFrames = images.length; // 168프레임
 
     const { scrollYProgress } = useScroll({
         target: sectionRef,
         offset: ['start start', 'end start'],
     });
 
-    const prevSectionRef = useRef(null);
-
     useEffect(() => {
         if (!isPreloaded) return;
 
         const unsubscribe = scrollYProgress.on('change', (latest) => {
-            const prev = prevSectionRef.current;
-
-            if (latest < 0.33 && prev !== 'first') {
-                prevSectionRef.current = 'first';
-                playImageSequence(0, 1, setCurrentImage);
-            } else if (latest >= 0.33 && latest < 0.34 && prev !== 'second') {
-                prevSectionRef.current = 'second';
-                playImageSequence(1, 41, setCurrentImage);
-            } else if (latest >= 0.66 && prev !== 'third') {
-                prevSectionRef.current = 'third';
-                playImageSequence(41, 80, setCurrentImage);
-            }
+            const newImageIndex = Math.floor(latest * totalFrames);
+            setCurrentImage(Math.min(newImageIndex, totalFrames - 1));
         });
 
         return () => unsubscribe();
     }, [scrollYProgress, isPreloaded]);
-
-    function playImageSequence(startIndex, endIndex, setImageIndex, delay = 30) {
-        let current = startIndex;
-        function animate() {
-            setImageIndex(current);
-            if (current < endIndex) {
-                current++;
-                requestAnimationFrame(() => {
-                    setTimeout(animate, delay);
-                });
-            }
-        }
-        animate();
-    }
 
     // IntersectionObserver로 시야 감지
     useEffect(() => {
@@ -84,17 +73,36 @@ function FirstQuarterIntro() {
         let loadedCount = 0;
         const tempImages = [];
 
-        images.forEach((src) => {
+        // 중복 제거된 이미지들만 로딩
+        const uniqueImageSet = new Set(images);
+
+        uniqueImageSet.forEach((src) => {
             const img = new Image();
             img.src = src;
             img.onload = () => {
                 loadedCount++;
-                if (loadedCount === images.length) {
+                if (loadedCount === uniqueImageSet.size + 6) {
                     setIsPreloaded(true);
                 }
             };
             img.onerror = () => {
                 console.error(`Failed to load image: ${src}`);
+            };
+            tempImages.push(img);
+        });
+
+        // 캐릭터 이미지들도 함께 로딩
+        [akaza, akazaName, dakiGyutaro, dakiGyutaroName, gyokko, gyokkoName].forEach((src) => {
+            const img = new Image();
+            img.src = src;
+            img.onload = () => {
+                loadedCount++;
+                if (loadedCount === uniqueImageSet.size + 6) {
+                    setIsPreloaded(true);
+                }
+            };
+            img.onerror = () => {
+                console.error(`Failed to load character image: ${src}`);
             };
             tempImages.push(img);
         });
@@ -133,73 +141,22 @@ function FirstQuarterIntro() {
 
             {/* 캐릭터 등장 */}
             <AnimatePresence mode="wait">
-                {isInView && isPreloaded && currentImage === 1 && (
+                {isInView && isPreloaded && currentImage < 100 && (
                     <>
-                        <motion.img
-                            key="akaza"
-                            src={akaza}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 0.8 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.5 }}
-                            className="fixed bottom-0 left-1/2 -translate-x-1/2 w-[40%] z-10 pointer-events-none"
-                            style={{ maxWidth: '600px' }}
-                        />
-                        <motion.img
-                            key="akaza-name"
-                            src={akazaName}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 0.8 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.5 }}
-                            className="fixed -bottom-[100px] left-[550px] -translate-x-1/2 w-[60%] z-10 pointer-events-none"
-                        />
+                        <motion.img key="akaza" src={akaza} className="fixed bottom-0 left-1/2 -translate-x-1/2 z-10 w-[1119px]" />
+                        <motion.img key="akaza-name" src={akazaName} className="fixed -bottom-[100px] left-0 z-10 w-[1081px]" />
                     </>
                 )}
-
-                {isInView && isPreloaded && currentImage === 41 && (
+                {isInView && isPreloaded && currentImage >= 140 && currentImage < 240 && (
                     <>
-                        <motion.img
-                            key="daki"
-                            src={dakiGyutaro}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 0.8 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.5 }}
-                            className="fixed bottom-[5%] left-1/2 -translate-x-1/2 w-[50%] z-10 pointer-events-none"
-                        />
-                        <motion.img
-                            key="daki-name"
-                            src={dakiGyutaroName}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 0.8 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.5 }}
-                            className="fixed bottom-0 left-[550px] -translate-x-1/2 w-[60%] z-10 pointer-events-none"
-                        />
+                        <motion.img key="daki" src={dakiGyutaro} className="fixed -bottom-[17px] left-1/2 -translate-x-1/2 z-10 w-[1119px] h-[985px]" />
+                        <motion.img key="daki-name" src={dakiGyutaroName} className="fixed bottom-0 left-0 z-10 w-[1061px]" />
                     </>
                 )}
-
-                {isInView && isPreloaded && currentImage === 80 && (
+                {isInView && isPreloaded && currentImage >= 300 && currentImage < 380 && (
                     <>
-                        <motion.img
-                            key="gyokko"
-                            src={gyokko}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 0.8 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.5 }}
-                            className="fixed bottom-[5%] left-1/2 -translate-x-1/2 w-[50%] z-10 pointer-events-none"
-                        />
-                        <motion.img
-                            key="gyokko-name"
-                            src={gyokkoName}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 0.8 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.5 }}
-                            className="fixed -bottom-[50px] left-[550px] -translate-x-1/2 w-[60%] z-10 pointer-events-none"
-                        />
+                        <motion.img key="gyokko" src={gyokko} className="fixed bottom-0 left-1/2 -translate-x-1/2 z-10 w-[1119px]" />
+                        <motion.img key="gyokko-name" src={gyokkoName} className="fixed bottom-0 left-0 z-10 w-[943px]" />
                     </>
                 )}
             </AnimatePresence>

@@ -21,7 +21,7 @@ function Movie() {
     const ref2 = useRef(null);
     const ref3 = useRef(null);
 
-    const isInView1 = useInView(ref1, { once: true, margin: "0px 0px -90% 0px" });
+    const isInView1 = useInView(ref1, { once: true, margin: "0px 0px -80% 0px" });
     const isInView2 = useInView(ref2, { once: true, margin: "0px 0px -60% 0px" });
     const isInView3 = useInView(ref3, { once: true, margin: "0px 0px -38% 0px" });
 
