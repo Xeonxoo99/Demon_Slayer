@@ -3,10 +3,15 @@ import { useScroll, motion, AnimatePresence } from 'framer-motion';
 
 import akaza from '../images/firstquarter/아카자.png';
 import akazaName from '../images/firstquarter/아카자 이름.png';
+import akazaIntro from '../images/firstquarter/아카자 배경 스토리.png'
+
 import dakiGyutaro from '../images/firstquarter/다키규타로.png';
 import dakiGyutaroName from '../images/firstquarter/다키 규타로 이름.png';
+import dakiGyutaroIntro from '../images/firstquarter/다키규타로 배경 스토리.png'
+
 import gyokko from '../images/firstquarter/쿗코.png';
 import gyokkoName from '../images/firstquarter/쿗코 이름.png';
+import gyokkoIntro from '../images/firstquarter/굣코 배경 스토리.png'
 
 function FirstQuarterIntro() {
     const sectionRef = useRef(null);
@@ -145,18 +150,21 @@ const images = [
                     <>
                         <motion.img key="akaza" src={akaza} className="fixed bottom-0 left-1/2 -translate-x-1/2 z-10 w-[1119px]" />
                         <motion.img key="akaza-name" src={akazaName} className="fixed -bottom-[100px] left-0 z-10 w-[1081px]" />
+                        <motion.img key="akaza-intro" src={akazaIntro} className="fixed bottom-[188px] left-[1343px] z-10 w-[456px]" />
                     </>
                 )}
                 {isInView && isPreloaded && currentImage >= 140 && currentImage < 240 && (
                     <>
                         <motion.img key="daki" src={dakiGyutaro} className="fixed -bottom-[17px] left-1/2 -translate-x-1/2 z-10 w-[1119px] h-[985px]" />
                         <motion.img key="daki-name" src={dakiGyutaroName} className="fixed bottom-0 left-0 z-10 w-[1061px]" />
+                        <motion.img key="daki-intro" src={dakiGyutaroIntro} className="fixed bottom-[188px] left-[1343px] z-10 w-[456px]" />
                     </>
                 )}
-                {isInView && isPreloaded && currentImage >= 300 && currentImage < 380 && (
+                {isInView && isPreloaded && currentImage >= 297 && currentImage < 380 && (
                     <>
                         <motion.img key="gyokko" src={gyokko} className="fixed bottom-0 left-1/2 -translate-x-1/2 z-10 w-[1119px]" />
                         <motion.img key="gyokko-name" src={gyokkoName} className="fixed bottom-0 left-0 z-10 w-[943px]" />
+                        <motion.img key="gyokko-intro" src={gyokkoIntro} className="fixed bottom-[188px] left-[1343px] z-10 w-[456px]" />
                     </>
                 )}
             </AnimatePresence>
