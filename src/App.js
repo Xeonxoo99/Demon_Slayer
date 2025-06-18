@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './App.css';
@@ -12,13 +13,19 @@ import Movie from './components/Movie';
 import Pillars from './components/Pillars';
 import FirstQuarterIntro from './components/FirstQuarterIntro';
 import ProductionIntro from './components/ProductionIntro';
-import Door from './components/door';
+
 
 import bmg from './images/pub/bgm/OST.mp3';
 import logo from './images/pub/logo/로고.png';
 import on from './images/pub/bgm/on.png';
 import off from './images/pub/bgm/off.png';
 import Section05 from './_view/Section05';
+
+import leftdoor1 from './images/pub/door/leftdoor1.png';
+import leftdoor2 from './images/pub/door/leftdoor2.png';
+import rightdoor1 from './images/pub/door/rightdoor1.png';
+import rightdoor2 from './images/pub/door/rightdoor2.png';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,7 +37,41 @@ function App() {
   const [isPillarsSectionEnd, setIsPillarsSectionEnd] = useState(false);
   const audioRef = useRef(null);
   const movieRef = useRef(null);
-  const pillarsEndRef = useRef(null);
+  // const pillarsEndRef = useRef(null);
+
+  const containerRef = useRef(null);
+  const containerRef2 = useRef(null);
+  const fullRef = useRef(null);
+
+  const { scrollYProgress: scrollYProgress } = useScroll({
+    target: fullRef,
+    offset: ["start start", "end end"],
+  });
+
+  const { scrollYProgress: scrollYProgress2 } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  // 가로스크롤
+  // const x = useTransform(
+  //   scrollYProgress,
+  //   [0, 1],
+  //   ["0px", "-4338px"] // 6258px - 1920px 
+  // );
+
+  // 가로스크롤과 상현섹션 중간에 door 효과 추가
+  // const opacity = useTransform(
+  //   scrollYProgress,
+  //   [0.45, 0.46, 0.6, 0.61],
+  //   [0, 1, 1, 0]
+  // );
+
+  const leftdoor1x = useTransform(scrollYProgress, [0.45, 0.48,0.6,0.63], [-485, 0, 0, -485]);
+  const rightdoor2x = useTransform(scrollYProgress, [0.45, 0.48,0.6,0.63], [-485, 0, 0, -485]);
+
+  const leftdoor2x = useTransform(scrollYProgress, [0.46, 0.49, 0.59,0.62], [-485, 482, 482, -485]);
+  const rightdoor1x = useTransform(scrollYProgress, [0.46, 0.49, 0.59,0.62], [-485, 482, 482, -485]);
 
   useEffect(() => {
     const loadTimer = setTimeout(() => {
@@ -81,41 +122,41 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    if (isPillarsSectionEnd && pillarsEndRef.current) {
-      const scrollToPillarsEnd = () => {
-        const targetPosition = pillarsEndRef.current.offsetTop;
-        window.scrollTo({
-          top: targetPosition,
-          behavior: 'smooth'
-        });
-      };
-      scrollToPillarsEnd();
-    }
-  }, [isPillarsSectionEnd]);
+  // useEffect(() => {
+  //   if (isPillarsSectionEnd && pillarsEndRef.current) {
+  //     const scrollToPillarsEnd = () => {
+  //       const targetPosition = pillarsEndRef.current.offsetTop;
+  //       window.scrollTo({
+  //         top: targetPosition,
+  //         behavior: 'smooth'
+  //       });
+  //     };
+  //     scrollToPillarsEnd();
+  //   }
+  // }, [isPillarsSectionEnd]);
 
-  const handlePillarsSectionEnd = () => {
-    setIsPillarsSectionEnd(true);
-  };
+  // const handlePillarsSectionEnd = () => {
+  //   setIsPillarsSectionEnd(true);
+  // };
 
-  useEffect(() => {
-    if (!loading) {
-      const pillarsEnd = pillarsEndRef.current;
-      
-      ScrollTrigger.create({
-        trigger: pillarsEnd,
-        start: "top top",
-        end: "+=100vh",
-        pin: true,
-        pinSpacing: true,
-        anticipatePin: 1,
-      });
+  // useEffect(() => {
+  //   if (!loading) {
+  //     const pillarsEnd = pillarsEndRef.current;
 
-      return () => {
-        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-      };
-    }
-  }, [loading]);
+  //     ScrollTrigger.create({
+  //       trigger: pillarsEnd,
+  //       start: "top top",
+  //       end: "+=100vh",
+  //       pin: true,
+  //       pinSpacing: true,
+  //       anticipatePin: 1,
+  //     });
+
+  //     return () => {
+  //       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+  //     };
+  //   }
+  // }, [loading]);
 
   return (
     <>
@@ -153,25 +194,45 @@ function App() {
       {/* {loading ? (
         <Video />
       ) : ( */}
-        <>
-          <MainIntro onAnimationComplete={handleAnimationComplete} />
-          <StorySection1 />
-          <StorySection2 />
-          <SlideTxt />
-          <Serise />
-          <div ref={movieRef}>
-            <Movie />
-          </div>
+      <>
+        <MainIntro onAnimationComplete={handleAnimationComplete} />
+        <StorySection1 />
+        <StorySection2 />
+        <SlideTxt />
+        <Serise />
+        <div ref={movieRef}>
+          <Movie />
+        </div>
 
+        <div ref={fullRef}>
           <Pillars />
-          <FirstQuarterIntro />
-          {/* <Door /> */}
+          <FirstQuarterIntro ref={containerRef2} />
 
-          {/* <Section05 /> */}
+          <motion.img
+            src={leftdoor1}
+            className="fixed top-0 left-0 w-[485px] h-screen z-[9999] pointer-events-none"
+            style={{ left: leftdoor1x }}
+          />
+          <motion.img
+            src={leftdoor2}
+            className="fixed top-0 left-[485px] w-[486px] h-screen z-[9998] pointer-events-none"
+            style={{ left: leftdoor2x }}
+          />
+          <motion.img
+            src={rightdoor1}
+            className="fixed top-0 right-[485px] w-[486px] h-screen z-[9998] pointer-events-none"
+            style={{ right: rightdoor1x }}
+          />
+          <motion.img
+            src={rightdoor2}
+            className="fixed top-0 right-0 w-[485px] h-screen z-[9999] pointer-events-none"
+            style={{ right: rightdoor2x }}
+          />
+        </div>
 
+        <ProductionIntro />
 
-          <ProductionIntro />
-        </>
+      </>
       {/* )} */}
     </>
   );

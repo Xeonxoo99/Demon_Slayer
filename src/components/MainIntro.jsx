@@ -323,7 +323,7 @@ function MainIntro({ onAnimationComplete }) {
             delay: 2,
           },
         }}
-        style={{ opacity: textOpacity }}
+        style={{ opacity: leftTextOpacity }}
         className="fixed bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center"
       >
         <img src={arrow} alt="arrow" />

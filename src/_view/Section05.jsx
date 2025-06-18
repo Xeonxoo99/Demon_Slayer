@@ -23,11 +23,11 @@ const Section05 = () => {
     );
 
     // 가로스크롤과 상현섹션 중간에 door 효과 추가
-    const opacity = useTransform(
-      scrollYProgress2 ,
-        [0.45, 0.46, 0.6,0.61],
-        [0, 1,1,0]
-    );
+    // const opacity = useTransform(
+    //   scrollYProgress2 ,
+    //     [0.45, 0.46, 0.6,0.61],
+    //     [0,1,1,0]
+    // );
 
     /*
       door 효과추가
@@ -90,10 +90,10 @@ const Section05 = () => {
       </div>
 
       {/* 파란색 오버레이 */}
-        <motion.div 
+        {/* <motion.div 
         className='fixed top-0 left-0 h-screen bg-blue-500 w-full pointer-events-none'
         style={{ opacity }}
-        />
+        /> */}
 
       </>
     )

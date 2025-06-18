@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useScroll, motion, AnimatePresence } from 'framer-motion';
+import { useScroll, motion, AnimatePresence,useTransform } from 'framer-motion';
 
 import akaza from '../images/firstquarter/아카자.png';
 import akazaName from '../images/firstquarter/아카자 이름.png';
@@ -12,6 +12,12 @@ import dakiGyutaroIntro from '../images/firstquarter/다키규타로 배경 스�
 import gyokko from '../images/firstquarter/쿗코.png';
 import gyokkoName from '../images/firstquarter/쿗코 이름.png';
 import gyokkoIntro from '../images/firstquarter/굣코 배경 스토리.png'
+
+import leftdoor1 from '../images/pub/door/leftdoor1.png';
+import leftdoor2 from '../images/pub/door/leftdoor2.png';
+import rightdoor1 from '../images/pub/door/rightdoor1.png';
+import rightdoor2 from '../images/pub/door/rightdoor2.png';
+
 
 function FirstQuarterIntro() {
     const sectionRef = useRef(null);
@@ -39,6 +45,12 @@ const images = [
         target: sectionRef,
         offset: ['start start', 'end start'],
     });
+
+  const leftdoor1x = useTransform(scrollYProgress, [0.8, 0.83,0.98,1], [-485, 0, 0, -485]);
+  const rightdoor2x = useTransform(scrollYProgress, [0.8, 0.83,0.98,1], [-485, 0, 0, -485]);
+
+  const leftdoor2x = useTransform(scrollYProgress, [0.8, 0.83,0.98,1], [-485, 482, 482, -485]);
+  const rightdoor1x = useTransform(scrollYProgress, [0.8, 0.83,0.98,1], [-485, 482, 482, -485]);
 
     useEffect(() => {
         if (!isPreloaded) return;
@@ -122,8 +134,8 @@ const images = [
     return (
         <section
             ref={sectionRef}
-            className="relative w-full h-[1000vh] bg-black"
-            style={{ zIndex: 30 }}
+            className="relative w-full h-[800vh] bg-black"
+            style={{ zIndex: 31 }}
             key="first-quarter-intro"
         >
             {/* 배경 시퀀스 이미지 */}
@@ -168,6 +180,26 @@ const images = [
                     </>
                 )}
             </AnimatePresence>
+            <motion.img
+            src={leftdoor1}
+            className="fixed top-0 left-0 w-[485px] h-screen z-[99999] pointer-events-none"
+            style={{ left: leftdoor1x }}
+          />
+          <motion.img
+            src={leftdoor2}
+            className="fixed top-0 left-[485px] w-[486px] h-screen z-[99998] pointer-events-none"
+            style={{ left: leftdoor2x }}
+          />
+          <motion.img
+            src={rightdoor1}
+            className="fixed top-0 right-[485px] w-[486px] h-screen z-[99998] pointer-events-none"
+            style={{ right: rightdoor1x }}
+          />
+          <motion.img
+            src={rightdoor2}
+            className="fixed top-0 right-0 w-[485px] h-screen z-[99999] pointer-events-none"
+            style={{ right: rightdoor2x }}
+          />
         </section>
     );
 }
