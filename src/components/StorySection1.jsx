@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { useScroll, useTransform, motion, AnimatePresence } from 'framer-motion';
+import { useScroll, useTransform, motion, AnimatePresence, useSpring } from 'framer-motion';
 import bg from '../images/story1/배경.png';
 
 // 탄지로 & 네즈코
@@ -72,24 +72,45 @@ function StorySection1() {
         };
     }, [zenitsuProgress, inosukeProgress]);
 
+
+    const smoothProgress1 = useSpring(tanjiroProgress, {
+		stiffness: 50,
+		damping: 20, 
+		mass: 1, 
+	  });
+
+      const smoothProgress2 = useSpring(zenitsuProgress, {
+		stiffness: 50,
+		damping: 20, 
+		mass: 1, 
+	  });
+
+      const smoothProgress3 = useSpring(inosukeProgress, {
+		stiffness: 50,
+		damping: 20, 
+		mass: 1, 
+	  });
+
+
+
     // 탄지로 스크롤
-    const tanjiroBnsY = useTransform(tanjiroProgress, [0, 1], [0, -200]); 
+    const tanjiroBnsY = useTransform(smoothProgress1, [0, 1], [100, -400]); 
     const tanjiroTitle1Y = useTransform(tanjiroProgress, [0, 1], [0, -300]); 
     const tanjiroImgY = useTransform(tanjiroProgress, [0, 1], [0, -500]); 
     const tanjiroDescY = useTransform(tanjiroProgress, [0, 1], [0, -350]); 
     // 젠이츠 스크롤
-    const zenitsuImgY = useTransform(zenitsuProgress, [0.3, 0.7], [0, -200]); 
+    const zenitsuImgY = useTransform(smoothProgress2, [0.3, 0.7], [0, -400]); 
     const zenitsu1Y = useTransform(zenitsuProgress, [0.3, 0.7], [0, -100]); 
-    const zenitsuTitle1Y = useTransform(zenitsuProgress, [0.3, 0.7], [0, -250]);
+    const zenitsuTitle1Y = useTransform(zenitsuProgress, [0.3, 0.7], [100, -50]);
     const zenitsu2Y = useTransform(zenitsuProgress, [0.3, 0.7], [0, -150]);
-    const zenitsuDescY = useTransform(zenitsuProgress, [0.3, 0.7], [0, -250]); 
+    const zenitsuDescY = useTransform(zenitsuProgress, [0.3, 0.7], [100, -50]); 
      // 이노스케 스크롤
-    const inosukeImgY = useTransform(inosukeProgress, [0.4, 0.7], [0, -400]); 
+    const inosukeImgY = useTransform(smoothProgress3, [0.4, 0.7], [-100, -300]); 
     const inosuke1Y = useTransform(inosukeProgress, [0.4, 0.7], [0, -300]);
-    const inosuke2Y = useTransform(inosukeProgress, [0.4, 0.7], [0, -600]);
-    const inosukeTitle1Y = useTransform(inosukeProgress, [0.4, 0.7], [0, -550]); 
-    const inosukeTitle2Y = useTransform(inosukeProgress, [0.4, 0.7], [0, -350]); 
-    const inosukeDescY = useTransform(inosukeProgress, [0.4, 0.7], [0, -300]); 
+    const inosuke2Y = useTransform(inosukeProgress, [0.4, 0.7], [-200, -800]);
+    const inosukeTitle1Y = useTransform(inosukeProgress, [0.5, 0.8], [0, -300]); 
+    const inosukeTitle2Y = useTransform(inosukeProgress, [0.5, 0.8], [0, -300]); 
+    const inosukeDescY = useTransform(inosukeProgress, [0.5, 0.8], [0, -300]); 
      return (
         <motion.section
             className='relative w-full h-[2940px]'

@@ -52,6 +52,8 @@ const images = [
   const leftdoor2x = useTransform(scrollYProgress, [0.8, 0.83,0.98,1], [-485, 482, 482, -485]);
   const rightdoor1x = useTransform(scrollYProgress, [0.8, 0.83,0.98,1], [-485, 482, 482, -485]);
 
+  const opacity1 = useTransform(scrollYProgress, [0, 0.1,0.2], [0, 1, 0]);
+
     useEffect(() => {
         if (!isPreloaded) return;
 
@@ -160,9 +162,9 @@ const images = [
             <AnimatePresence mode="wait">
                 {isInView && isPreloaded && currentImage < 100 && (
                     <>
-                        <motion.img key="akaza" src={akaza} className="fixed bottom-0 left-1/2 -translate-x-1/2 z-10 w-[1119px]" />
-                        <motion.img key="akaza-name" src={akazaName} className="fixed -bottom-[100px] left-0 z-10 w-[1081px]" />
-                        <motion.img key="akaza-intro" src={akazaIntro} className="fixed bottom-[188px] left-[1343px] z-10 w-[456px]" />
+                        <motion.img key="akaza" src={akaza} className="fixed bottom-0 left-1/2 -translate-x-1/2 z-10 w-[1119px]" style={{opacity: opacity1}} />
+                        <motion.img key="akaza-name" src={akazaName} className="fixed -bottom-[100px] left-0 z-10 w-[1081px]" style={{opacity: opacity1}} />
+                        <motion.img key="akaza-intro" src={akazaIntro} className="fixed bottom-[188px] left-[1343px] z-10 w-[456px]" style={{opacity: opacity1}} />
                     </>
                 )}
                 {isInView && isPreloaded && currentImage >= 140 && currentImage < 240 && (

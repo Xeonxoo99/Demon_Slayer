@@ -62,25 +62,25 @@ function MainIntro({ onAnimationComplete }) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
     const opacityList = [
-    useTransform(scrollYProgress, [0, 0.1, 0.25], [0, 1, 0]), // tanjiro
-    useTransform(scrollYProgress, [0, 0.15, 0.3], [0, 1, 0]), // Giyuu
-    useTransform(scrollYProgress, [0, 0.2, 0.35], [0, 1, 0]), // Obanai
-    useTransform(scrollYProgress, [0, 0.25, 0.4], [0, 1, 0]), // Muichiro
-    useTransform(scrollYProgress, [0, 0.3, 0.45], [0, 1, 0]), // Mitsuri
-    useTransform(scrollYProgress, [0, 0.35, 0.5], [0, 1, 0]), // Gyomei
-    useTransform(scrollYProgress, [0, 0.4, 0.55], [0, 1, 0]), // Sanemi
-    useTransform(scrollYProgress, [0, 0.45, 0.6], [0, 1, 0]), // Shinobu
+    useTransform(scrollYProgress, [0, 0.1, 0.72], [0, 1, 0]), // tanjiro
+    useTransform(scrollYProgress, [0, 0.15, 0.76], [0, 1, 0]), // Giyuu
+    useTransform(scrollYProgress, [0, 0.2, 0.80], [0, 1, 0]), // Obanai
+    useTransform(scrollYProgress, [0, 0.25, 0.84], [0, 1, 0]), // Muichiro
+    useTransform(scrollYProgress, [0, 0.3, 0.88], [0, 1, 0]), // Mitsuri
+    useTransform(scrollYProgress, [0, 0.35, 0.92], [0, 1, 0]), // Gyomei
+    useTransform(scrollYProgress, [0, 0.4, 0.96], [0, 1, 0]), // Sanemi
+    useTransform(scrollYProgress, [0, 0.45, 1], [0, 1, 0]), // Shinobu
   ];
 
   const scaleList = [
-    useTransform(scrollYProgress, [0, 0.1, 0.25], [0, 0.25, 1.15]),
-    useTransform(scrollYProgress, [0, 0.15, 0.3], [0, 0.3, 1.15]),
-    useTransform(scrollYProgress, [0, 0.2, 0.35], [0, 0.35, 1.15]),
-    useTransform(scrollYProgress, [0, 0.25, 0.4], [0, 0.4, 1.15]),
-    useTransform(scrollYProgress, [0, 0.3, 0.45], [0, 0.45, 1.15]),
-    useTransform(scrollYProgress, [0, 0.35, 0.5], [0, 0.5, 1.15]),
-    useTransform(scrollYProgress, [0, 0.4, 0.55], [0, 0.55, 1.15]),
-    useTransform(scrollYProgress, [0, 0.45, 0.6], [0, 0.6, 1.15]),
+    useTransform(scrollYProgress, [0, 0.1, 0.72], [1, 1, 1.5]),
+    useTransform(scrollYProgress, [0, 0.15, 0.76], [1, 1, 1.5]),
+    useTransform(scrollYProgress, [0, 0.2, 0.80], [1, 1, 1.5]),
+    useTransform(scrollYProgress, [0, 0.25, 0.84], [1, 1, 1.5]),
+    useTransform(scrollYProgress, [0, 0.3, 0.88], [1, 1, 1.5]),
+    useTransform(scrollYProgress, [0, 0.35, 0.92], [1, 1, 1.5]),
+    useTransform(scrollYProgress, [0, 0.4, 0.96], [1, 1, 1.5]),
+    useTransform(scrollYProgress, [0, 0.45, 1], [1, 1, 1.5]),
   ];
 
   const randomDirections = useRef(

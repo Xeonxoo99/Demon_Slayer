@@ -209,7 +209,7 @@ function ProductionIntro() {
 
     return (
         <section
-            className="relative w-full h-[11305px] bg-[#000000]"
+            className="relative w-full h-[11305px] bg-[#000000] overflow-clip"
             style={{ zIndex: 30, fontFamily: 'Pretendard-Regular' }}
         >
             <div
