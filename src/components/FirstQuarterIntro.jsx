@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useScroll, motion, AnimatePresence,useTransform } from 'framer-motion';
+import { useScroll, motion, AnimatePresence, useTransform } from 'framer-motion';
 
 import akaza from '../images/firstquarter/아카자.png';
 import akazaName from '../images/firstquarter/아카자 이름.png';
@@ -31,13 +31,13 @@ function FirstQuarterIntro() {
     );
 
     // 30장씩 복제된 시퀀스 삽입 (총 프레임 수: 30 + 40 + 30 + 38 + 30 = 168)
-const images = [
-    ...Array(100).fill(baseImages[0]),               // 0번 30장
-    ...baseImages.slice(1, 41),                     // 1 ~ 40
-    ...Array(100).fill(baseImages[41]),              // 41번 30장
-    ...baseImages.slice(42, 81),                    // ✅ 42 ~ 80 (총 39장 → 40장)
-    ...Array(100).fill(baseImages[80]),              // 80번 30장
-];
+    const images = [
+        ...Array(100).fill(baseImages[0]),               // 0번 30장
+        ...baseImages.slice(1, 41),                     // 1 ~ 40
+        ...Array(100).fill(baseImages[41]),              // 41번 30장
+        ...baseImages.slice(42, 81),                    // ✅ 42 ~ 80 (총 39장 → 40장)
+        ...Array(100).fill(baseImages[80]),              // 80번 30장
+    ];
 
     const totalFrames = images.length; // 168프레임
 
@@ -46,13 +46,15 @@ const images = [
         offset: ['start start', 'end start'],
     });
 
-  const leftdoor1x = useTransform(scrollYProgress, [0.8, 0.83,0.98,1], [-485, 0, 0, -485]);
-  const rightdoor2x = useTransform(scrollYProgress, [0.8, 0.83,0.98,1], [-485, 0, 0, -485]);
+    const leftdoor1x = useTransform(scrollYProgress, [0.8, 0.83, 0.98, 1], [-485, 0, 0, -485]);
+    const rightdoor2x = useTransform(scrollYProgress, [0.8, 0.83, 0.98, 1], [-485, 0, 0, -485]);
 
-  const leftdoor2x = useTransform(scrollYProgress, [0.8, 0.83,0.98,1], [-485, 482, 482, -485]);
-  const rightdoor1x = useTransform(scrollYProgress, [0.8, 0.83,0.98,1], [-485, 482, 482, -485]);
+    const leftdoor2x = useTransform(scrollYProgress, [0.8, 0.83, 0.98, 1], [-485, 482, 482, -485]);
+    const rightdoor1x = useTransform(scrollYProgress, [0.8, 0.83, 0.98, 1], [-485, 482, 482, -485]);
 
-  const opacity1 = useTransform(scrollYProgress, [0, 0.1,0.2], [0, 1, 0]);
+    const opacity1 = useTransform(scrollYProgress, [0, 0.1, 0.2], [0, 1, 0]);
+    const opacity2 = useTransform(scrollYProgress, [0.4, 0.5, 0.6], [0, 1, 0]);
+    const opacity3 = useTransform(scrollYProgress, [0.75, 0.8, 0.9], [0, 1, 1]);
 
     useEffect(() => {
         if (!isPreloaded) return;
@@ -162,46 +164,46 @@ const images = [
             <AnimatePresence mode="wait">
                 {isInView && isPreloaded && currentImage < 100 && (
                     <>
-                        <motion.img key="akaza" src={akaza} className="fixed bottom-0 left-1/2 -translate-x-1/2 z-10 w-[1119px]" style={{opacity: opacity1}} />
-                        <motion.img key="akaza-name" src={akazaName} className="fixed -bottom-[100px] left-0 z-10 w-[1081px]" style={{opacity: opacity1}} />
-                        <motion.img key="akaza-intro" src={akazaIntro} className="fixed bottom-[188px] left-[1343px] z-10 w-[456px]" style={{opacity: opacity1}} />
+                        <motion.img key="akaza" src={akaza} className="fixed bottom-0 left-1/2 -translate-x-1/2 z-10 w-[1119px]" style={{ opacity: opacity1 }} />
+                        <motion.img key="akaza-name" src={akazaName} className="fixed -bottom-[100px] left-0 z-10 w-[1081px]" style={{ opacity: opacity1 }} />
+                        <motion.img key="akaza-intro" src={akazaIntro} className="fixed bottom-[188px] left-[1343px] z-10 w-[456px]" style={{ opacity: opacity1 }} />
                     </>
                 )}
                 {isInView && isPreloaded && currentImage >= 140 && currentImage < 240 && (
                     <>
-                        <motion.img key="daki" src={dakiGyutaro} className="fixed -bottom-[17px] left-1/2 -translate-x-1/2 z-10 w-[1119px] h-[985px]" />
-                        <motion.img key="daki-name" src={dakiGyutaroName} className="fixed bottom-0 left-0 z-10 w-[1061px]" />
-                        <motion.img key="daki-intro" src={dakiGyutaroIntro} className="fixed bottom-[188px] left-[1343px] z-10 w-[456px]" />
+                        <motion.img key="daki" src={dakiGyutaro} className="fixed -bottom-[17px] left-1/2 -translate-x-1/2 z-10 w-[1119px] h-[985px]" style={{ opacity: opacity2 }}/>
+                        <motion.img key="daki-name" src={dakiGyutaroName} className="fixed bottom-0 left-0 z-10 w-[1061px]" style={{ opacity: opacity2 }}/>
+                        <motion.img key="daki-intro" src={dakiGyutaroIntro} className="fixed bottom-[188px] left-[1343px] z-10 w-[456px]" style={{ opacity: opacity2 }}/>
                     </>
                 )}
-                {isInView && isPreloaded && currentImage >= 297 && currentImage < 380 && (
+                {isInView && isPreloaded && currentImage >= 227 && currentImage < 380 && (
                     <>
-                        <motion.img key="gyokko" src={gyokko} className="fixed bottom-0 left-1/2 -translate-x-1/2 z-10 w-[1119px]" />
-                        <motion.img key="gyokko-name" src={gyokkoName} className="fixed bottom-0 left-0 z-10 w-[943px]" />
-                        <motion.img key="gyokko-intro" src={gyokkoIntro} className="fixed bottom-[188px] left-[1343px] z-10 w-[456px]" />
+                        <motion.img key="gyokko" src={gyokko} className="fixed bottom-0 left-1/2 -translate-x-1/2 z-10 w-[1119px]" style={{ opacity: opacity3 }}/>
+                        <motion.img key="gyokko-name" src={gyokkoName} className="fixed bottom-0 left-0 z-10 w-[943px]" style={{ opacity: opacity3 }}/>
+                        <motion.img key="gyokko-intro" src={gyokkoIntro} className="fixed bottom-[188px] left-[1343px] z-10 w-[456px]" style={{ opacity: opacity3 }}/>
                     </>
                 )}
             </AnimatePresence>
             <motion.img
-            src={leftdoor1}
-            className="fixed top-0 left-0 w-[485px] h-screen z-[99999] pointer-events-none"
-            style={{ left: leftdoor1x }}
-          />
-          <motion.img
-            src={leftdoor2}
-            className="fixed top-0 left-[485px] w-[486px] h-screen z-[99998] pointer-events-none"
-            style={{ left: leftdoor2x }}
-          />
-          <motion.img
-            src={rightdoor1}
-            className="fixed top-0 right-[485px] w-[486px] h-screen z-[99998] pointer-events-none"
-            style={{ right: rightdoor1x }}
-          />
-          <motion.img
-            src={rightdoor2}
-            className="fixed top-0 right-0 w-[485px] h-screen z-[99999] pointer-events-none"
-            style={{ right: rightdoor2x }}
-          />
+                src={leftdoor1}
+                className="fixed top-0 left-0 w-[485px] h-screen z-[99999] pointer-events-none"
+                style={{ left: leftdoor1x }}
+            />
+            <motion.img
+                src={leftdoor2}
+                className="fixed top-0 left-[485px] w-[486px] h-screen z-[99998] pointer-events-none"
+                style={{ left: leftdoor2x }}
+            />
+            <motion.img
+                src={rightdoor1}
+                className="fixed top-0 right-[485px] w-[486px] h-screen z-[99998] pointer-events-none"
+                style={{ right: rightdoor1x }}
+            />
+            <motion.img
+                src={rightdoor2}
+                className="fixed top-0 right-0 w-[485px] h-screen z-[99999] pointer-events-none"
+                style={{ right: rightdoor2x }}
+            />
         </section>
     );
 }
