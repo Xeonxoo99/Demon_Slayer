@@ -52,7 +52,7 @@ function MainIntro({ onAnimationComplete }) {
   const charOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.5, 0.65], [0, 1, 0]);
   const textScale = useTransform(scrollYProgress, [0, 0.7], [0.5, 0.65]);
-  const leftTextOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const leftTextOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
   const effectOpacity = useTransform(scrollYProgress, [0, 0.7], [0.1, 0]);
   const sectionOpacity = useTransform(scrollYProgress, [0.9, 1], [1, 0]);
   const finalTextOpacity = useTransform(scrollYProgress, [0.7, 0.9, 1], [0, 0.8, 0]);
@@ -278,10 +278,10 @@ function MainIntro({ onAnimationComplete }) {
 
       {/* 좌측 하단 텍스트 */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.5, ease: 'easeInOut', delay: 3 }}
-        style={{ opacity: leftTextOpacity }}
+        style={{
+            opacity: scrollYProgress < 0.01 ? 0 : textOpacity,
+          }}
+          initial={{ opacity: 0 }}
         className="fixed bottom-8 left-10 font-[16px] text-[#ffffff] flex flex-col"
       >
         <span>귀살대는 상처도 회복도 더딘 인간이지만,</span>

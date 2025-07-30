@@ -37,7 +37,7 @@ function App() {
   const [isPillarsSectionEnd, setIsPillarsSectionEnd] = useState(false);
   const audioRef = useRef(null);
   const movieRef = useRef(null);
-  // const pillarsEndRef = useRef(null);
+  const pillarsEndRef = useRef(null);
 
   const containerRef = useRef(null);
   const containerRef2 = useRef(null);
@@ -54,18 +54,18 @@ function App() {
   });
 
   // 가로스크롤
-  // const x = useTransform(
-  //   scrollYProgress,
-  //   [0, 1],
-  //   ["0px", "-4338px"] // 6258px - 1920px 
-  // );
+  const x = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ["0px", "-4338px"] // 6258px - 1920px 
+  );
 
   // 가로스크롤과 상현섹션 중간에 door 효과 추가
-  // const opacity = useTransform(
-  //   scrollYProgress,
-  //   [0.45, 0.46, 0.6, 0.61],
-  //   [0, 1, 1, 0]
-  // );
+  const opacity = useTransform(
+    scrollYProgress,
+    [0.45, 0.46, 0.6, 0.61],
+    [0, 1, 1, 0]
+  );
 
   const leftdoor1x = useTransform(scrollYProgress, [0.45, 0.48,0.6,0.63], [-485, 0, 0, -485]);
   const rightdoor2x = useTransform(scrollYProgress, [0.45, 0.48,0.6,0.63], [-485, 0, 0, -485]);
@@ -122,45 +122,45 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // useEffect(() => {
-  //   if (isPillarsSectionEnd && pillarsEndRef.current) {
-  //     const scrollToPillarsEnd = () => {
-  //       const targetPosition = pillarsEndRef.current.offsetTop;
-  //       window.scrollTo({
-  //         top: targetPosition,
-  //         behavior: 'smooth'
-  //       });
-  //     };
-  //     scrollToPillarsEnd();
-  //   }
-  // }, [isPillarsSectionEnd]);
+  useEffect(() => {
+    if (isPillarsSectionEnd && pillarsEndRef.current) {
+      const scrollToPillarsEnd = () => {
+        const targetPosition = pillarsEndRef.current.offsetTop;
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+      };
+      scrollToPillarsEnd();
+    }
+  }, [isPillarsSectionEnd]);
 
-  // const handlePillarsSectionEnd = () => {
-  //   setIsPillarsSectionEnd(true);
-  // };
+  const handlePillarsSectionEnd = () => {
+    setIsPillarsSectionEnd(true);
+  };
 
-  // useEffect(() => {
-  //   if (!loading) {
-  //     const pillarsEnd = pillarsEndRef.current;
+  useEffect(() => {
+    if (!loading) {
+      const pillarsEnd = pillarsEndRef.current;
 
-  //     ScrollTrigger.create({
-  //       trigger: pillarsEnd,
-  //       start: "top top",
-  //       end: "+=100vh",
-  //       pin: true,
-  //       pinSpacing: true,
-  //       anticipatePin: 1,
-  //     });
+      ScrollTrigger.create({
+        trigger: pillarsEnd,
+        start: "top top",
+        end: "+=100vh",
+        pin: true,
+        pinSpacing: true,
+        anticipatePin: 1,
+      });
 
-  //     return () => {
-  //       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-  //     };
-  //   }
-  // }, [loading]);
+      return () => {
+        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      };
+    }
+  }, [loading]);
 
   return (
     <>
-      {/* <audio
+      <audio
         ref={audioRef}
         src={bmg}
         loop
@@ -190,10 +190,10 @@ function App() {
             </button>
           </div>
         </>
-      )} */}
-      {/* {loading ? (
+      )}
+      {loading ? (
         <Video />
-      ) : ( */}
+      ) : (
       <>
         <MainIntro onAnimationComplete={handleAnimationComplete} />
         <StorySection1 />
@@ -233,7 +233,7 @@ function App() {
         <ProductionIntro />
 
       </>
-      {/* )} */}
+      )}
     </>
   );
 }
