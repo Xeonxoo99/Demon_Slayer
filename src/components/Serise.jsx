@@ -37,36 +37,36 @@ function Serise() {
 
 	const smoothProgress = useSpring(scrollYProgress, {
 		stiffness: 50,
-		damping: 20, 
-		mass: 1, 
-	  });
+		damping: 20,
+		mass: 1,
+	});
 
 	// 탄지로 애니메이션
-	const tanjiroOpacity = useTransform(scrollYProgress, [0.1, 0.5], [0, 1]);
+	const tanjiroOpacity = useTransform(scrollYProgress, [0.2, 0.35], [0, 1]);
 	// const tanjiroY = useTransform(scrollYProgress, [0, 0.1], [500, 0]);
 	// const tanjiroScale = useTransform(scrollYProgress, [0, 0.1], [0.5, 1]);
-	const tanjiroBgY = useTransform(smoothProgress, [0, 0.3], ['0','-20%']);
+	const tanjiroBgY = useTransform(smoothProgress, [0, 0.3], ['0', '-20%']);
 
 
 	// 텐겐 애니메이션
-	const tengenOpacity = useTransform(scrollYProgress, [0.2, 0.45], [0, 1]);
+	const tengenOpacity = useTransform(scrollYProgress, [0.4, 0.5], [0, 1]);
 	// const tengenY = useTransform(scrollYProgress, [0.2, 0.45], [500, 0]);
 	// const tengenScale = useTransform(scrollYProgress, [0.2, 0.3], [0.5, 1]);
-	const tengenBgY = useTransform(smoothProgress, [0.35, 0.8], ['0','-20%']);
+	const tengenBgY = useTransform(smoothProgress, [0.35, 0.8], ['0', '-20%']);
 
 
 	// 무이치로 애니메이션
-	const muichiroOpacity = useTransform(scrollYProgress, [0.4, 0.65], [0, 1]);
+	const muichiroOpacity = useTransform(scrollYProgress, [0.6, 0.7], [0, 1]);
 	// const muichiroY = useTransform(scrollYProgress, [0.4, 0.65], [500, 0]);
 	// const muichiroScale = useTransform(scrollYProgress, [0.4, 0.6], [0.5, 1]);
-	const muichiroBgY = useTransform(smoothProgress, [0.4, 1], ['0','-20%']);
+	const muichiroBgY = useTransform(smoothProgress, [0.4, 1], ['0', '-20%']);
 
 
 	// 교메이 애니메이션
-	const gyomeiOpacity = useTransform(scrollYProgress, [0.6, 0.85], [0, 1]);
+	const gyomeiOpacity = useTransform(scrollYProgress, [0.8, 0.9], [0, 1]);
 	// const gyomeiY = useTransform(scrollYProgress, [0.6, 0.85], [500, 0]);
 	// const gyomeiScale = useTransform(scrollYProgress, [0.6, 0.8], [0.5, 1]);
-	const gyomeiBgY = useTransform(smoothProgress, [0.6, 1], ['0','-20%']);
+	const gyomeiBgY = useTransform(smoothProgress, [0.6, 1], ['0', '-20%']);
 
 	return (
 		<section className='relative w-full h-[3642px] bg-[#000000]'
@@ -234,19 +234,19 @@ function Serise() {
 	c-0.17-0.99,1.01-2.21,1.59-3.32C543.39,599.25,544.08,598.92,544.77,598.58z"/>
 						</clipPath>
 					</defs>
-					<motion.image width="800" height="800" clipPath="url(#shape1)" xlinkHref={tanjiroBg} x="0" y={tanjiroBgY} className='h-[1200px]'  />
+					<motion.image width="800" height="800" clipPath="url(#shape1)" xlinkHref={tanjiroBg} x="0" y={tanjiroBgY} className='h-[1200px]' />
 				</motion.svg>
 				<motion.div
 					className='relative w-full h-auto'
 					// style={{ opacity: tanjiroOpacity, y: tanjiroY }}
 					ref={tanjiroRef}
 				>
-					<img src={tanjiro} alt="tanjiro" className='absolute top-[230px] left-[218px] z-10'  />
-					<div className='w-[530px] h-[220px] text-[#ffffff] flex flex-col absolute top-[435px] right-[365px] z-10' style={{opacity: tanjiroOpacity}}>
+					<img src={tanjiro} alt="tanjiro" className='absolute top-[230px] left-[218px] z-10' />
+					<motion.div className='w-[530px] h-[220px] text-[#ffffff] flex flex-col absolute top-[435px] right-[365px] z-10' style={{ opacity: tanjiroOpacity }}>
 						<span className='w-[210px] h-[34px] text-[46px] mb-[40px] tracking-tight' style={{ fontFamily: 'VELISTA' }}>SEASON I</span>
 						<span className='w-[415px] h-[61px] text-[66px] mb-[60px] font-bold tracking-tighter r whitespace-nowrap' style={{ fontFamily: 'Pretendard-Regular' }}>카마도 탄지로 입지편</span>
 						<span className='text-[20px]' style={{ fontFamily: 'Pretendard-Regular' }}>탄지로는 혈귀에게 가족을 잃고 여동생을 되살리기 위해 <br /> 혈귀 사냥꾼의 길을 걷기로 결심한다.</span>
-					</div>
+					</motion.div>
 					<img src={p1} alt="피1" className='absolute top-[59px] right-[468px]' />
 					<img src={p2} alt="피2" className='absolute -top-[139px] right-[197px]' />
 				</motion.div>
@@ -461,15 +461,15 @@ function Serise() {
 				</motion.svg>
 				<motion.div
 					className='w-full h-auto'
-					// style={{ opacity: tengenOpacity, y: tengenY }}
+				// style={{ opacity: tengenOpacity, y: tengenY }}
 				>
-					<img src={tengen} alt="tengen" className='absolute top-[1119px] right-[230px] z-30' style={{opacity: tengenOpacity}} />
-					<div className='w-[530px] h-[220px] text-[#ffffff] flex flex-col absolute top-[1147px] left-[626px] z-10'>
+					<img src={tengen} alt="tengen" className='absolute top-[1119px] right-[230px] z-30'  />
+					<motion.div className='w-[530px] h-[220px] text-[#ffffff] flex flex-col absolute top-[1147px] left-[626px] z-10' style={{ opacity: tengenOpacity }}>
 						<span className='w-[210px] h-[34px] text-[46px] mb-[40px] tracking-tight' style={{ fontFamily: 'VELISTA' }}>SEASON 2</span>
 						<span className='w-[415px] h-[61px] text-[66px] mb-[60px] font-bold tracking-tighte' style={{ fontFamily: 'Pretendard-Regular' }}>환락의거리편</span>
 						<span className='text-[20px]' style={{ fontFamily: 'Pretendard-Regular' }}>탄지로 일행은 귀살대 최고의 검사 '주' 중 한 명인 음주
 							<br /> 우즈이 텐겐과 함께 혈귀가 사는 유곽으로 향한다.</span>
-					</div>
+					</motion.div>
 					<img src={p3} alt="피3" className='absolute top-[1068px] right-[261px]' />
 				</motion.div>
 			</div>
@@ -481,7 +481,7 @@ function Serise() {
 					viewBox="0 0 822 916"
 					width="794"
 					height="905"
-					style={{ display: 'block', position: 'absolute', top: '1656px', left: '315px'}}
+					style={{ display: 'block', position: 'absolute', top: '1656px', left: '315px' }}
 				>
 					<defs>
 						<clipPath id="shape">
@@ -695,15 +695,15 @@ function Serise() {
 				</motion.svg>
 				<motion.div
 					className='relative w-full h-auto '
-					// style={{ opacity: muichiroOpacity, y: muichiroY }}
+				// style={{ opacity: muichiroOpacity, y: muichiroY }}
 				>
-					<img src={muichiro} alt="muichiro" className='absolute top-[2000px] left-[181px] z-10' style={{opacity: muichiroOpacity}} />
-					<div className='w-[515px] h-[220px] text-[#ffffff] flex flex-col absolute top-[1928px] left-[962px] z-10'>
+					<img src={muichiro} alt="muichiro" className='absolute top-[2000px] left-[181px] z-10'  />
+					<motion.div className='w-[515px] h-[220px] text-[#ffffff] flex flex-col absolute top-[1928px] left-[962px] z-10' style={{ opacity: muichiroOpacity }}>
 						<span className='w-[210px] h-[34px] text-[46px] mb-[40px] tracking-tight' style={{ fontFamily: 'VELISTA' }}>SEASON 3</span>
 						<span className='w-[415px] h-[61px] text-[66px] mb-[60px] font-bold tracking-tighter' style={{ fontFamily: 'Pretendard-Regular' }}>도공마을편</span>
 						<span className='text-[20px]' style={{ fontFamily: 'Pretendard-Regular' }}>113년 만에 상현 혈귀가 죽자 분개한 무잔은
 							<br /> 나머지 상현 혈귀들에게 또 다른 명령을 내린다.</span>
-					</div>
+					</motion.div>
 				</motion.div>
 			</div>
 
@@ -1021,15 +1021,15 @@ function Serise() {
 				</motion.svg>
 				<motion.div
 					className='relative w-full h-auto'
-					// style={{ opacity: gyomeiOpacity, y: gyomeiY }}
+				// style={{ opacity: gyomeiOpacity, y: gyomeiY }}
 				>
-					<img src={gyomei} alt="gyomei" className='absolute top-[2637px] right-[57px] z-10' style={{opacity: gyomeiOpacity}} />
-					<div className='w-[515px] h-[220px] text-[#ffffff] flex flex-col absolute top-[2621px] left-[629px] z-10'>
+					<img src={gyomei} alt="gyomei" className='absolute top-[2537px] right-[57px] z-10'  />
+					<motion.div className='w-[515px] h-[220px] text-[#ffffff] flex flex-col absolute top-[2621px] left-[629px] z-10' style={{ opacity: gyomeiOpacity }}>
 						<span className='w-[210px] h-[34px] text-[46px] mb-[40px] tracking-tight' style={{ fontFamily: 'VELISTA' }}>SEASON 4</span>
 						<span className='w-[415px] h-[61px] text-[66px] mb-[60px] font-bold tracking-tighter' style={{ fontFamily: 'Pretendard-Regular' }}>합동 강화 훈련편</span>
 						<span className='w-[515px] h-[64px] text-[20px] tracking-tight' style={{ fontFamily: 'Pretendard-Regular' }}>다가오는 키부츠지 무잔과의 결전에 대비하여 주와대원들이 저마다의
 							<br /> 생각을 가슴에 품고 죽도록 고통스러운 마지막 훈련을 시작한다.</span>
-					</div>
+					</motion.div>
 					<img src={p4} alt="피4" className='absolute top-[1068px] right-[261px]' />
 				</motion.div>
 			</div>
