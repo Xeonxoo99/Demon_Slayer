@@ -40,16 +40,10 @@ function App() {
   const pillarsEndRef = useRef(null);
 
   const containerRef = useRef(null);
-  const containerRef2 = useRef(null);
   const fullRef = useRef(null);
 
   const { scrollYProgress: scrollYProgress } = useScroll({
     target: fullRef,
-    offset: ["start start", "end end"],
-  });
-
-  const { scrollYProgress: scrollYProgress2 } = useScroll({
-    target: containerRef,
     offset: ["start start", "end end"],
   });
 
@@ -61,17 +55,17 @@ function App() {
   );
 
   // 가로스크롤과 상현섹션 중간에 door 효과 추가
-  const opacity = useTransform(
-    scrollYProgress,
-    [0.45, 0.46, 0.6, 0.61],
-    [0, 1, 1, 0]
-  );
+  // const opacity = useTransform(
+  //   scrollYProgress,
+  //   [0.45, 0.46, 0.6, 0.61],
+  //   [0, 1, 1, 0]
+  // );
 
-  const leftdoor1x = useTransform(scrollYProgress, [0.45, 0.48,0.6,0.63], [-485, 0, 0, -485]);
-  const rightdoor2x = useTransform(scrollYProgress, [0.45, 0.48,0.6,0.63], [-485, 0, 0, -485]);
+  const leftdoor1x = useTransform(scrollYProgress, [0.59, 0.62,0.63,0.65], [-485, 0, 0, -485]);
+  const rightdoor2x = useTransform(scrollYProgress, [0.59, 0.62,0.63,0.65], [-485, 0, 0, -485]);
 
-  const leftdoor2x = useTransform(scrollYProgress, [0.46, 0.49, 0.59,0.62], [-485, 482, 482, -485]);
-  const rightdoor1x = useTransform(scrollYProgress, [0.46, 0.49, 0.59,0.62], [-485, 482, 482, -485]);
+  const leftdoor2x = useTransform(scrollYProgress, [0.59, 0.62, 0.63,0.65], [-485, 482, 482, -485]);
+  const rightdoor1x = useTransform(scrollYProgress, [0.59, 0.62, 0.63,0.65], [-485, 482, 482, -485]);
 
   useEffect(() => {
     const loadTimer = setTimeout(() => {
@@ -206,7 +200,7 @@ function App() {
 
         <div ref={fullRef}>
           <Pillars />
-          <FirstQuarterIntro ref={containerRef2} />
+          <FirstQuarterIntro />
 
           <motion.img
             src={leftdoor1}

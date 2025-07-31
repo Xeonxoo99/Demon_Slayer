@@ -29,7 +29,7 @@ export default function Doors() {
         gsap.timeline({
             scrollTrigger: {
                 trigger: '.scroll-target-pillars',
-                start: 'bottom bottom+=20',
+                start: 'bottom bottom-=2000',
                 toggleActions: 'play none none reverse',
                 markers: true,
                 onEnter: () => {

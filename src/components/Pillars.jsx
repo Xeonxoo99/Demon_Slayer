@@ -61,7 +61,7 @@ function Pillars({ onSectionEnd }) {
         const section = sectionRef.current;
         const container = containerRef.current;
         const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1920;
-        const containerWidth = 6258;
+        const containerWidth = 6658;
         const maxTranslateX = -(containerWidth - viewportWidth);
 
         // GSAP horizontal scroll
@@ -159,7 +159,7 @@ function Pillars({ onSectionEnd }) {
             className="relative w-full h-[980px] bg-[#000000]"
             style={{ zIndex: 30 }}
         >
-            <div ref={containerRef} className="relative w-[6258px] h-screen overflow-hidden">
+            <div ref={containerRef} className="relative w-[6658px] h-screen overflow-hidden">
                 {/* 렌고쿠 */}
                 <motion.div
                     ref={kyojuroRef}
