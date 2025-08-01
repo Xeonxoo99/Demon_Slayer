@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import FontFaceObserver from 'fontfaceobserver';
+
 import './App.css';
 import Video from './components/Video';
 import MainIntro from './components/MainIntro';
@@ -14,7 +16,7 @@ import Pillars from './components/Pillars';
 import FirstQuarterIntro from './components/FirstQuarterIntro';
 import ProductionIntro from './components/ProductionIntro';
 
-
+import video from './images/video/introVideo.mp4';
 import bmg from './images/pub/bgm/OST.mp3';
 import logo from './images/pub/logo/로고.png';
 import on from './images/pub/bgm/on.png';
@@ -27,10 +29,17 @@ import rightdoor1 from './images/pub/door/rightdoor1.png';
 import rightdoor2 from './images/pub/door/rightdoor2.png';
 
 
+
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [assetsLoaded, setAssetsLoaded] = useState(false); // 에셋 로딩 완료 상태
+  const [loadingProgress, setLoadingProgress] = useState(0); // 로딩 진행률 상태
+
+const imageAssets = [
+  logo, on, off, leftdoor1, leftdoor2, rightdoor1, rightdoor2,
+];
+
   const [isMuted, setIsMuted] = useState(false);
   const [isScrollEnabled, setIsScrollEnabled] = useState(false);
   const [logoVisible, setLogoVisible] = useState(true);
@@ -66,44 +75,6 @@ function App() {
 
   const leftdoor2x = useTransform(scrollYProgress, [0.59, 0.62, 0.63,0.65], [-485, 482, 482, -485]);
   const rightdoor1x = useTransform(scrollYProgress, [0.59, 0.62, 0.63,0.65], [-485, 482, 482, -485]);
-
-  useEffect(() => {
-    const loadTimer = setTimeout(() => {
-      setLoading(false);
-    }, 7200);
-
-    return () => clearTimeout(loadTimer);
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!loading && audioRef.current) {
-      audioRef.current.muted = isMuted;
-      audioRef.current.play().catch((e) => {
-        console.log('Audio play error:', e);
-      });
-    }
-  }, [loading]);
-
-  const toggleMute = () => {
-    if (audioRef.current) {
-      audioRef.current.muted = !audioRef.current.muted;
-      setIsMuted(audioRef.current.muted);
-    }
-  };
-
-  const handleAnimationComplete = () => {
-    setIsScrollEnabled(true);
-    document.body.style.overflow = 'auto';
-  };
-
   useEffect(() => {
     const handleScroll = () => {
       if (movieRef.current) {
@@ -134,100 +105,101 @@ function App() {
   };
 
   useEffect(() => {
-    if (!loading) {
-      const pillarsEnd = pillarsEndRef.current;
+    const loadAssets = async () => {
+      const totalAssets = imageAssets.length + 1; // 이미지 개수 + 폰트 1개
+      let loadedCount = 0;
 
-      ScrollTrigger.create({
-        trigger: pillarsEnd,
-        start: "top top",
-        end: "+=100vh",
-        pin: true,
-        pinSpacing: true,
-        anticipatePin: 1,
+      // ---- 이미지 프리로딩 ----
+      const imagePromises = imageAssets.map(src => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = src;
+          img.onload = () => {
+            loadedCount++;
+            setLoadingProgress((loadedCount / totalAssets) * 100);
+            resolve();
+          };
+          img.onerror = reject;
+        });
       });
 
-      return () => {
-        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-      };
-    }
-  }, [loading]);
+      // ---- 폰트 프리로딩 ----
+      // const font = new FontFaceObserver('사용할 폰트 이름'); 
+      // const fontPromise = font.load().then(() => {
+      //   loadedCount++;
+      //   setLoadingProgress((loadedCount / totalAssets) * 100);
+      // });
 
-  return (
+      // await Promise.all([...imagePromises, fontPromise]);
+
+      setTimeout(() => {
+        setAssetsLoaded(true);
+        // 로딩 완료 후 BGM 자동 재생 (브라우저 정책에 따라 사용자 인터랙션이 필요할 수 있음)
+        audioRef.current?.play().catch(error => console.log("Audio play failed:", error));
+      }, 500);
+    };
+
+    loadAssets();
+  }, []);
+
+  const toggleMute = () => {
+    if (audioRef.current) {
+      audioRef.current.muted = !audioRef.current.muted;
+      setIsMuted(audioRef.current.muted);
+    }
+  };
+
+  const handleAnimationComplete = () => {
+    setIsScrollEnabled(true);
+    document.body.style.overflow = 'auto';
+  };
+
+
+// 3단계: 모든 로딩 완료, 메인 콘텐츠 렌더링
+return (
     <>
+      {/* 로딩이 완료되지 않았을 때만 Video 컴포넌트를 보여줍니다. */}
+      {!assetsLoaded && <Video progress={loadingProgress} />}
+
+      {/* BGM 오디오 요소 */}
       <audio
         ref={audioRef}
         src={bmg}
         loop
         muted={isMuted}
       />
-      {!loading && (
-        <>
-          {logoVisible && (
-            <div className='fixed top-6 left-10 z-[9999]'>
-              <img src={logo} alt='logo' />
-            </div>
-          )}
-          <div className='fixed bottom-[10%] right-[5%] z-[9999] flex gap-3'>
-            <button
-              onClick={toggleMute}
-              className='fixed bottom-8 right-10 z-[9999]'
-            >
-              {isMuted ? (
-                <div className='w-[96px] h-[109px]'>
-                  <img src={on} alt='on' />
-                </div>
-              ) : (
-                <div className='w-[96px] h-[109px]'>
-                  <img src={off} alt='off' />
-                </div>
-              )}
-            </button>
-          </div>
-        </>
-      )}
-      {loading ? (
-        <Video />
-      ) : (
-      <>
-        <MainIntro onAnimationComplete={handleAnimationComplete} />
-        <StorySection1 />
-        <StorySection2 />
-        <SlideTxt />
-        <Serise />
-        <div ref={movieRef}>
-          <Movie />
+
+      {/* 로고, 음소거 버튼 등 UI 요소 */}
+      {logoVisible && (
+        <div className='fixed top-6 left-10 z-[9999]'>
+          <img src={logo} alt='logo' />
         </div>
-
-        <div ref={fullRef}>
-          <Pillars />
-          <FirstQuarterIntro />
-
-          <motion.img
-            src={leftdoor1}
-            className="fixed top-0 left-0 w-[485px] h-screen z-[9999] pointer-events-none"
-            style={{ left: leftdoor1x }}
-          />
-          <motion.img
-            src={leftdoor2}
-            className="fixed top-0 left-[485px] w-[486px] h-screen z-[9998] pointer-events-none"
-            style={{ left: leftdoor2x }}
-          />
-          <motion.img
-            src={rightdoor1}
-            className="fixed top-0 right-[485px] w-[486px] h-screen z-[9998] pointer-events-none"
-            style={{ right: rightdoor1x }}
-          />
-          <motion.img
-            src={rightdoor2}
-            className="fixed top-0 right-0 w-[485px] h-screen z-[9999] pointer-events-none"
-            style={{ right: rightdoor2x }}
-          />
-        </div>
-
-        <ProductionIntro />
-
-      </>
       )}
+      <div className='fixed bottom-8 right-10 z-[9999]'>
+        {/* ... 음소거 버튼 JSX ... */}
+      </div>
+
+      {/* 👇 메인 콘텐츠 섹션 (항상 렌더링) */}
+      <MainIntro onAnimationComplete={handleAnimationComplete} />
+      <StorySection1 />
+      <StorySection2 />
+      <SlideTxt />
+      <Serise />
+      <div ref={movieRef}>
+        <Movie />
+      </div>
+
+      <div ref={fullRef}>
+        <Pillars />
+        <FirstQuarterIntro />
+        {/* ... 문 애니메이션 이미지들 ... */}
+        <motion.img src={leftdoor1} /* ... */ />
+        <motion.img src={leftdoor2} /* ... */ />
+        <motion.img src={rightdoor1} /* ... */ />
+        <motion.img src={rightdoor2} /* ... */ />
+      </div>
+
+      <ProductionIntro />
     </>
   );
 }
