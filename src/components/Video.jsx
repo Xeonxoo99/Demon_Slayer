@@ -4,7 +4,6 @@ import introVideo from '../images/video/introVideo.mp4';
 
 // 🔽 progress prop만 받습니다.
 function Video({ progress }) {
-  // ❌ onVideoEnd 관련 useEffect는 더 이상 필요 없으므로 삭제합니다.
 
   return (
     // z-index를 매우 높게 설정하여 다른 모든 콘텐츠 위에 오버레이되도록 합니다.
@@ -20,17 +19,17 @@ function Video({ progress }) {
       </video>
       
       {/* 로딩 바는 progress가 100 미만일 때 항상 표시됩니다. */}
-      {progress < 100 && (
+      {/* {progress < 100 && ( */}
         <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-4/5 max-w-lg">
           <p className="text-white text-center mb-2 text-lg">Loading ... {Math.round(progress)}%</p>
           <div className="w-full bg-gray-700 rounded-full h-2.5">
             <div
-              className="bg-white h-2.5 rounded-full transition-all duration-300"
+              className="bg-white h-2.5 rounded-full transition-all duration-1000"
               style={{ width: `${progress}%` }}
             ></div>
           </div>
         </div>
-      )}
+      {/* )} */}
     </section>
   );
 }

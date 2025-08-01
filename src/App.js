@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import FontFaceObserver from 'fontfaceobserver';
+import { loadAllAssets } from './assetLoader';
 
 import './App.css';
 import Video from './components/Video';
@@ -21,24 +21,17 @@ import bmg from './images/pub/bgm/OST.mp3';
 import logo from './images/pub/logo/로고.png';
 import on from './images/pub/bgm/on.png';
 import off from './images/pub/bgm/off.png';
-import Section05 from './_view/Section05';
 
 import leftdoor1 from './images/pub/door/leftdoor1.png';
 import leftdoor2 from './images/pub/door/leftdoor2.png';
 import rightdoor1 from './images/pub/door/rightdoor1.png';
 import rightdoor2 from './images/pub/door/rightdoor2.png';
 
-
-
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
   const [assetsLoaded, setAssetsLoaded] = useState(false); // 에셋 로딩 완료 상태
   const [loadingProgress, setLoadingProgress] = useState(0); // 로딩 진행률 상태
-
-const imageAssets = [
-  logo, on, off, leftdoor1, leftdoor2, rightdoor1, rightdoor2,
-];
 
   const [isMuted, setIsMuted] = useState(false);
   const [isScrollEnabled, setIsScrollEnabled] = useState(false);
@@ -70,11 +63,11 @@ const imageAssets = [
   //   [0, 1, 1, 0]
   // );
 
-  const leftdoor1x = useTransform(scrollYProgress, [0.59, 0.62,0.63,0.65], [-485, 0, 0, -485]);
-  const rightdoor2x = useTransform(scrollYProgress, [0.59, 0.62,0.63,0.65], [-485, 0, 0, -485]);
+  const leftdoor1x = useTransform(scrollYProgress, [0.59, 0.62, 0.63, 0.65], [-485, 0, 0, -485]);
+  const rightdoor2x = useTransform(scrollYProgress, [0.59, 0.62, 0.63, 0.65], [-485, 0, 0, -485]);
 
-  const leftdoor2x = useTransform(scrollYProgress, [0.59, 0.62, 0.63,0.65], [-485, 482, 482, -485]);
-  const rightdoor1x = useTransform(scrollYProgress, [0.59, 0.62, 0.63,0.65], [-485, 482, 482, -485]);
+  const leftdoor2x = useTransform(scrollYProgress, [0.59, 0.62, 0.63, 0.65], [-485, 482, 482, -485]);
+  const rightdoor1x = useTransform(scrollYProgress, [0.59, 0.62, 0.63, 0.65], [-485, 482, 482, -485]);
   useEffect(() => {
     const handleScroll = () => {
       if (movieRef.current) {
@@ -105,41 +98,46 @@ const imageAssets = [
   };
 
   useEffect(() => {
-    const loadAssets = async () => {
-      const totalAssets = imageAssets.length + 1; // 이미지 개수 + 폰트 1개
-      let loadedCount = 0;
 
-      // ---- 이미지 프리로딩 ----
-      const imagePromises = imageAssets.map(src => {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.src = src;
-          img.onload = () => {
-            loadedCount++;
-            setLoadingProgress((loadedCount / totalAssets) * 100);
-            resolve();
-          };
-          img.onerror = reject;
-        });
+    if (window.history.scrollRestoration) {
+      window.history.scrollRestoration = 'manual';
+    }
+    // 로딩 진행률을 업데이트하는 콜백 함수
+    const handleProgress = (progress) => {
+      setLoadingProgress(progress);
+    };
+    const assetsPromise = loadAllAssets(handleProgress);
+
+    const minTimePromise = new Promise(resolve => {
+      setTimeout(resolve, 7000); // 7000ms = 7초
+    });
+
+    Promise.all([assetsPromise, minTimePromise])
+      .then(() => {
+        // 로딩이 끝나면 스크롤을 맨 위로 강제 이동시킵니다.
+        window.scrollTo(0, 0);
+        setAssetsLoaded(true);
+      })
+      .catch(error => {
+        console.error("에셋 로딩 실패:", error);
+        window.scrollTo(0, 0); // 에러 발생 시에도 맨 위로
+        setAssetsLoaded(true);
       });
 
-      // ---- 폰트 프리로딩 ----
-      // const font = new FontFaceObserver('사용할 폰트 이름'); 
-      // const fontPromise = font.load().then(() => {
-      //   loadedCount++;
-      //   setLoadingProgress((loadedCount / totalAssets) * 100);
-      // });
-
-      // await Promise.all([...imagePromises, fontPromise]);
-
-      setTimeout(() => {
-        setAssetsLoaded(true);
-        // 로딩 완료 후 BGM 자동 재생 (브라우저 정책에 따라 사용자 인터랙션이 필요할 수 있음)
-        audioRef.current?.play().catch(error => console.log("Audio play failed:", error));
-      }, 500);
-    };
-
-    loadAssets();
+    // // 로더를 실행합니다.
+    // loadAllAssets(handleProgress)
+    //   .then(() => {
+    //     // 100%를 잠시 보여주기 위한 딜레이
+    //     setTimeout(() => {
+    //       setAssetsLoaded(true);
+    //       // audioRef.current?.play().catch(error => console.log("Audio play failed:", error));
+    //     }, 300);
+    //   })
+    //   .catch(error => {
+    //     console.error("에셋 로딩 실패:", error);
+    //     // 에러가 발생해도 앱이 멈추지 않도록 강제로 로딩 완료 처리
+    //     setAssetsLoaded(true);
+    //   });
   }, []);
 
   const toggleMute = () => {
@@ -155,8 +153,8 @@ const imageAssets = [
   };
 
 
-// 3단계: 모든 로딩 완료, 메인 콘텐츠 렌더링
-return (
+  // 3단계: 모든 로딩 완료, 메인 콘텐츠 렌더링
+  return (
     <>
       {/* 로딩이 완료되지 않았을 때만 Video 컴포넌트를 보여줍니다. */}
       {!assetsLoaded && <Video progress={loadingProgress} />}
@@ -179,7 +177,7 @@ return (
         {/* ... 음소거 버튼 JSX ... */}
       </div>
 
-      {/* 👇 메인 콘텐츠 섹션 (항상 렌더링) */}
+      {/* 메인 콘텐츠 섹션 (항상 렌더링) */}
       <MainIntro onAnimationComplete={handleAnimationComplete} />
       <StorySection1 />
       <StorySection2 />
@@ -193,10 +191,26 @@ return (
         <Pillars />
         <FirstQuarterIntro />
         {/* ... 문 애니메이션 이미지들 ... */}
-        <motion.img src={leftdoor1} /* ... */ />
-        <motion.img src={leftdoor2} /* ... */ />
-        <motion.img src={rightdoor1} /* ... */ />
-        <motion.img src={rightdoor2} /* ... */ />
+        <motion.img
+          src={leftdoor1}
+          className="fixed top-0 left-0 w-[485px] h-screen z-[9999] pointer-events-none"
+          style={{ left: leftdoor1x }}
+        />
+        <motion.img
+          src={leftdoor2}
+          className="fixed top-0 left-[485px] w-[486px] h-screen z-[9998] pointer-events-none"
+          style={{ left: leftdoor2x }}
+        />
+        <motion.img
+          src={rightdoor1}
+          className="fixed top-0 right-[485px] w-[486px] h-screen z-[9998] pointer-events-none"
+          style={{ right: rightdoor1x }}
+        />
+        <motion.img
+          src={rightdoor2}
+          className="fixed top-0 right-0 w-[485px] h-screen z-[9999] pointer-events-none"
+          style={{ right: rightdoor2x }}
+        />
       </div>
 
       <ProductionIntro />
