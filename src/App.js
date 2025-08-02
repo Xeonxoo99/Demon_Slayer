@@ -49,6 +49,18 @@ function App() {
     offset: ["start start", "end end"],
   });
 
+  const mainIntroRef = useRef(null);
+  const storySection1Ref = useRef(null);
+  const storySection2Ref = useRef(null);
+  const seriseRef = useRef(null);
+  const pillarsRef = useRef(null);
+  const productionIntroRef = useRef(null);
+  const firstQuarterIntroRef = useRef(null);
+
+  const scrollToSection = (ref) => {
+    ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   // 가로스크롤
   const x = useTransform(
     scrollYProgress,
@@ -68,7 +80,7 @@ function App() {
 
   const leftdoor2x = useTransform(scrollYProgress, [0.47, 0.5, 0.6, 0.62], [-485, 482, 482, -485]);
   const rightdoor1x = useTransform(scrollYProgress, [0.47, 0.5, 0.6, 0.62], [-485, 482, 482, -485]);
-  
+
   useEffect(() => {
     const handleScroll = () => {
       if (movieRef.current) {
@@ -189,19 +201,43 @@ function App() {
         )}
       </button>
 
+      {/* 네비게이션 */}
+      <div className='fixed top-1/2 -translate-y-1/2 right-12 z-[9999] flex flex-col space-y-2'>
+        <button onClick={() => scrollToSection(mainIntroRef)} className="w-24 p-2 bg-white rounded bg-opacity-50"></button>
+        <button onClick={() => scrollToSection(storySection1Ref)} className="w-24 p-2 bg-white rounded bg-opacity-50"></button>
+        <button onClick={() => scrollToSection(storySection2Ref)} className="w-24 p-2 bg-white rounded bg-opacity-50"></button>
+        <button onClick={() => scrollToSection(seriseRef)} className="w-24 p-2 bg-white rounded bg-opacity-50"></button>
+        <button onClick={() => scrollToSection(movieRef)} className="w-24 p-2 bg-white rounded bg-opacity-50"></button>
+        <button onClick={() => scrollToSection(pillarsRef)} className="w-24 p-2 bg-white rounded bg-opacity-50"></button>
+        <button onClick={() => scrollToSection(firstQuarterIntroRef)} className="w-24 p-2 bg-white rounded bg-opacity-50"></button>
+        <button onClick={() => scrollToSection(productionIntroRef)} className="w-24 p-2 bg-white rounded bg-opacity-50"></button>
+      </div>
+
       {/* 메인 콘텐츠 섹션 (항상 렌더링) */}
-      <MainIntro onAnimationComplete={handleAnimationComplete} />
-      <StorySection1 />
-      <StorySection2 />
+      <div ref={mainIntroRef}>
+        <MainIntro onAnimationComplete={handleAnimationComplete} />
+      </div>
+      <div ref={storySection1Ref}>
+        <StorySection1 />
+      </div>
+      <div ref={storySection2Ref}>
+        <StorySection2 />
+      </div>
       <SlideTxt />
-      <Serise />
+      <div ref={seriseRef}>
+        <Serise />
+      </div>
       <div ref={movieRef}>
         <Movie />
       </div>
 
       <div ref={fullRef}>
-        <Pillars />
-        <FirstQuarterIntro />
+        <div ref={pillarsRef}>
+          <Pillars />
+        </div>
+        <div ref={firstQuarterIntroRef}>
+          <FirstQuarterIntro />
+        </div>
         {/* 문 애니메이션 이미지 */}
         <motion.img
           src={leftdoor1}
@@ -224,7 +260,9 @@ function App() {
           style={{ right: rightdoor2x }}
         />
       </div>
-      <ProductionIntro />
+      <div ref={productionIntroRef}>
+        <ProductionIntro />
+      </div>
     </>
   );
 }
