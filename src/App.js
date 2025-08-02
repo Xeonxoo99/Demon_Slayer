@@ -63,11 +63,11 @@ function App() {
   //   [0, 1, 1, 0]
   // );
 
-  const leftdoor1x = useTransform(scrollYProgress, [0.59, 0.62, 0.63, 0.65], [-485, 0, 0, -485]);
-  const rightdoor2x = useTransform(scrollYProgress, [0.59, 0.62, 0.63, 0.65], [-485, 0, 0, -485]);
+  const leftdoor1x = useTransform(scrollYProgress, [0.47, 0.5, 0.6, 0.62], [-485, 0, 0, -485]);
+  const rightdoor2x = useTransform(scrollYProgress, [0.47, 0.5, 0.6, 0.62], [-485, 0, 0, -485]);
 
-  const leftdoor2x = useTransform(scrollYProgress, [0.59, 0.62, 0.63, 0.65], [-485, 482, 482, -485]);
-  const rightdoor1x = useTransform(scrollYProgress, [0.59, 0.62, 0.63, 0.65], [-485, 482, 482, -485]);
+  const leftdoor2x = useTransform(scrollYProgress, [0.47, 0.5, 0.6, 0.62], [-485, 482, 482, -485]);
+  const rightdoor1x = useTransform(scrollYProgress, [0.47, 0.5, 0.6, 0.62], [-485, 482, 482, -485]);
   useEffect(() => {
     const handleScroll = () => {
       if (movieRef.current) {
