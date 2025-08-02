@@ -357,6 +357,10 @@ function StorySection1() {
                         )}
                     </AnimatePresence>
                 </motion.div>
+
+                <div className='w-full h-80 bottom-0 absolute z-20' style={{background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'}}>
+
+                </div>
             </div>
         </motion.section>
     );

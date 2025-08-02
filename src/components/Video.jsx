@@ -20,11 +20,11 @@ function Video({ progress }) {
       
       {/* 로딩 바는 progress가 100 미만일 때 항상 표시됩니다. */}
       {/* {progress < 100 && ( */}
-        <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-4/5 max-w-lg">
-          <p className="text-white text-center mb-2 text-lg">Loading ... {Math.round(progress)}%</p>
-          <div className="w-full bg-gray-700 rounded-full h-2.5">
+        <div className="absolute w-full bottom-0">
+          <p className="text-[#e8111f] text-left mb-2 text-[160px] leading-none font-bold">{Math.round(progress)}<span className='text-4xl'>%</span></p>
+          <div className="w-full bg-black h-2.5">
             <div
-              className="bg-white h-2.5 rounded-full transition-all duration-1000"
+              className="bg-[#e8111f] h-2.5 transition-all duration-1000"
               style={{ width: `${progress}%` }}
             ></div>
           </div>
