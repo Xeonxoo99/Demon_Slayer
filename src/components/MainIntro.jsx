@@ -30,7 +30,8 @@ const characters = [
 
 function MainIntro({ onAnimationComplete }) {
   const containerRef = useRef(null);
-  const [currentImage, setCurrentImage] = useState(0);
+  const canvasRef = useRef(null); // 추가: 캔버스 참조
+  const preloadedImagesRef = useRef([]); // 추가: 프리로드된 이미지 객체 저장
   const images = [];
   for (let i = 0; i < 61; i++) {
     const filename = String(i).padStart(4, '0');
@@ -43,11 +44,12 @@ function MainIntro({ onAnimationComplete }) {
     offset: ['start start', 'end end'],
   });
 
+  const currentImageIndex = useTransform(scrollYProgress, [0, 1], [0, totalFrames - 1]);
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.95, 1], [1, 1, 0.9]);
+
   // 한자 부분 스크롤 x 시 null 값으로 만들기
   const [isScrollReady, setIsScrollReady] = useState(false);
 
-  const currentImageIndex = useTransform(scrollYProgress, [0, 1], [0, totalFrames - 1]);
-  const bgOpacity = useTransform(scrollYProgress, [0, 0.95, 1], [1, 1, 0.9]);
   const charScale = useTransform(scrollYProgress, [0, 0.3, 0.5], [1, 2, 3]);
   const charOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.5, 0.65], [0, 1, 0]);
@@ -125,48 +127,89 @@ function MainIntro({ onAnimationComplete }) {
   // 이미지 프리로딩 개선
   useEffect(() => {
     const preloadImage = (src) =>
-      new Promise((resolve) => {
+      new Promise((resolve, reject) => {
         const img = new Image();
-        img.onload = resolve;
+        img.onload = () => resolve(img); // 중요: 이미지 '객체'를 resolve
         img.onerror = () => {
           console.warn(`프리로딩 실패: ${src}`);
-          resolve();
+          reject(new Error(`Failed to load ${src}`));
         };
         img.src = src;
       });
 
     const preloadAll = async () => {
       const staticImages = [text, fog, effect, ...characters.map((c) => c.src)];
-      const frameImages = images.map((img) => img.default ?? img);
+      const frameImageSrcs = images.map((img) => img.default ?? img);
+      
+      // 배경 시퀀스 이미지 프리로드 및 ref에 저장
+      const loadedFrameImages = await Promise.all(frameImageSrcs.map(preloadImage));
+      preloadedImagesRef.current = loadedFrameImages;
 
-      const allImages = [...staticImages, ...frameImages];
-      await Promise.all(allImages.map(preloadImage));
-      console.log(' 모든 이미지 프리로딩 완료');
+      // 나머지 정적 이미지 프리로드
+      await Promise.all(staticImages.map(preloadImage));
+
+      console.log('모든 이미지 프리로딩 완료');
+      // 초기 프레임 그리기
+      drawFrame(0);
     };
 
     preloadAll();
   }, []);
 
-  useEffect(() => {
-    const unsubscribe = scrollYProgress.on('change', (latest) => {
-      if (latest >= 0.7 && latest <= 0.9) {
-        setShowFinalText(true);
-      } else {
-        setShowFinalText(false);
+  // 캔버스에 프레임을 그리는 함수
+  const drawFrame = (frameIndex) => {
+    const canvas = canvasRef.current;
+    if (!canvas || preloadedImagesRef.current.length === 0) return;
+    const ctx = canvas.getContext('2d');
+    const img = preloadedImagesRef.current[frameIndex];
+    if (img) {
+      // 캔버스를 꽉 채우도록 이미지를 그림 (object-fit: cover 효과)
+      const canvasAspect = canvas.width / canvas.height;
+      const imgAspect = img.width / img.height;
+      let sx, sy, sWidth, sHeight;
+
+      if (canvasAspect > imgAspect) { // 캔버스가 이미지보다 넓을 때
+        sWidth = img.width;
+        sHeight = img.width / canvasAspect;
+        sx = 0;
+        sy = (img.height - sHeight) / 2;
+      } else { // 캔버스가 이미지보다 높거나 같을 때
+        sHeight = img.height;
+        sWidth = img.height * canvasAspect;
+        sy = 0;
+        sx = (img.width - sWidth) / 2;
       }
-    });
-    return () => unsubscribe();
-  }, [scrollYProgress]);
+      
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, sx, sy, sWidth, sHeight, 0, 0, canvas.width, canvas.height);
+    }
+  };
+
+  // 윈도우 크기 변경 시 캔버스 크기 조절
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      // 리사이즈 후 현재 프레임 다시 그리기
+      const currentFrame = Math.floor(currentImageIndex.get());
+      drawFrame(currentFrame);
+    };
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    return () => window.removeEventListener('resize', resizeCanvas);
+  }, [currentImageIndex]);
 
   useEffect(() => {
     const unsubscribe = currentImageIndex.on('change', (latest) => {
       const newImageNumber = Math.floor(latest);
-      if (newImageNumber !== currentImage) {
-        setCurrentImage(newImageNumber);
-      }
+      requestAnimationFrame(() => drawFrame(newImageNumber));
     });
     return () => unsubscribe();
-  }, [currentImageIndex, currentImage]);
+  }, [currentImageIndex]);
 
   const charRefs = useRef([]);
   const effectRef = useRef(null);
@@ -203,9 +246,8 @@ function MainIntro({ onAnimationComplete }) {
         zIndex: 100
       }}
     >
-      <motion.img
-        src={images[currentImage]}
-        alt="background"
+      <motion.canvas
+        ref={canvasRef}
         style={{
           opacity: bgOpacity,
           position: 'fixed',
@@ -213,7 +255,6 @@ function MainIntro({ onAnimationComplete }) {
           left: 0,
           width: '100%',
           height: '100vh',
-          objectFit: 'cover',
           zIndex: 0,
         }}
       />

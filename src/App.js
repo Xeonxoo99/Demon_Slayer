@@ -68,6 +68,7 @@ function App() {
 
   const leftdoor2x = useTransform(scrollYProgress, [0.47, 0.5, 0.6, 0.62], [-485, 482, 482, -485]);
   const rightdoor1x = useTransform(scrollYProgress, [0.47, 0.5, 0.6, 0.62], [-485, 482, 482, -485]);
+  
   useEffect(() => {
     const handleScroll = () => {
       if (movieRef.current) {
@@ -173,9 +174,20 @@ function App() {
           <img src={logo} alt='logo' />
         </div>
       )}
-      <div className='fixed bottom-8 right-10 z-[9999]'>
-        {/* ... 음소거 버튼 JSX ... */}
-      </div>
+      <button
+        onClick={toggleMute}
+        className='fixed bottom-8 right-10 z-[9999]'
+      >
+        {isMuted ? (
+          <div className='w-[96px] h-[109px]'>
+            <img src={on} alt='on' />
+          </div>
+        ) : (
+          <div className='w-[96px] h-[109px]'>
+            <img src={off} alt='off' />
+          </div>
+        )}
+      </button>
 
       {/* 메인 콘텐츠 섹션 (항상 렌더링) */}
       <MainIntro onAnimationComplete={handleAnimationComplete} />
@@ -190,7 +202,7 @@ function App() {
       <div ref={fullRef}>
         <Pillars />
         <FirstQuarterIntro />
-        {/* ... 문 애니메이션 이미지들 ... */}
+        {/* 문 애니메이션 이미지 */}
         <motion.img
           src={leftdoor1}
           className="fixed top-0 left-0 w-[485px] h-screen z-[9999] pointer-events-none"
@@ -212,7 +224,6 @@ function App() {
           style={{ right: rightdoor2x }}
         />
       </div>
-
       <ProductionIntro />
     </>
   );
