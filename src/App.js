@@ -32,6 +32,7 @@ gsap.registerPlugin(ScrollTrigger);
 function App() {
   const [assetsLoaded, setAssetsLoaded] = useState(false); // 에셋 로딩 완료 상태
   const [loadingProgress, setLoadingProgress] = useState(0); // 로딩 진행률 상태
+  const [displayProgress, setDisplayProgress] = useState(0);
 
   const [isMuted, setIsMuted] = useState(false);
   const [isScrollEnabled, setIsScrollEnabled] = useState(false);
@@ -111,47 +112,50 @@ function App() {
   };
 
   useEffect(() => {
-
+    // 페이지 새로고침 시 스크롤 위치 초기화
     if (window.history.scrollRestoration) {
       window.history.scrollRestoration = 'manual';
     }
-    // 로딩 진행률을 업데이트하는 콜백 함수
+
+    // 실제 진행률을 업데이트하는 콜백
     const handleProgress = (progress) => {
       setLoadingProgress(progress);
     };
+
+    // 로딩 시작
     const assetsPromise = loadAllAssets(handleProgress);
 
+    // 최소 로딩 시간 (6.9초) 보장 Promise
     const minTimePromise = new Promise(resolve => {
-      setTimeout(resolve, 7000); // 7000ms = 7초
+      setTimeout(resolve, 6700); // 6.9초 후에 resolve
     });
 
+    // 모든 에셋 로딩과 최소 시간 대기가 모두 완료되면 실행
     Promise.all([assetsPromise, minTimePromise])
       .then(() => {
-        // 로딩이 끝나면 스크롤을 맨 위로 강제 이동시킵니다.
-        window.scrollTo(0, 0);
-        setAssetsLoaded(true);
+        // 1. 먼저 화면에 표시될 값을 100으로 설정합니다. (6.9초 시점)
+        setDisplayProgress(100);
+
+        // 2. 100%를 잠시 보여준 후 (0.1초), 메인 콘텐츠를 표시합니다. (총 7초 시점)
+        setTimeout(() => {
+          window.scrollTo(0, 0); // 스크롤을 맨 위로 이동
+          setAssetsLoaded(true);  // 로딩 화면 숨기기
+          // audioRef.current?.play().catch(e => console.log("BGM 재생 실패:", e));
+        }, 300); // 0.1초 대기
       })
       .catch(error => {
         console.error("에셋 로딩 실패:", error);
-        window.scrollTo(0, 0); // 에러 발생 시에도 맨 위로
+        // 에러 발생 시에도 로딩 화면을 강제로 종료
         setAssetsLoaded(true);
       });
-
-    // // 로더를 실행합니다.
-    // loadAllAssets(handleProgress)
-    //   .then(() => {
-    //     // 100%를 잠시 보여주기 위한 딜레이
-    //     setTimeout(() => {
-    //       setAssetsLoaded(true);
-    //       // audioRef.current?.play().catch(error => console.log("Audio play failed:", error));
-    //     }, 300);
-    //   })
-    //   .catch(error => {
-    //     console.error("에셋 로딩 실패:", error);
-    //     // 에러가 발생해도 앱이 멈추지 않도록 강제로 로딩 완료 처리
-    //     setAssetsLoaded(true);
-    //   });
   }, []);
+
+  // 실제 로딩률(loadingProgress)이 바뀔 때마다 화면 표시용(displayProgress) 값을 업데이트
+  useEffect(() => {
+    // 실제 로딩이 100%가 되기 전까지는 값을 동기화하되, 90을 넘지 않게 합니다.
+    // 이렇게 하면 실제 로딩이 빨리 끝나도 화면에는 90%로 고정됩니다.
+    setDisplayProgress(Math.min(loadingProgress, 90));
+  }, [loadingProgress]);
 
   const toggleMute = () => {
     if (audioRef.current) {
@@ -170,7 +174,7 @@ function App() {
   return (
     <>
       {/* 로딩이 완료되지 않았을 때만 Video 컴포넌트를 보여줍니다. */}
-      {!assetsLoaded && <Video progress={loadingProgress} />}
+      {!assetsLoaded && <Video progress={displayProgress} />}
 
       {/* BGM 오디오 요소 */}
       <audio
