@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo  } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -20,7 +20,12 @@ import video from './images/video/introVideo.mp4';
 import bmg from './images/pub/bgm/OST.mp3';
 import logo from './images/pub/logo/로고.png';
 import on from './images/pub/bgm/on.png';
+import on1 from './images/pub/bgm/on1.png'
+import on2 from './images/pub/bgm/on2.png'
 import off from './images/pub/bgm/off.png';
+
+import navi from './images/pub/navi/navi.png'
+import naviActive from './images/pub/navi/navi-active.png'
 
 import leftdoor1 from './images/pub/door/leftdoor1.png';
 import leftdoor2 from './images/pub/door/leftdoor2.png';
@@ -28,6 +33,8 @@ import rightdoor1 from './images/pub/door/rightdoor1.png';
 import rightdoor2 from './images/pub/door/rightdoor2.png';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const onImages = [on, on1, on2];
 
 function App() {
   const [assetsLoaded, setAssetsLoaded] = useState(false); // 에셋 로딩 완료 상태
@@ -38,6 +45,9 @@ function App() {
   const [isScrollEnabled, setIsScrollEnabled] = useState(false);
   const [logoVisible, setLogoVisible] = useState(true);
   const [isPillarsSectionEnd, setIsPillarsSectionEnd] = useState(false);
+  const [currentOnImageIndex, setCurrentOnImageIndex] = useState(0);
+  const [activeSection, setActiveSection] = useState('mainIntro');
+
   const audioRef = useRef(null);
   const movieRef = useRef(null);
   const pillarsEndRef = useRef(null);
@@ -57,6 +67,18 @@ function App() {
   const pillarsRef = useRef(null);
   const productionIntroRef = useRef(null);
   const firstQuarterIntroRef = useRef(null);
+
+  const sections = useMemo(() => [
+    { id: 'mainIntro', ref: mainIntroRef, name: '메인' },
+    { id: 'storySection1', ref: storySection1Ref, name: '스토리1' },
+    { id: 'storySection2', ref: storySection2Ref, name: '스토리2' },
+    { id: 'serise', ref: seriseRef, name: '시리즈' },
+    { id: 'movie', ref: movieRef, name: '무비' },
+    { id: 'pillars', ref: pillarsRef, name: '주' },
+    { id: 'firstQuarter', ref: firstQuarterIntroRef, name: '상현' },
+    { id: 'production', ref: productionIntroRef, name: '프로덕션' },
+  ], []);
+
 
   const scrollToSection = (ref) => {
     ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -82,6 +104,49 @@ function App() {
   const leftdoor2x = useTransform(scrollYProgress, [0.47, 0.5, 0.6, 0.62], [-485, 482, 482, -485]);
   const rightdoor1x = useTransform(scrollYProgress, [0.47, 0.5, 0.6, 0.62], [-485, 482, 482, -485]);
 
+  useEffect(() => {
+    // isMuted가 false일 때(음악이 켜져 있을 때)만 애니메이션을 실행
+    if (!isMuted) {
+      const interval = setInterval(() => {
+        // onImages 배열의 다음 인덱스로 변경 (0 -> 1 -> 2 -> 0 반복)
+        setCurrentOnImageIndex((prevIndex) => (prevIndex + 1) % onImages.length);
+      }, 1000); // 0.2초마다 이미지를 변경 (속도 조절 가능)
+
+      // 컴포넌트가 언마운트되거나 isMuted 상태가 true로 바뀌면 인터벌을 정리
+      return () => clearInterval(interval);
+    }
+  }, [isMuted]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      {
+        rootMargin: '-50% 0px -50% 0px', // 화면의 정중앙을 기준으로 감지
+        threshold: 0,
+      }
+    );
+
+    sections.forEach((section) => {
+      if (section.ref.current) {
+        observer.observe(section.ref.current);
+      }
+    });
+
+    // 컴포넌트 언마운트 시 observer 정리
+    return () => {
+      sections.forEach((section) => {
+        if (section.ref.current) {
+          observer.unobserve(section.ref.current);
+        }
+      });
+    };
+  }, [sections]);
   useEffect(() => {
     const handleScroll = () => {
       if (movieRef.current) {
@@ -133,10 +198,10 @@ function App() {
     // 모든 에셋 로딩과 최소 시간 대기가 모두 완료되면 실행
     Promise.all([assetsPromise, minTimePromise])
       .then(() => {
-        // 1. 먼저 화면에 표시될 값을 100으로 설정합니다. (6.9초 시점)
+        // 1. 먼저 화면에 표시될 값을 100으로 설정 (6.9초 시점)
         setDisplayProgress(100);
 
-        // 2. 100%를 잠시 보여준 후 (0.1초), 메인 콘텐츠를 표시합니다. (총 7초 시점)
+        // 2. 100%를 잠시 보여준 후 (0.1초), 메인 콘텐츠를 표시 (총 7초 시점)
         setTimeout(() => {
           window.scrollTo(0, 0); // 스크롤을 맨 위로 이동
           setAssetsLoaded(true);  // 로딩 화면 숨기기
@@ -152,8 +217,8 @@ function App() {
 
   // 실제 로딩률(loadingProgress)이 바뀔 때마다 화면 표시용(displayProgress) 값을 업데이트
   useEffect(() => {
-    // 실제 로딩이 100%가 되기 전까지는 값을 동기화하되, 90을 넘지 않게 합니다.
-    // 이렇게 하면 실제 로딩이 빨리 끝나도 화면에는 90%로 고정됩니다.
+    // 실제 로딩이 100%가 되기 전까지는 값을 동기화하되, 90을 넘지 않게 
+    // 이렇게 하면 실제 로딩이 빨리 끝나도 화면에는 90%로 고정
     setDisplayProgress(Math.min(loadingProgress, 90));
   }, [loadingProgress]);
 
@@ -169,11 +234,9 @@ function App() {
     document.body.style.overflow = 'auto';
   };
 
-
-  // 3단계: 모든 로딩 완료, 메인 콘텐츠 렌더링
   return (
     <>
-      {/* 로딩이 완료되지 않았을 때만 Video 컴포넌트를 보여줍니다. */}
+      {/* 로딩이 완료되지 않았을 때만 Video 컴포넌트를 보여줌 */}
       {!assetsLoaded && <Video progress={displayProgress} />}
 
       {/* BGM 오디오 요소 */}
@@ -194,55 +257,58 @@ function App() {
         onClick={toggleMute}
         className='fixed bottom-8 right-10 z-[9999]'
       >
-        {isMuted ? (
-          <div className='w-[96px] h-[109px]'>
-            <img src={on} alt='on' />
-          </div>
-        ) : (
-          <div className='w-[96px] h-[109px]'>
-            <img src={off} alt='off' />
-          </div>
-        )}
+        <div className='w-[96px] h-[109px]'>
+          {isMuted ? (
+            // 음소거 상태일 때는 'off' 이미지를 보여줌
+            <img src={off} alt='BGM off' />
+          ) : (
+            // 음소거가 아닐 때는 애니메이션되는 'on' 이미지를 보여줌
+            <img src={onImages[currentOnImageIndex]} alt='BGM on' />
+          )}
+        </div>
       </button>
 
       {/* 네비게이션 */}
-      <div className='fixed top-1/2 -translate-y-1/2 right-12 z-[9999] flex flex-col space-y-2'>
-        <button onClick={() => scrollToSection(mainIntroRef)} className="w-24 p-2 bg-white rounded bg-opacity-50"></button>
-        <button onClick={() => scrollToSection(storySection1Ref)} className="w-24 p-2 bg-white rounded bg-opacity-50"></button>
-        <button onClick={() => scrollToSection(storySection2Ref)} className="w-24 p-2 bg-white rounded bg-opacity-50"></button>
-        <button onClick={() => scrollToSection(seriseRef)} className="w-24 p-2 bg-white rounded bg-opacity-50"></button>
-        <button onClick={() => scrollToSection(movieRef)} className="w-24 p-2 bg-white rounded bg-opacity-50"></button>
-        <button onClick={() => scrollToSection(pillarsRef)} className="w-24 p-2 bg-white rounded bg-opacity-50"></button>
-        <button onClick={() => scrollToSection(firstQuarterIntroRef)} className="w-24 p-2 bg-white rounded bg-opacity-50"></button>
-        <button onClick={() => scrollToSection(productionIntroRef)} className="w-24 p-2 bg-white rounded bg-opacity-50"></button>
+      <div className='fixed top-1/2 -translate-y-1/2 right-12 z-[99999] flex flex-col space-y-2'>
+        {sections.map((section) => (
+          <button
+            key={section.id}
+            onClick={() => scrollToSection(section.ref)}
+            className="w-24 p-2 transition-opacity duration-300 hover:opacity-80"
+          >
+            <img 
+              src={activeSection === section.id ? naviActive : navi} 
+              alt={`${section.name} navigation`} 
+            />
+          </button>
+        ))}
       </div>
 
       {/* 메인 콘텐츠 섹션 (항상 렌더링) */}
-      <div ref={mainIntroRef}>
+      <div id="mainIntro" ref={mainIntroRef}>
         <MainIntro onAnimationComplete={handleAnimationComplete} />
       </div>
-      <div ref={storySection1Ref}>
+      <div id="storySection1" ref={storySection1Ref}>
         <StorySection1 />
       </div>
-      <div ref={storySection2Ref}>
+      <div id="storySection2" ref={storySection2Ref}>
         <StorySection2 />
       </div>
       <SlideTxt />
-      <div ref={seriseRef}>
+      <div id="serise" ref={seriseRef}>
         <Serise />
       </div>
-      <div ref={movieRef}>
+      <div id="movie" ref={movieRef}>
         <Movie />
       </div>
 
       <div ref={fullRef}>
-        <div ref={pillarsRef}>
+        <div id="pillars" ref={pillarsRef}>
           <Pillars />
         </div>
-        <div ref={firstQuarterIntroRef}>
+        <div id="firstQuarter" ref={firstQuarterIntroRef}>
           <FirstQuarterIntro />
         </div>
-        {/* 문 애니메이션 이미지 */}
         <motion.img
           src={leftdoor1}
           className="fixed top-0 left-0 w-[485px] h-screen z-[9999] pointer-events-none"
@@ -264,7 +330,7 @@ function App() {
           style={{ right: rightdoor2x }}
         />
       </div>
-      <div ref={productionIntroRef}>
+      <div id="production" ref={productionIntroRef}>
         <ProductionIntro />
       </div>
     </>
