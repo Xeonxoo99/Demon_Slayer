@@ -4,7 +4,6 @@
 // 로딩 목록에 포함시키기 위함입니다.
 import video from './images/video/introVideo.mp4';
 import logo from './images/pub/logo/로고.png';
-import on from './images/pub/bgm/on.png';
 import off from './images/pub/bgm/off.png';
 import leftdoor1 from './images/pub/door/leftdoor1.png';
 import leftdoor2 from './images/pub/door/leftdoor2.png';
@@ -21,7 +20,7 @@ const dynamicSrcAssets = importAll(
 
 // 2. 수동으로 import한 주요 에셋 목록
 const manualAssets = [
-    video, logo, on, off, leftdoor1, leftdoor2, rightdoor1, rightdoor2
+    video, logo,  off, leftdoor1, leftdoor2, rightdoor1, rightdoor2
 ];
 
 

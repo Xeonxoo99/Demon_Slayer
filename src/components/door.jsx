@@ -97,10 +97,10 @@ export default function Doors() {
 
     return (
         <>
-            <img ref={left1} src={leftdoor1} className="door left-1" />
-            <img ref={left2} src={leftdoor2} className="door left-2" />
-            <img ref={right1} src={rightdoor1} className="door right-1" />
-            <img ref={right2} src={rightdoor2} className="door right-2" />
+            <img ref={left1} src={leftdoor1} className="door left-1 z-[9999]" />
+            <img ref={left2} src={leftdoor2} className="door left-2  z-[9999]" />
+            <img ref={right1} src={rightdoor1} className="door right-1 z-[9999]" />
+            <img ref={right2} src={rightdoor2} className="door right-2 z-[9999]" />
         </>
     )
 }

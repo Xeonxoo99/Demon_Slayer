@@ -19,7 +19,6 @@ import ProductionIntro from './components/ProductionIntro';
 import video from './images/video/introVideo.mp4';
 import bmg from './images/pub/bgm/OST.mp3';
 import logo from './images/pub/logo/로고.png';
-import on from './images/pub/bgm/on.png';
 import on1 from './images/pub/bgm/on1.png'
 import on2 from './images/pub/bgm/on2.png'
 import off from './images/pub/bgm/off.png';
@@ -34,7 +33,7 @@ import rightdoor2 from './images/pub/door/rightdoor2.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const onImages = [on, on1, on2];
+const onImages = [on1, on2];
 
 function App() {
   const [assetsLoaded, setAssetsLoaded] = useState(false); // 에셋 로딩 완료 상태
@@ -269,7 +268,7 @@ function App() {
       </button>
 
       {/* 네비게이션 */}
-      <div className='fixed top-1/2 -translate-y-1/2 right-12 z-[99999] flex flex-col space-y-2'>
+      <div className='fixed top-1/2 -translate-y-1/2 right-4 z-[999] flex flex-col space-y-2'>
         {sections.map((section) => (
           <button
             key={section.id}

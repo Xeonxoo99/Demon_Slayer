@@ -186,22 +186,22 @@ function FirstQuarterIntro() {
             </AnimatePresence>
             <motion.img
                 src={leftdoor1}
-                className="fixed top-0 left-0 w-[485px] h-screen z-[99999] pointer-events-none"
+                className="fixed top-0 left-0 w-[485px] h-screen z-[9999] pointer-events-none"
                 style={{ left: leftdoor1x }}
             />
             <motion.img
                 src={leftdoor2}
-                className="fixed top-0 left-[485px] w-[486px] h-screen z-[99998] pointer-events-none"
+                className="fixed top-0 left-[485px] w-[486px] h-screen z-[9998] pointer-events-none"
                 style={{ left: leftdoor2x }}
             />
             <motion.img
                 src={rightdoor1}
-                className="fixed top-0 right-[485px] w-[486px] h-screen z-[99998] pointer-events-none"
+                className="fixed top-0 right-[485px] w-[486px] h-screen z-[9998] pointer-events-none"
                 style={{ right: rightdoor1x }}
             />
             <motion.img
                 src={rightdoor2}
-                className="fixed top-0 right-0 w-[485px] h-screen z-[99999] pointer-events-none"
+                className="fixed top-0 right-0 w-[485px] h-screen z-[9999] pointer-events-none"
                 style={{ right: rightdoor2x }}
             />
         </section>
