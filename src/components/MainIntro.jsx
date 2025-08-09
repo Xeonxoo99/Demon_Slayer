@@ -243,7 +243,7 @@ function MainIntro({ onAnimationComplete }) {
         position: 'relative',
         fontFamily: 'ChosunGs',
         opacity: sectionOpacity,
-        zIndex: 100
+        zIndex: 98
       }}
     >
       <motion.canvas

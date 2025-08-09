@@ -59,6 +59,11 @@ function App() {
     offset: ["start start", "end end"],
   });
 
+  const { scrollYProgress: scrollYProgress2 } = useScroll({
+    target: fullRef,
+    offset: ["start start", "end end"],
+  });
+
   const mainIntroRef = useRef(null);
   const storySection1Ref = useRef(null);
   const storySection2Ref = useRef(null);
@@ -97,11 +102,17 @@ function App() {
   //   [0, 1, 1, 0]
   // );
 
-  const leftdoor1x = useTransform(scrollYProgress, [0.47, 0.5, 0.6, 0.62], [-485, 0, 0, -485]);
-  const rightdoor2x = useTransform(scrollYProgress, [0.47, 0.5, 0.6, 0.62], [-485, 0, 0, -485]);
+  const leftdoor1x_pillars = useTransform(scrollYProgress, [0.28, 0.31, 0.35, 0.38], [-485, 0, 0, -485]);
+  const rightdoor2x_pillars = useTransform(scrollYProgress, [0.28, 0.31, 0.35, 0.38], [-485, 0, 0, -485]);
 
-  const leftdoor2x = useTransform(scrollYProgress, [0.47, 0.5, 0.6, 0.62], [-485, 482, 482, -485]);
-  const rightdoor1x = useTransform(scrollYProgress, [0.47, 0.5, 0.6, 0.62], [-485, 482, 482, -485]);
+  const leftdoor2x_pillars = useTransform(scrollYProgress, [0.28, 0.31, 0.35, 0.38], [-485, 482, 482, -485]);
+  const rightdoor1x_pillars = useTransform(scrollYProgress, [0.28, 0.31, 0.35, 0.38], [-485, 482, 482, -485]);
+
+  const leftdoor1x_fq = useTransform(scrollYProgress, [0.57, 0.59, 0.61, 0.63], [-485, 0, 0, -485]);
+  const rightdoor2x_fq = useTransform(scrollYProgress, [0.57, 0.59, 0.61, 0.63], [-485, 0, 0, -485]);
+
+  const leftdoor2x_fq = useTransform(scrollYProgress, [0.57, 0.59, 0.61, 0.63], [-485, 482, 482, -485]);
+  const rightdoor1x_fq = useTransform(scrollYProgress, [0.57, 0.59, 0.61, 0.63], [-485, 482, 482, -485]);
 
   useEffect(() => {
     // isMuted가 false일 때(음악이 켜져 있을 때)만 애니메이션을 실행
@@ -311,27 +322,48 @@ function App() {
         <motion.img
           src={leftdoor1}
           className="fixed top-0 left-0 w-[485px] h-screen z-[9999] pointer-events-none"
-          style={{ left: leftdoor1x }}
+          style={{ left: leftdoor1x_pillars }}
         />
         <motion.img
           src={leftdoor2}
           className="fixed top-0 left-[485px] w-[486px] h-screen z-[9998] pointer-events-none"
-          style={{ left: leftdoor2x }}
+          style={{ left: leftdoor2x_pillars }}
         />
         <motion.img
           src={rightdoor1}
           className="fixed top-0 right-[485px] w-[486px] h-screen z-[9998] pointer-events-none"
-          style={{ right: rightdoor1x }}
+          style={{ right: rightdoor1x_pillars }}
         />
         <motion.img
           src={rightdoor2}
           className="fixed top-0 right-0 w-[485px] h-screen z-[9999] pointer-events-none"
-          style={{ right: rightdoor2x }}
+          style={{ right: rightdoor2x_pillars }}
+        />
+        <div id="production" ref={productionIntroRef}>
+          <ProductionIntro />
+        </div>
+        <motion.img
+          src={leftdoor1}
+          className="fixed top-0 left-0 w-[485px] h-screen z-[9999] pointer-events-none"
+          style={{ left: leftdoor1x_fq }}
+        />
+        <motion.img
+          src={leftdoor2}
+          className="fixed top-0 left-[485px] w-[486px] h-screen z-[9998] pointer-events-none"
+          style={{ left: leftdoor2x_fq }}
+        />
+        <motion.img
+          src={rightdoor1}
+          className="fixed top-0 right-[485px] w-[486px] h-screen z-[9998] pointer-events-none"
+          style={{ right: rightdoor1x_fq }}
+        />
+        <motion.img
+          src={rightdoor2}
+          className="fixed top-0 right-0 w-[485px] h-screen z-[9999] pointer-events-none"
+          style={{ right: rightdoor2x_fq }}
         />
       </div>
-      <div id="production" ref={productionIntroRef}>
-        <ProductionIntro />
-      </div>
+      
     </>
   );
 }

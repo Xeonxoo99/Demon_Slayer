@@ -184,7 +184,7 @@ function FirstQuarterIntro() {
                     </>
                 )}
             </AnimatePresence>
-            <motion.img
+            {/* <motion.img
                 src={leftdoor1}
                 className="fixed top-0 left-0 w-[485px] h-screen z-[9999] pointer-events-none"
                 style={{ left: leftdoor1x }}
@@ -203,7 +203,7 @@ function FirstQuarterIntro() {
                 src={rightdoor2}
                 className="fixed top-0 right-0 w-[485px] h-screen z-[9999] pointer-events-none"
                 style={{ right: rightdoor2x }}
-            />
+            /> */}
         </section>
     );
 }
