@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect, useRef, useMemo  } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { gsap } from 'gsap';
@@ -278,21 +279,28 @@ function App() {
         </div>
       </button>
 
-      {/* 네비게이션 */}
-      <div className='fixed top-1/2 -translate-y-1/2 right-4 z-[999] flex flex-col space-y-2'>
-        {sections.map((section) => (
-          <button
-            key={section.id}
-            onClick={() => scrollToSection(section.ref)}
-            className="w-24 p-2 transition-opacity duration-300 hover:opacity-80"
-          >
-            <img 
-              src={activeSection === section.id ? naviActive : navi} 
-              alt={`${section.name} navigation`} 
-            />
-          </button>
-        ))}
-      </div>
+      {/* 네비게이션 (선 색상 : #CE7C33) */}
+      <div className='fixed top-1/2 -translate-y-1/2 right-4 z-[999] flex flex-col items-center'>
+    {sections.map((section, index) => (
+        <React.Fragment key={section.id}>
+            {/* 기존 버튼 */}
+            <button
+                onClick={() => scrollToSection(section.ref)}
+                className="w-24 p-2 transition-opacity duration-300 hover:opacity-80"
+            >
+                <img 
+                    src={activeSection === section.id ? naviActive : navi} 
+                    alt={`${section.name} navigation`} 
+                />
+            </button>
+            
+            {/* ✅ 마지막 버튼이 아닐 때만 선을 렌더링 */}
+            {index < sections.length - 1 && (
+                <div className="w-[1px] h-4 bg-[#CE7C33] mr-[53px] opacity-60"></div>
+            )}
+        </React.Fragment>
+    ))}
+</div>
 
       {/* 메인 콘텐츠 섹션 (항상 렌더링) */}
       <div id="mainIntro" ref={mainIntroRef}>
